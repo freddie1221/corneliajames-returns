@@ -16,7 +16,6 @@ export default function ReturnItemSelector({ items }) {
   const totalAmount = useMemo(() => {
     return Object.values(selectedItems)
       .reduce((sum, item) => sum + (item?.amount || 0), 0)
-      .toFixed(2);
   }, [selectedItems]);
 
   return (
