@@ -12,7 +12,7 @@ export default function OrderItem({ item, onSelectItem, isSelected }) {
       <img src={item.image.url} alt={item.name} width={50} height={50} className="mr-4" />
       <div>
         <p>{item.name}</p>
-        <p>Quantity: 1, Price: {item.originalTotalSet.presentmentMoney.amount} {item.originalTotalSet.presentmentMoney.currencyCode}</p>
+        <p>Quantity: {item.quantity}, Price: {item.originalTotalSet.presentmentMoney.amount} {item.originalTotalSet.presentmentMoney.currencyCode}</p>
       </div>
     </li>
   );

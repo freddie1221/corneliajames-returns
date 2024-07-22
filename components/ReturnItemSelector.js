@@ -1,11 +1,9 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import OrderItem from './OrderItem';
 
-export default function ReturnItemSelector({ items }) {
-  const [selectedItems, setSelectedItems] = useState({});
-
+export default function ReturnItemSelector({ items, selectedItems, setSelectedItems }) {
   const handleSelectItem = (itemId, isSelected, amount) => {
     setSelectedItems(prev => ({
       ...prev,
@@ -21,15 +19,18 @@ export default function ReturnItemSelector({ items }) {
   return (
     <div>
     <ul>
-      {items.map(({ node }) => (
-        Array.from({ length: node.quantity }).map((_, index) => (
-          <OrderItem 
-            key={`${node.id}-${index}`} 
-            item={node} 
-            onSelectItem={(isSelected) => handleSelectItem(node.id, isSelected, node.originalTotalSet.presentmentMoney.amount)}
-            isSelected={!!selectedItems[node.id]}
-          />
-        ))
+      {items.map(( node ) => (
+        Array.from({ length: node.quantity }).map((_, index) => {
+          const itemId = `${node.id}-${index}`;
+          return (
+            <OrderItem 
+              key={itemId}
+              item={node} 
+              onSelectItem={(isSelected) => handleSelectItem(itemId, isSelected, node.originalTotalSet.presentmentMoney.amount)}
+              isSelected={!!selectedItems[itemId]}
+            />
+          );
+        })
       ))}
     </ul>
     <div className="mt-4 font-bold">
