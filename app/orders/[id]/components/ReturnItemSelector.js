@@ -1,43 +1,45 @@
 'use client';
 
-import { useMemo } from 'react';
-import OrderItem from '../../../components/OrderItem';
+import { useCallback } from 'react';
+import { convertStringToNumber } from '@/app/utils/textToNumber';
+import OrderItem from '@/app/orders/[id]/components/OrderItem';
 
 export default function ReturnItemSelector({ items, selectedItems, setSelectedItems }) {
-  const handleSelectItem = (itemId, isSelected, amount) => {
-    setSelectedItems(prev => ({
-      ...prev,
-      [itemId]: isSelected ? { selected: true, amount } : undefined
-    }));
-  };
   
-  const totalAmount = useMemo(() => {
-    return Object.values(selectedItems)
-      .reduce((sum, item) => sum + (item?.amount || 0), 0)
-  }, [selectedItems]);
+  const handleSelectItem = useCallback((itemId, amount, isSelected) => {
+    setSelectedItems(prev => {
+      if (isSelected) {
+        return {
+          ...prev,
+          [itemId]: { selected: true, amount }
+        };
+      } else {
+        const { [itemId]: _, ...rest } = prev;
+        return rest;
+      }
+    });
+  }, [setSelectedItems]);
 
   return (
     <div className="flex flex-col gap-4 items-center">
       <h2 className="heading-secondary text-center">Items in your order</h2>
-      <ul>
-        {items.map(( node ) => (
-          Array.from({ length: node.quantity }).map((_, index) => {
-            const itemId = `${node.id}-${index}`;
-            return (
-              <OrderItem 
-                key={itemId}
-                item={node} 
-                onSelectItem={(isSelected) => handleSelectItem(itemId, isSelected, node.originalTotalSet.presentmentMoney.amount)}
-                isSelected={!!selectedItems[itemId]}
-              />
+      <ul className="flex flex-col gap-3">
+      {items.flatMap((item) => 
+        Array.from({ length: item.quantity }).map((_, index) => {
+          const itemId = item.id.split('/').pop();
+          const itemKey = `${itemId}-${index}`;
+          const itemValue = convertStringToNumber(item.originalTotalSet.presentmentMoney.amount);
+          return (
+            <OrderItem 
+              key={itemKey}
+              item={item} 
+              onSelectItem={(isSelected) => handleSelectItem(itemKey, itemValue, isSelected)}
+              isSelected={Boolean(selectedItems[itemKey])}
+            />
             );
           })
-        ))}
+        )}
       </ul>
-    <div className="mt-4 font-bold">
-        Total: ${totalAmount}
     </div>
-    </div>
-    
   );
 }

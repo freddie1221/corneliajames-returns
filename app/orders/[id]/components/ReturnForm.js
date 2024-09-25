@@ -3,17 +3,34 @@
 import ReturnItemSelector from '@/app/orders/[id]/components/ReturnItemSelector';
 import ReturnReason from '@/app/orders/[id]/components/ReturnReason';
 import ReturnOptions from '@/app/orders/[id]/components/ReturnOptions';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import useSubmitReturn from '@/app/hooks/useSubmitReturn';
 
 export default function ReturnForm({ order }) {
-    const [selectedItems, setSelectedItems] = useState([]);
+    const [selectedItems, setSelectedItems] = useState({});
+    const [totalAmount, setTotalAmount] = useState(0);
+    const [totalQuantity, setTotalQuantity] = useState(0);
     const [reason, setReason] = useState('');
-    const [selectedOption, setSelectedOption] = useState('');
+    const [returnType, setReturnType] = useState('');
+    const { submitReturn, loading, error, success } = useSubmitReturn();
+
+    useEffect(() => {
+        const totalAmount = Object.values(selectedItems).reduce((acc, item) => acc + item.amount, 0);
+        const totalQuantity=Object.keys(selectedItems).length
+        setTotalAmount(totalAmount);
+        setTotalQuantity(totalQuantity);
+    }, [selectedItems]);
+
 
     const handleSubmit = async () => {
-      // Here you would send the data to your external API
-      console.log({ selectedItems, reason, selectedOption });
-      // Implement your API call here
+      const returnData = { selectedItems, reason, returnType, totalAmount, totalQuantity };
+      await submitReturn(returnData, order.name);
+      if (success) {
+          console.log('Return submitted successfully!');
+      }
+      if (error) {
+          console.error('Error submitting return:', error);
+      }
     };
 
     return (
@@ -27,8 +44,11 @@ export default function ReturnForm({ order }) {
                 onReasonChange={setReason} 
             />
             <ReturnOptions 
-                setSelectedOption={setSelectedOption} 
-                selectedOption={selectedOption}
+                totalQuantity={totalQuantity}
+                totalAmount={totalAmount}
+                currencyCode={order.totalPriceSet.presentmentMoney.currencyCode}
+                setReturnType={setReturnType}
+                returnType={returnType}
             />
             <button 
                 onClick={handleSubmit}

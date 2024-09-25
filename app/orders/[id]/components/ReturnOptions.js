@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-export default function ReturnOptions({ setSelectedOption, selectedOption }) {
+export default function ReturnOptions({ totalAmount, totalQuantity, currencyCode, setReturnType, returnType }) {
 
   return (
     <div className="return-options">
@@ -10,28 +10,26 @@ export default function ReturnOptions({ setSelectedOption, selectedOption }) {
       
       <div className="space-y-6">
         <OptionCard
-          option="store-credit"
+          type="store-credit"
           title="Instant Store Credit"
           subtitle="10% bonus + Free Return Shipping"
-          isSelected={selectedOption === 'store-credit'}
-          setSelectedOption={setSelectedOption}
+          setReturnType={setReturnType}
         >
           <p>Your store credit will be emailed to you instantly upon confirming your return. Enjoy a 10% bonus on your original purchase amount, usable immediately in our store.</p>
           <p>We'll provide a complimentary return label. Please return your original items within 30 days.</p>
-          <p>Items being returned: 1</p>
-          <p className="font-semibold">Store credit amount: GBP 50</p>
+          <p>Items being returned: {totalQuantity}</p>
+          <p className="font-semibold">Store credit amount {currencyCode} {totalAmount}</p>
         </OptionCard>
         
         <OptionCard
-          option="refund"
+          type="refund"
           title="Refund to Original Payment Method"
-          isSelected={selectedOption === 'refund'}
-          setSelectedOption={setSelectedOption}
+          setReturnType={setReturnType}
         >
           <p>Your refund will be processed to your original payment method upon receipt of the returned items.</p>
-          <p>Items being returned: 1</p>
+          <p>Items being returned: {totalQuantity}</p>
           <p>Return shipping: GBP 4.50</p>
-          <p className="font-semibold">Refund amount: GBP 100</p>
+          <p className="font-semibold">Refund amount: {currencyCode} {totalAmount}</p>
           <p>You may choose to purchase a return label from us or use your preferred shipping service.</p>
         </OptionCard>
       </div>
@@ -39,26 +37,15 @@ export default function ReturnOptions({ setSelectedOption, selectedOption }) {
   );
 }
 
-function OptionCard({ option, title, subtitle, isSelected, children, setSelectedOption }) {
+function OptionCard({ type, title, subtitle, children, setReturnType, returnType }) {
   return (
     <div
-      className={`cursor-pointer rounded-lg p-6 transition-all duration-300 ${
-        isSelected
-          ? 'bg-yellow-600 text-white shadow-lg'
-          : 'bg-white text-gray-800 hover:shadow-md'
-      }`}
+      className={`cursor-pointer rounded-lg p-6 transition-all duration-300 bg-white`}
       onClick={() => {
-        console.log('Option clicked:', option);
-        setSelectedOption(option);
-        alert(`Option selected: ${option}`);
+        setReturnType(type);
       }}
     >
       <div className="flex items-center mb-4">
-        <div className={`w-6 h-6 rounded-full border-2 mr-3 flex-shrink-0 ${
-          isSelected ? 'bg-white border-white' : 'border-yellow-600'
-        }`}>
-          {isSelected && <div className="w-3 h-3 bg-yellow-600 rounded-full m-auto" />}
-        </div>
         <div>
           <h3 className="text-xl font-semibold">{title}</h3>
           {subtitle && <p className="text-sm opacity-80">{subtitle}</p>}

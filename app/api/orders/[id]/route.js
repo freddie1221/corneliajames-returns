@@ -39,6 +39,7 @@ export async function GET(req, { params }) {
           lineItems(first: 50) {
             nodes {
               id
+              sku
               name
               quantity
               originalTotalSet {
