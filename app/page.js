@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import LoadingSpinner from '../components/LoadingSpinner'; // Adjust the import path as necessary
+import LoadingSpinner from './components/LoadingSpinner'; // Adjust the import path as necessary
 
 export default function Home() {
   const [email, setEmail] = useState('');

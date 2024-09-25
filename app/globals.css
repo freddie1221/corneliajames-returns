@@ -30,4 +30,8 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  .color-primary {
+    @apply bg-gradient-to-r from-blue-500 to-indigo-700 text-white;
+  }
+
 }

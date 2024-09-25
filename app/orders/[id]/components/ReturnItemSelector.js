@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import OrderItem from './OrderItem';
+import OrderItem from '../../../components/OrderItem';
 
 export default function ReturnItemSelector({ items, selectedItems, setSelectedItems }) {
   const handleSelectItem = (itemId, isSelected, amount) => {
