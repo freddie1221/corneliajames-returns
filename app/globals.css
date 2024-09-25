@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'AvenirNextLTPro';
+  src: url('/fonts/AvenirNextLTPro-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ITCCaslon224StdMedium';
+  src: url('/fonts/ITCCaslon224StdMedium.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -18,12 +34,7 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  font-family: 'AvenirNextLTPro', sans-serif;
 }
 
 @layer utilities {
@@ -32,6 +43,12 @@ body {
   }
   .color-primary {
     @apply bg-gradient-to-r from-blue-500 to-indigo-700 text-white;
+  }
+  .heading-primary {
+    @apply text-xl mt-4 mb-2 font-caslon;
+  }
+  .heading-secondary {
+    @apply text-xl font-semibold mt-4 mb-2 uppercase tracking-wider;
   }
 
 }

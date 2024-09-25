@@ -28,17 +28,38 @@ export default async function OrderDetails({ params }) {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Order Details</h1>
       <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <p><strong>Order Number:</strong> {order.name}</p>
-        <p><strong>Email:</strong> {order.email}</p>
-        <p><strong>Date:</strong> {order.createdAt}</p>
-        <p><strong>Total:</strong> {order.totalPriceSet.presentmentMoney.amount} {order.totalPriceSet.presentmentMoney.currencyCode}</p>
-        <h2 className="text-xl font-semibold mt-4 mb-2">Items:</h2>
+      <h1 className="text-2xl font-bold mb-6">Order Details</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <OrderDetailItem label="Order Number" value={order.name} />
+      <OrderDetailItem label="Email" value={order.email} />
+      <OrderDetailItem 
+        label="Date" 
+        value={new Date(order.createdAt).toLocaleDateString()} 
+      />
+      <OrderDetailItem 
+        label="Total" 
+        value={`${order.totalPriceSet.presentmentMoney.amount} ${order.totalPriceSet.presentmentMoney.currencyCode}`} 
+      />
+      <OrderDetailItem 
+        label="Shipping Address" 
+        value={order.shippingAddress.formatted} 
+        fullWidth={true}
+      />
+    </div>
+        
         <ReturnForm order={order} />
         
         
       </div>
+    </div>
+  );
+}
+export function OrderDetailItem({ label, value, fullWidth = false }) {
+  return (
+    <div className={`flex flex-col ${fullWidth ? 'col-span-full' : ''}`}>
+      <span className="text-gray-600 text-sm">{label}</span>
+      <span className="font-semibold text-lg">{value}</span>
     </div>
   );
 }

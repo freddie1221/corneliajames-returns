@@ -19,6 +19,10 @@ module.exports = {
           dark: '#b8860b',
         },
       },
+      fontFamily: {
+        avenir: ['AvenirNextLTPro', 'sans-serif'],
+        caslon: ['ITCCaslon224StdMedium', 'serif'],
+      },
     },
   },
   plugins: [],

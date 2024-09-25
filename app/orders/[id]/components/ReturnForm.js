@@ -17,13 +17,15 @@ export default function ReturnForm({ order }) {
     };
 
     return (
-        <div>
+        <div className="flex flex-col gap-4 bg-gray-100 shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <ReturnItemSelector 
                 items={order.lineItems.nodes} 
                 selectedItems={selectedItems}
                 setSelectedItems={setSelectedItems}
             />
-            <ReturnReason onReasonChange={setReason} />
+            <ReturnReason 
+                onReasonChange={setReason} 
+            />
             <ReturnOptions 
                 setSelectedOption={setSelectedOption} 
                 selectedOption={selectedOption}
