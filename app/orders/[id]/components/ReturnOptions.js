@@ -10,7 +10,7 @@ export default function ReturnOptions({ totalAmount, totalQuantity, currencyCode
       
       <div className="space-y-6">
         <OptionCard
-          type="store-credit"
+          type="Credit"
           title="Instant Store Credit"
           subtitle="10% bonus + Free Return Shipping"
           setReturnType={setReturnType}
@@ -22,7 +22,7 @@ export default function ReturnOptions({ totalAmount, totalQuantity, currencyCode
         </OptionCard>
         
         <OptionCard
-          type="refund"
+          type="Refund"
           title="Refund to Original Payment Method"
           setReturnType={setReturnType}
         >
@@ -37,7 +37,7 @@ export default function ReturnOptions({ totalAmount, totalQuantity, currencyCode
   );
 }
 
-function OptionCard({ type, title, subtitle, children, setReturnType, returnType }) {
+function OptionCard({ type, title, subtitle, children, setReturnType }) {
   return (
     <div
       className={`cursor-pointer rounded-lg p-6 transition-all duration-300 bg-white`}

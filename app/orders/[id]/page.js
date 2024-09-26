@@ -45,19 +45,16 @@ export default async function OrderDetails({ params }) {
         value={new Date(order.createdAt).toLocaleDateString()} 
       />
       <OrderDetailItem 
-        label="Total" 
+        label="Order Total" 
         value={`${totalPrice} ${order.totalPriceSet.presentmentMoney.currencyCode}`} 
       />
       <OrderDetailItem 
         label="Shipping Address" 
         value={order.shippingAddress.formatted} 
         fullWidth={true}
-      />
-    </div>
-        
+          />
+        </div>
         <ReturnForm order={order} />
-        
-        
       </div>
     </div>
   );

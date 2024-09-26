@@ -4,15 +4,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET(req, { params }) {
   const { id } = params;
-  
-  try {
-    const client = createAdminApiClient({
-      storeDomain: process.env.SHOPIFY_SHOP_NAME,
-      accessToken: process.env.SHOPIFY_ACCESS_TOKEN,
-      apiVersion: '2024-07',
-    });
-
-    const query = `
+  const query = `
       {
         order(id: "gid://shopify/Order/${id}") {
           id
@@ -51,11 +43,22 @@ export async function GET(req, { params }) {
               image {
                 url(transform: {maxHeight: 200})
               }
+              customAttributes {
+                key
+                value
+              }
             }
           }
         }
       }
     `;
+  
+  try {
+    const client = createAdminApiClient({
+      storeDomain: process.env.SHOPIFY_SHOP_NAME,
+      accessToken: process.env.SHOPIFY_ACCESS_TOKEN,
+      apiVersion: '2024-07',
+    });
 
     const response = await client.request(query);
     

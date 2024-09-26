@@ -23,8 +23,9 @@ export default function ReturnForm({ order }) {
 
 
     const handleSubmit = async () => {
-      const returnData = { selectedItems, reason, returnType, totalAmount, totalQuantity };
-      await submitReturn(returnData, order.name);
+        const returnData = { selectedItems, reason, returnType, totalAmount, totalQuantity };
+        console.log(returnData);
+      await submitReturn(returnData, order);
       if (success) {
           console.log('Return submitted successfully!');
       }

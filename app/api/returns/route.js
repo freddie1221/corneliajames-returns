@@ -5,16 +5,17 @@ const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(process
 
 export async function POST(request) {
     try {
-        const { returnData, orderName } = await request.json();
+        const { returnType, reason, order } = await request.json();
+        const returnNumber = parseInt(order.name.split('#')[1]);
+        console.log('from API,', returnType, reason, order, returnNumber);
 
         const airtableData = {
-            fields: {
-                Items: JSON.stringify(returnData.selectedItems),
-                Reason: returnData.reason,
-                ReturnType: returnData.returnType,
-                "Return number": orderName,
-            },
+            Type: returnType,
+            Currency: order.totalPriceSet.presentmentMoney.currencyCode,
+            "Return reason": reason,
+            "Return number": returnNumber,
         };
+
         const record = await base('Returns').create(airtableData);
         return NextResponse.json({ message: 'Return submitted successfully', recordId: record.id }, { status: 201 });
 
