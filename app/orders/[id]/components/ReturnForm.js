@@ -1,62 +1,71 @@
 "use client";
 
-import ReturnItemSelector from '@/app/orders/[id]/components/ReturnItemSelector';
-import ReturnReason from '@/app/orders/[id]/components/ReturnReason';
-import ReturnOptions from '@/app/orders/[id]/components/ReturnOptions';
 import { useState, useEffect } from 'react';
-import useSubmitReturn from '@/app/hooks/useSubmitReturn';
+import ReturnItemSelector from './ReturnItemSelector';
+import ReturnOptions from './ReturnOptions';
+import useCreateReturn from '@/app/hooks/useCreateReturn';
+import { simplifiedItems } from '@/app/utils/simplifiedItems';
+import Message from '@/app/components/Message';
+import Link from 'next/link';
+
 
 export default function ReturnForm({ order }) {
-    const [selectedItems, setSelectedItems] = useState({});
-    const [totalAmount, setTotalAmount] = useState(0);
-    const [totalQuantity, setTotalQuantity] = useState(0);
-    const [reason, setReason] = useState('');
+    
     const [returnType, setReturnType] = useState('');
-    const { submitReturn, loading, error, success } = useSubmitReturn();
-
-    useEffect(() => {
-        const totalAmount = Object.values(selectedItems).reduce((acc, item) => acc + item.amount, 0);
-        const totalQuantity=Object.keys(selectedItems).length
-        setTotalAmount(totalAmount);
-        setTotalQuantity(totalQuantity);
-    }, [selectedItems]);
-
+    const [returnLineItems, setReturnLineItems] = useState([]);
+    const [returnValue, setReturnValue] = useState(0);
+    const { createReturn, loading, error, success } = useCreateReturn();
 
     const handleSubmit = async () => {
-        const returnData = { selectedItems, reason, returnType, totalAmount, totalQuantity };
-        console.log(returnData);
-      await submitReturn(returnData, order);
-      if (success) {
-          console.log('Return submitted successfully!');
-      }
-      if (error) {
-          console.error('Error submitting return:', error);
-      }
+        const returnInput = { 
+            orderId: order.id,
+            returnLineItems: returnLineItems,
+            notifyCustomer: true
+         };
+
+        const response = await createReturn(returnInput);
     };
 
+    useEffect(() => {
+        console.log(returnValue);
+    }, [returnValue]);
+
+    const items = simplifiedItems(order);
+
+    if(loading) { return( <Message text="Loading..." type="loading" />) }
+		if(error) { return( <Message text={`Error: ${error}`} type="error" />) }
+    if(success) { return( 
+		<div>
+			<Message text="Return request submitted successfully!" type="success" />
+			<Link href={`/orders/${order.id}`}>
+				<button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded">
+					View Order
+				</button>
+			</Link>
+		</div>
+	) }
+
     return (
-        <div className="flex flex-col gap-4 bg-gray-100 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <div className="flex flex-col gap-4 bg-gray-100 shadow-md rounded p-5">
             <ReturnItemSelector 
-                items={order.lineItems.nodes} 
-                selectedItems={selectedItems}
-                setSelectedItems={setSelectedItems}
-            />
-            <ReturnReason 
-                onReasonChange={setReason} 
+                items={items} 
+                returnLineItems={returnLineItems}
+                setReturnLineItems={setReturnLineItems}
+                setReturnValue={setReturnValue}
             />
             <ReturnOptions 
-                totalQuantity={totalQuantity}
-                totalAmount={totalAmount}
                 currencyCode={order.totalPriceSet.presentmentMoney.currencyCode}
                 setReturnType={setReturnType}
                 returnType={returnType}
+                returnValue={returnValue}
             />
-            <button 
-                onClick={handleSubmit}
-                className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-            >
-                Submit Return Request
-            </button>
+						<button 
+							onClick={handleSubmit}
+							disabled={loading}
+							className={`mt-4 bg-blue-500 text-white px-4 py-2 rounded ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+						>
+							Submit Return Request
+					</button>
         </div>
     );
 }

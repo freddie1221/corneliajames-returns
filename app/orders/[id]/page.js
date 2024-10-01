@@ -1,18 +1,23 @@
 import { notFound } from 'next/navigation';
-import ReturnForm from './components/ReturnForm';
 import { convertStringToNumber } from '@/app/utils/textToNumber';
+import { getOrder } from '@/app/utils/api';
+import ReturnForm from './components/ReturnForm';
+import ExistingReturns from './components/ExistingReturns';
 
-async function getOrder(id) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/orders/${id}`, { cache: 'no-store' });
-  if (!res.ok) {
-    throw new Error('Failed to fetch order');
-  }
-  return res.json();
+export function OrderDetailItem({ label, value, fullWidth = false }) {
+  return (
+    <div className={`flex flex-col ${fullWidth ? 'col-span-full' : ''}`}>
+      <span className="text-gray-600 text-sm">{label}</span>
+      <span className="font-semibold text-lg">{value}</span>
+    </div>
+  );
 }
+
 
 export default async function OrderDetails({ params }) {
   const { id } = params;
-  
+  console.log("order id on main page", id);
+
   let order;
   try {
     order = await getOrder(id);
@@ -32,38 +37,26 @@ export default async function OrderDetails({ params }) {
       <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <h1 className="text-2xl font-bold mb-6">Order Details</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <OrderDetailItem 
-        label="Order Number" 
-        value={order.name} 
-      />
-      <OrderDetailItem 
-        label="Email" 
-        value={order.email} 
-      />
-      <OrderDetailItem 
-        label="Date" 
-        value={new Date(order.createdAt).toLocaleDateString()} 
-      />
-      <OrderDetailItem 
-        label="Order Total" 
-        value={`${totalPrice} ${order.totalPriceSet.presentmentMoney.currencyCode}`} 
-      />
-      <OrderDetailItem 
-        label="Shipping Address" 
-        value={order.shippingAddress.formatted} 
-        fullWidth={true}
-          />
+        <OrderDetailItem 
+          label="Order Number" 
+          value={order.name} 
+        />
+        <OrderDetailItem 
+          label="Email" 
+          value={order.email} 
+        />
+        <OrderDetailItem 
+          label="Date" 
+          value={new Date(order.createdAt).toLocaleDateString()} 
+        />
+        <OrderDetailItem 
+          label="Order Total" 
+          value={`${totalPrice} ${order.totalPriceSet.presentmentMoney.currencyCode}`} 
+        />
         </div>
-        <ReturnForm order={order} />
       </div>
-    </div>
-  );
-}
-export function OrderDetailItem({ label, value, fullWidth = false }) {
-  return (
-    <div className={`flex flex-col ${fullWidth ? 'col-span-full' : ''}`}>
-      <span className="text-gray-600 text-sm">{label}</span>
-      <span className="font-semibold text-lg">{value}</span>
+      <ExistingReturns order={order} />
+      <ReturnForm order={order} />
     </div>
   );
 }

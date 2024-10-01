@@ -1,26 +1,81 @@
 import { NextResponse } from 'next/server';
-import Airtable from 'airtable';
-
-const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(process.env.AIRTABLE_BASE_ID);
+import { createAdminApiClient } from '@shopify/admin-api-client';
+import '@shopify/shopify-api/adapters/node';
+import { shopifyAdminApiClient } from '@/app/utils/shopifyAdminApiClient';
 
 export async function POST(request) {
-    try {
-        const { returnType, reason, order } = await request.json();
-        const returnNumber = parseInt(order.name.split('#')[1]);
-        console.log('from API,', returnType, reason, order, returnNumber);
 
-        const airtableData = {
-            Type: returnType,
-            Currency: order.totalPriceSet.presentmentMoney.currencyCode,
-            "Return reason": reason,
-            "Return number": returnNumber,
-        };
+  const { returnInput } = await request.json(); // Parse the request body
+  const variables = { returnInput: returnInput }; // Define variables separately
 
-        const record = await base('Returns').create(airtableData);
-        return NextResponse.json({ message: 'Return submitted successfully', recordId: record.id }, { status: 201 });
-
-    } catch (error) {
-        console.error('Error submitting return:', error);
-        return NextResponse.json({ message: 'Failed to submit return', error: error.message }, { status: 500 });
+  const query = `
+    mutation createReturn($returnInput: ReturnInput!) {
+      returnCreate(returnInput: $returnInput)
+      {
+        return {
+          id
+        }
+        userErrors {
+          field
+          message
+        }
+      }
     }
+  `
+
+  try {
+    const client = createAdminApiClient({
+      storeDomain: process.env.SHOPIFY_SHOP_NAME,
+      accessToken: process.env.SHOPIFY_ACCESS_TOKEN,
+      apiVersion: '2024-07',
+    });
+
+    const response = await client.request(query, { variables: variables });
+    return NextResponse.json(response.data);
+
+  } catch (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
+
+
+export async function GET(request) {
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get('id');
+  const query = `
+    query getOpenReturns {
+      order(id: "gid://shopify/Order/${id}") {
+        returns(first: 10, query: "status:OPEN") {
+          nodes {
+            name
+            returnLineItems(first: 10) {
+              nodes {
+                ... on ReturnLineItem {
+                  fulfillmentLineItem {
+                    lineItem {
+                      name
+                      image {
+                        url
+                      }
+                    }
+                  }
+                  quantity
+                }
+                returnReasonNote
+                returnReason
+              }
+            }
+            status
+          }
+        }
+      }
+    }
+  `
+
+  try {
+    const response = await shopifyAdminApiClient.request(query);
+    return NextResponse.json(response.data);
+  } catch (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
 }

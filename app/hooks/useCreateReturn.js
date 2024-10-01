@@ -1,30 +1,32 @@
 import { useState } from 'react';
 
-export default function useSubmitReturn() {
+export default function useCreateReturn() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
-    
-    const submitReturn = async (returnData, order) => {
+
+    const createReturn = async (returnInput) => {
         setLoading(true);
         setError(null);
         setSuccess(false);
-        console.log('from hook,', returnData);
         try {
             const response = await fetch('/api/returns', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ ...returnData, order }),
+                body: JSON.stringify({ returnInput: returnInput }),
             });
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.message || 'Failed to submit return');
+                throw new Error(errorData.error || 'Failed to create return');
             }
 
+            const data = await response.json();
             setSuccess(true);
+            console.log("success data", data);
+            return data;
         } catch (err) {
             setError(err.message);
         } finally {
@@ -32,5 +34,5 @@ export default function useSubmitReturn() {
         }
     };
 
-    return { submitReturn, loading, error, success };
+    return { createReturn, loading, error, success };
 }

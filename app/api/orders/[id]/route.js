@@ -10,10 +10,12 @@ export async function GET(req, { params }) {
           id
           name
           createdAt
-          customer {
-            displayName
-            email
-            phone
+          email
+          totalPriceSet {
+            presentmentMoney {
+              amount
+              currencyCode
+            }
           }
           shippingAddress {
             address1
@@ -22,30 +24,35 @@ export async function GET(req, { params }) {
             country
             zip
           }
-          totalPriceSet {
-            presentmentMoney {
-              amount
-              currencyCode
-            }
+          customer {
+            displayName
+            email
+            phone
           }
-          lineItems(first: 50) {
-            nodes {
-              id
-              sku
-              name
-              quantity
-              originalTotalSet {
-                presentmentMoney {
-                  amount
-                  currencyCode
+          fulfillments(first: 10) {
+            status
+            fulfillmentLineItems(first: 10) {
+              nodes {
+                lineItem {
+                  name
+                  image {
+                    url
+                  }
+                  currentQuantity
                 }
-              }
-              image {
-                url(transform: {maxHeight: 200})
-              }
-              customAttributes {
-                key
-                value
+                quantity
+                id
+                originalTotalSet {
+                  presentmentMoney {
+                    amount
+                    currencyCode
+                  }
+                }
+                discountedTotalSet {
+                  presentmentMoney {
+                    amount
+                  }
+                }
               }
             }
           }

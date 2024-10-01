@@ -2,11 +2,13 @@
 
 import React from 'react';
 
-export default function ReturnOptions({ totalAmount, totalQuantity, currencyCode, setReturnType, returnType }) {
+export default function ReturnOptions({ currencyCode, setReturnType, returnType, returnValue }) {
+  const totalAmount = returnValue;
+  const totalQuantity = 1
 
   return (
     <div className="return-options">
-      <h2 className="text-2xl font-semibold mb-6 text-center">Choose Your Return Option</h2>
+      <h2 className="heading-secondary text-center">Choose Your Return Option</h2>
       
       <div className="space-y-6">
         <OptionCard
