@@ -48,6 +48,7 @@ export async function GET(request) {
         returns(first: 10, query: "status:OPEN") {
           nodes {
             name
+            id
             returnLineItems(first: 10) {
               nodes {
                 ... on ReturnLineItem {
@@ -58,9 +59,20 @@ export async function GET(request) {
                         url
                       }
                     }
+                    originalTotalSet {
+                      presentmentMoney {
+                        amount
+                        currencyCode
+                      }
+                    }
+                    discountedTotalSet {
+                      presentmentMoney {
+                        amount
+                      }
+                    }
                   }
-                  quantity
                 }
+                quantity
                 returnReasonNote
                 returnReason
               }

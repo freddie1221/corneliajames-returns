@@ -1,39 +1,34 @@
 import { notFound } from 'next/navigation';
-
-async function getReturn(id) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/returns/${id}`, {
-    next: { revalidate: 60 }, // Optional: Cache the response for 60 seconds
-  });
-
-  if (!res.ok) {
-    if (res.status === 404) {
-      notFound();
-    }
-    throw new Error('Failed to fetch return data');
-  }
-
-  return res.json();
-}
+import Link from 'next/link';
+import { getReturn } from '@/app/utils/api';
+import { simplifyReturnItems } from '@/app/utils/simplifyReturnItems';
+import OrderItem from '@/app/components/OrderItem';
 
 export default async function Return({ params }) {
   const { id } = params;
+  const returnData = await getReturn(id);
+  const orderId = returnData.return.order.id.split('/').pop();
+  
+  console.log("return data", returnData);
 
-  try {
-    const returnData = await getReturn(id);
-    return (
-      <div>
-        <h1>Return Details</h1>
-        <p>Return ID: {returnData.id}</p>
-        {/* Add more return details as needed */}
+  const returnItems = simplifyReturnItems(returnData);
+  console.log("simplified return items", returnItems);
+
+  return (
+    <div className="container mx-auto p-4">
+      <div className="shadow-md rounded p-6 mb-4 mx-auto flex flex-col items-center gap-4 bg-gray-100">
+        <h1 className="text-2xl font-bold mb-6">Return Details</h1>
+        <h2 className="heading-secondary">Return Items</h2>
+          {returnItems.map((item, index) => (
+            <OrderItem 
+              item={item}
+              index={index}
+              key={index}
+            />
+          ))}
+          <Link href={`/orders/${orderId}`}>Back to Order</Link>
       </div>
-    );
-  } catch (error) {
-    console.error('Error loading return details:', error);
-    return (
-      <div>
-        <h1>Error</h1>
-        <p>There was an issue loading the return details. Please try again later.</p>
-      </div>
-    );
-  }
+    </div>
+  )
+
 }

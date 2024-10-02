@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import ReturnItemSelector from './ReturnItemSelector';
 import ReturnOptions from './ReturnOptions';
 import useCreateReturn from '@/app/hooks/useCreateReturn';
-import { simplifiedItems } from '@/app/utils/simplifiedItems';
+import { simplifyOrderItems } from '@/app/utils/simplifyOrderItems';
 import Message from '@/app/components/Message';
 import Link from 'next/link';
 
@@ -23,14 +23,7 @@ export default function ReturnForm({ order }) {
             notifyCustomer: true
          };
 
-        const response = await createReturn(returnInput);
     };
-
-    useEffect(() => {
-        console.log(returnValue);
-    }, [returnValue]);
-
-    const items = simplifiedItems(order);
 
     if(loading) { return( <Message text="Loading..." type="loading" />) }
 		if(error) { return( <Message text={`Error: ${error}`} type="error" />) }
@@ -44,6 +37,8 @@ export default function ReturnForm({ order }) {
 			</Link>
 		</div>
 	) }
+
+    const items = simplifyOrderItems(order);
 
     return (
         <div className="flex flex-col gap-4 bg-gray-100 shadow-md rounded p-5">

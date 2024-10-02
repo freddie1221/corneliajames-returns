@@ -19,18 +19,23 @@ export default function useExistingReturns(orderId) {
 
         const data = await response.json();
 
-        console.log(data.order.returns.nodes[0]);
+        // console.log("returns data from API",data.order.returns.nodes[0]);
 
         const simplifiedData = data.order.returns.nodes.map(node => ({
           name: node.name,
           status: node.status,
+          fullId: node.id,
+          id: node.id.split("/").pop(),
           returnLineItems: node.returnLineItems.nodes.map(item => ({
             lineItem: item.fulfillmentLineItem.lineItem,
             image: item.fulfillmentLineItem.lineItem.image.url,
             name: item.fulfillmentLineItem.lineItem.name,
+            price: parseFloat(item.fulfillmentLineItem.originalTotalSet.presentmentMoney.amount),
+            discount: parseFloat(item.fulfillmentLineItem.discountedTotalSet.presentmentMoney.amount),
+            currencyCode: item.fulfillmentLineItem.originalTotalSet.presentmentMoney.currencyCode,
             returnReasonNote: item.returnReasonNote,
             returnReason: item.returnReason,
-            quantity: item.quantity
+            quantity: parseInt(item.quantity),
           }))
         }));
 
