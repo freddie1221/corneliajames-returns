@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import ReturnItemSelector from './ReturnItemSelector';
 import ReturnOptions from './ReturnOptions';
 import useCreateReturn from '@/app/hooks/useCreateReturn';
-import { simplifyOrderItems } from '@/app/utils/simplifyOrderItems';
 import Message from '@/app/components/Message';
 import Link from 'next/link';
 
