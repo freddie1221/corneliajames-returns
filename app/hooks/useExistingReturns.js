@@ -19,7 +19,6 @@ export default function useExistingReturns(orderId) {
 
         const data = await response.json();
 
-        // console.log("returns data from API",data.order.returns.nodes[0]);
 
         const simplifiedData = data.order.returns.nodes.map(node => ({
           name: node.name,

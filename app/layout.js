@@ -1,9 +1,12 @@
 import './globals.css'
 
 export const metadata = {
-  title: 'Returns Portal',
-  description: 'Ecommerce returns portal for customers',
-}
+  title: "Cornelia James | Returns & Store Credit",
+  description: "Our returns and store credit portal",
+  icons: {
+    icon: "/favicon.png",
+  },
+};
 
 export default function RootLayout({ children }) {
   return (

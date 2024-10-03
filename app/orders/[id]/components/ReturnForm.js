@@ -38,7 +38,7 @@ export default function ReturnForm({ order }) {
 		</div>
 	) }
 
-    const items = simplifyOrderItems(order);
+    const items = order.returnableItems;
 
     return (
         <div className="flex flex-col gap-4 bg-gray-100 shadow-md rounded p-5">
@@ -49,7 +49,7 @@ export default function ReturnForm({ order }) {
                 setReturnValue={setReturnValue}
             />
             <ReturnOptions 
-                currencyCode={order.totalPriceSet.presentmentMoney.currencyCode}
+                currencyCode={order.currencyCode}
                 setReturnType={setReturnType}
                 returnType={returnType}
                 returnValue={returnValue}

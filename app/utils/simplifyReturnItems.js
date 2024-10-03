@@ -1,5 +1,6 @@
 
 export function simplifyReturnItems(returnData) {
+  
   const returnLineItems = returnData.return.returnLineItems.nodes;
   
   const returnItems = returnLineItems.map(item => {
@@ -12,6 +13,7 @@ export function simplifyReturnItems(returnData) {
       discount: parseFloat(item.fulfillmentLineItem.discountedTotalSet.presentmentMoney.amount),
       currencyCode: item.fulfillmentLineItem.originalTotalSet.presentmentMoney.currencyCode,
     };
+
   });
 
 

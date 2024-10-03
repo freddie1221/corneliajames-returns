@@ -59,12 +59,6 @@ export async function GET(request) {
                         url
                       }
                     }
-                    originalTotalSet {
-                      presentmentMoney {
-                        amount
-                        currencyCode
-                      }
-                    }
                     discountedTotalSet {
                       presentmentMoney {
                         amount

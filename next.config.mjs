@@ -1,12 +1,25 @@
+// next.config.mjs
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: {
-  remotePatterns: [{
-      protocol: 'https',
-      hostname: 'cdn.shopify.com',
-      pathname: '/**', // Updated to allow all paths
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.(graphql|gql)$/,
+      exclude: /node_modules/,
+      use: {
+        loader: 'graphql-tag/loader',
+      },
+    });
 
-    }],
+    return config;
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.shopify.com',
+        pathname: '/**',
+      },
+    ],
   },
 };
 
