@@ -1,3 +1,5 @@
+import simplifyReturn from "./simplifyReturn";
+
 
 export function simplifyOrder(order) {
   
@@ -25,9 +27,9 @@ export function simplifyOrder(order) {
     totalPrice: parseFloat(order.subtotalPriceSet.presentmentMoney.amount),
     totalDiscount: parseFloat(order.totalDiscountsSet.presentmentMoney.amount),
     currencyCode: order.subtotalPriceSet.presentmentMoney.currencyCode,
-    returns: order.returns.nodes,
     orderItems: orderItems,
     returnableItems: returnableItems,
+    returns: order.returns.nodes.map(returnData => simplifyReturn(returnData)),
   }
 
   

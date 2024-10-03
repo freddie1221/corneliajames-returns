@@ -3,6 +3,7 @@ export const RETURN_FIELDS_FRAGMENT = `
     name
     status
     totalQuantity
+    id
     order {
       id
     }
