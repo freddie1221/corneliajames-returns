@@ -5,13 +5,11 @@ import Image from 'next/image';
 import QuantitySelector from '../orders/[id]/components/QuantitySelector';
 import ReturnReasonTextarea from '../orders/[id]/components/ReturnReasonTextarea';
 
-
 export default function OrderItem({ item, index, onSelectItem, existingReturn }) {
   const { id, name, quantity, image, price, discount, currencyCode } = item;
   const [isChecked, setIsChecked] = useState(false);
   const [returnQuantity, setReturnQuantity] = useState(1)
   const [returnReasonNote, setReturnReasonNote] = useState('');
-
 
   const handleReasonChange = (e) => {
     setReturnReasonNote(e.target.value);
