@@ -1,5 +1,4 @@
-import { notFound } from 'next/navigation';
-import { getOrder } from '@/app/utils/api';
+import { getOrder } from '@/app/utils/getOrder';
 import ReturnForm from './components/ReturnForm';
 import ExistingReturns from './components/ExistingReturns';
 import OrderDetails from './components/OrderDetails';
@@ -10,12 +9,15 @@ export default async function OrderPage({ params }) {
   const { id } = params;
   const { data: rawOrder, error } = await getOrder(id);
 
-  if (error) { return <Message type="error" message={error} />;}
+  console.log(rawOrder);
+  console.log(error);
+
+  if (error) { return <Message type="error" text={error} />;}
 
   const order = simplifyOrder(rawOrder);
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container">
       
         <OrderDetails order={order} />
         <ExistingReturns returns={order.returns} />

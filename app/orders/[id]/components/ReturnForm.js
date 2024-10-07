@@ -9,24 +9,24 @@ import Link from 'next/link';
 
 
 export default function ReturnForm({ order }) {
-    
-    const [returnType, setReturnType] = useState('');
-    const [returnLineItems, setReturnLineItems] = useState([]);
-    const [returnValue, setReturnValue] = useState(0);
-    const { createReturn, loading, error, success } = useCreateReturn();
+	
+	const [returnType, setReturnType] = useState('');
+	const [returnLineItems, setReturnLineItems] = useState([]);
+	const [returnValue, setReturnValue] = useState(0);
+	const { createReturn, loading, error, success } = useCreateReturn();
 
-    const handleSubmit = async () => {
-        const returnInput = { 
-            orderId: order.id,
-            returnLineItems: returnLineItems,
-            notifyCustomer: true
-         };
+	const handleSubmit = async () => {
+		const returnInput = { 
+			orderId: order.id,
+			returnLineItems: returnLineItems,
+			notifyCustomer: true
+		 };
 
-    };
+	};
 
-    if(loading) { return( <Message text="Loading..." type="loading" />) }
+	if(loading) { return( <Message text="Loading..." type="loading" />) }
 		if(error) { return( <Message text={`Error: ${error}`} type="error" />) }
-    if(success) { return( 
+	if(success) { return( 
 		<div>
 			<Message text="Return request submitted successfully!" type="success" />
 			<Link href={`/orders/${order.id}`}>
@@ -37,22 +37,22 @@ export default function ReturnForm({ order }) {
 		</div>
 	) }
 
-    const items = order.returnableItems;
+	const items = order.returnableItems;
 
-    return (
-        <div className="flex flex-col gap-4 bg-gray-100 shadow-md rounded p-5">
-            <ReturnItemSelector 
-                items={items} 
-                returnLineItems={returnLineItems}
-                setReturnLineItems={setReturnLineItems}
-                setReturnValue={setReturnValue}
-            />
-            <ReturnOptions 
-                currencyCode={order.currencyCode}
-                setReturnType={setReturnType}
-                returnType={returnType}
-                returnValue={returnValue}
-            />
+	return (
+		<div className="flex flex-col gap-4 bg-gray-100 shadow-md rounded p-5">
+			<ReturnItemSelector 
+				items={items} 
+				returnLineItems={returnLineItems}
+				setReturnLineItems={setReturnLineItems}
+				setReturnValue={setReturnValue}
+			/>
+			<ReturnOptions 
+				currencyCode={order.currencyCode}
+				setReturnType={setReturnType}
+				returnType={returnType}
+				returnValue={returnValue}
+			/>
 						<button 
 							onClick={handleSubmit}
 							disabled={loading}
@@ -60,6 +60,6 @@ export default function ReturnForm({ order }) {
 						>
 							Submit Return Request
 					</button>
-        </div>
-    );
+		</div>
+	);
 }

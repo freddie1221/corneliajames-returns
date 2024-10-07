@@ -23,7 +23,13 @@ export async function GET(req, { params }) {
     return NextResponse.json(response.data.order);
 
   } catch (error) {
-    console.error('Shopify API error:', error);
+    console.error(`route.js GET Error [Order ID: ${id}]:`, error);
+
+    // Example: Differentiating between authentication and other errors
+    if (error.response && error.response.status === 401) {
+      return NextResponse.json({ error: 'Authentication failed' }, { status: 401 });
+    }
+
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }

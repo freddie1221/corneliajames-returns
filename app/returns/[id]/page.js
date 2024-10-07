@@ -1,13 +1,13 @@
-import { notFound } from 'next/navigation';
+
 import Link from 'next/link';
-import { getReturn } from '@/app/utils/api';
+import { getReturn } from '@/app/utils/getReturn';
 import ReturnDetails from '@/app/components/ReturnDetails';
 import simplifyReturn from '@/app/utils/simplifyReturn';
 
 export default async function ReturnPage({ params }) {
   const { id } = params;
 
-  const { data, error } = await getReturn(id);
+  const { data } = await getReturn(id);
   const returnData = simplifyReturn(data.return)
 
   
