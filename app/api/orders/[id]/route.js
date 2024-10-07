@@ -17,7 +17,8 @@ export async function GET(req, { params }) {
     const response = await client.request(query);
     
     if (!response.data.order) {
-      return NextResponse.json({ error: 'Order not found' }, { status: 404 });
+      console.error('api error', response);
+      return NextResponse.json({ response: response, error: 'Order not found' }, { status: 404 });
     }
 
     return NextResponse.json(response.data.order);
