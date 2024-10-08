@@ -9,6 +9,10 @@ export const RETURN_FIELDS_FRAGMENT = `
     }
     returnLineItems(first: 10) {
       nodes {
+        id
+       	quantity
+        returnReasonNote
+        returnReason
         ... on ReturnLineItem {
           fulfillmentLineItem {
             lineItem {
@@ -30,9 +34,6 @@ export const RETURN_FIELDS_FRAGMENT = `
             }
           }
         }
-        quantity
-        returnReasonNote
-        returnReason
       }
     }
   }

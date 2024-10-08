@@ -2,9 +2,10 @@
 
 import React from 'react';
 
-export default function ReturnOptions({ currencyCode, returnValue, setReturnType, returnType,  }) {
+export default function ReturnOptions({ returnValue, setReturnType, returnType,  }) {
   const totalAmount = returnValue;
   const totalQuantity = 1
+  const currencyCode = 'GBP'
 
   return (
     <section className="return-options">

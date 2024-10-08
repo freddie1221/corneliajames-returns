@@ -59,7 +59,7 @@ export default function useCreateReturn() {
 
 
 						setSuccess(true);
-						console.log("Shopify success data:", shopifyData);
+						// console.log("Shopify success data:", shopifyData);
 						// console.log("Airtable success data:", airtableData);
 						return { shopify: shopifyData, airtable: airtableData };
 				} catch (err) {

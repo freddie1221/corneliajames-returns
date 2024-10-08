@@ -1,5 +1,4 @@
-'use client'
-
+import simplifyReturn from '@/app/utils/simplifyReturn';
 import { useEffect, useState } from 'react';
 
 export default function useExistingReturns(orderId) {
@@ -8,39 +7,33 @@ export default function useExistingReturns(orderId) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (!orderId) {
+      setLoading(false);
+      setReturns([]);
+      return;
+    }
+
     const fetchReturns = async () => {
       try {
-        const response = await fetch(`/api/returns?id=6353247404196`, {
+        const response = await fetch(`/api/shopify/orders/${orderId}`, {
           method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
+          cache: 'no-cache', // Disable caching
         });
 
+        if (!response.ok) {
+          throw new Error('Failed to fetch returns');
+        }
+
         const data = await response.json();
+        console.log('existing returns data: ', data)
+        const returns = data.returns
 
 
-        const simplifiedData = data.order.returns.nodes.map(node => ({
-          name: node.name,
-          status: node.status,
-          fullId: node.id,
-          id: node.id.split("/").pop(),
-          returnLineItems: node.returnLineItems.nodes.map(item => ({
-            lineItem: item.fulfillmentLineItem.lineItem,
-            image: item.fulfillmentLineItem.lineItem.image.url,
-            name: item.fulfillmentLineItem.lineItem.name,
-            price: parseFloat(item.fulfillmentLineItem.originalTotalSet.presentmentMoney.amount),
-            discount: parseFloat(item.fulfillmentLineItem.discountedTotalSet.presentmentMoney.amount),
-            currencyCode: item.fulfillmentLineItem.originalTotalSet.presentmentMoney.currencyCode,
-            returnReasonNote: item.returnReasonNote,
-            returnReason: item.returnReason,
-            quantity: parseInt(item.quantity),
-          }))
-        }));
-
-        setReturns(simplifiedData);
+        setReturns(returns);
         setLoading(false);
       } catch (err) {
+        console.log('error: ', err)
         setError(err.message);
         setLoading(false);
       }
@@ -51,5 +44,3 @@ export default function useExistingReturns(orderId) {
 
   return { returns, loading, error };
 }
-
-    

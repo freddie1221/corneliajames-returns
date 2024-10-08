@@ -1,8 +1,8 @@
 import simplifyReturn from "./simplifyReturn";
 
 
-export function simplifyOrder(order) {
-  console.log('order on simplifyOrder', order);
+export default function simplifyOrder(order) {
+  // console.log('order on simplifyOrder', order);
  
   const fulfilledItems = order.fulfillments.flatMap(fulfillment => fulfillment.fulfillmentLineItems.nodes);
   const orderItems = fulfilledItems.map(item => {
@@ -20,7 +20,7 @@ export function simplifyOrder(order) {
   const returnableItems = orderItems.filter(item => item.quantity > 0);
 
   order = {
-    id: order.id,
+    id: order.id.split('/').pop(),
     name: order.name,
     email: order.email,
     createdAt: order.createdAt,

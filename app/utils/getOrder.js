@@ -2,8 +2,12 @@ import '@shopify/shopify-api/adapters/node';
 import { createAdminApiClient } from '@shopify/admin-api-client';
 import { NextResponse } from 'next/server';
 import getOrderQuery from '../graphql/queries/getOrderQuery';
+import simplifyOrder from './simplifyOrder';
+import noCacheHeaders from './noCacheHeaders';
+
 
 export async function getOrder(id) {
+
   const query = getOrderQuery(id);
   
   try {
@@ -14,14 +18,15 @@ export async function getOrder(id) {
     });
 
     const response = await client.request(query);
-    const order = response.data.order;
+    const data = response.data.order;
+    const order = simplifyOrder(data);
 
     if (!response.data.order) {
       console.error('api error', response);
       return NextResponse.json({ response: response, error: 'Order not found' }, { status: 404 });
     }
     
-    return order
+    return NextResponse.json(order, { headers: noCacheHeaders });
 
   } catch (error) {
     console.error(`route.js GET Error [Order ID: ${id}]:`, error);

@@ -5,7 +5,6 @@ import { Message, DetailItem } from '@/app/components/Elements/'
 
 export default function ReturnMeta({ returnData }) {
   const { data, loading, error } = useReturnMeta(returnData.name)
-  console.log('data ', data)
 
   if (loading) {return <Message type="info" message="Loading Return Meta..." />}
   if (error) {return <Message type="error" message={`Error fetching return: ${error.message}`} />}

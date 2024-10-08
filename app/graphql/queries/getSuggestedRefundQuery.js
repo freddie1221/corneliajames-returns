@@ -1,18 +1,18 @@
 
 
-const getSuggestedRefundQuery = (id, returnRefundLineItems) => `
+const getSuggestedRefundQuery = (id, returnLineItems) => `
   {
-    return(id: "gid://shopify/Return/${id}") {
+    return(id: "${id}") {
       # You can use the suggested refund object to later generate an actual refund.
       suggestedRefund(
-        returnRefundLineItems: ${returnRefundLineItems}
+        returnRefundLineItems: ${returnLineItems}
       ) {
         # The total monetary value to be refunded.
         amount {
           shopMoney {
             amount
           }
-        }
+        } 
         # The shipping costs to be refunded from the order.
         shipping {
           maximumRefundableSet {
@@ -52,3 +52,5 @@ const getSuggestedRefundQuery = (id, returnRefundLineItems) => `
     }
   }
 `
+
+export default getSuggestedRefundQuery;

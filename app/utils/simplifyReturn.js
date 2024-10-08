@@ -4,6 +4,7 @@ export default function simplifyReturn(returnData) {
   
   const items = returnData.returnLineItems.nodes.map(item => {
     return {
+      id: item.id,
       quantity: item.quantity,
       returnReasonNote: item.returnReasonNote,
       returnReason: item.returnReason,

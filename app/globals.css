@@ -53,5 +53,11 @@ body {
   .heading-tertiary {
     @apply text-lg font-semibold uppercase tracking-wider text-center;
   }
+  .color-primary {
+    @apply bg-gradient-to-r from-blue-500 to-indigo-700 text-white;
+  }
 
+  .btn {
+    @apply px-4 py-2 rounded-md font-semibold;
+  }
 }
