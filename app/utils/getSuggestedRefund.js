@@ -1,11 +1,10 @@
 import '@shopify/shopify-api/adapters/node';
 import { createAdminApiClient } from '@shopify/admin-api-client';
 import { NextResponse } from 'next/server';
-import getOrderQuery from '@/app/api/shopify/graphql/queries/getOrderQuery';
+import getSuggestedRefundQuery from '../graphql/queries/getSuggestedRefundQuery';
 
-export async function GET(req, { params }) {
-  const { id } = params;
-  const query = getOrderQuery(id);
+export async function getSuggestedRefund(id) {
+  const query = getSuggestedRefundQuery(id);
   
   try {
     const client = createAdminApiClient({
@@ -15,18 +14,19 @@ export async function GET(req, { params }) {
     });
 
     const response = await client.request(query);
-    
+    const order = response.data.order;
+
     if (!response.data.order) {
       console.error('api error', response);
       return NextResponse.json({ response: response, error: 'Order not found' }, { status: 404 });
     }
-
-    return NextResponse.json(response.data.order);
+    
+    return order
 
   } catch (error) {
     console.error(`route.js GET Error [Order ID: ${id}]:`, error);
 
-    // Example: Differentiating between authentication and other errors
+
     if (error.response && error.response.status === 401) {
       return NextResponse.json({ error: 'Authentication failed' }, { status: 401 });
     }
@@ -34,3 +34,4 @@ export async function GET(req, { params }) {
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
+

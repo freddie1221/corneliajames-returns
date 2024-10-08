@@ -1,25 +1,37 @@
+import '@shopify/shopify-api/adapters/node';
+import { createAdminApiClient } from '@shopify/admin-api-client';
+import { NextResponse } from 'next/server';
+import getOrderQuery from '../graphql/queries/getOrderQuery';
 
 export async function getOrder(id) {
+  const query = getOrderQuery(id);
+  
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/shopify/orders/${id}`, { cache: 'no-store' });
-    
-    if (!res.ok) {
-      const errorData = await res.json();
+    const client = createAdminApiClient({
+      storeDomain: process.env.SHOPIFY_SHOP_NAME,
+      accessToken: process.env.SHOPIFY_ACCESS_TOKEN,
+      apiVersion: '2024-07',
+    });
 
-      throw new Error(errorData.error || 'message from utility: Failed to fetch order');
+    const response = await client.request(query);
+    const order = response.data.order;
+
+    if (!response.data.order) {
+      console.error('api error', response);
+      return NextResponse.json({ response: response, error: 'Order not found' }, { status: 404 });
     }
     
-    const data = await res.json();
-
-    return { data, error: null };
+    return order
 
   } catch (error) {
-    
-    console.error(`getOrder Error [ID: ${id}]:`, error.message);
-    
-    return { 
-      data: null, 
-      error: error.message 
-    };
+    console.error(`route.js GET Error [Order ID: ${id}]:`, error);
+
+
+    if (error.response && error.response.status === 401) {
+      return NextResponse.json({ error: 'Authentication failed' }, { status: 401 });
+    }
+
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
+

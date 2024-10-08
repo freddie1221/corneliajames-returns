@@ -7,7 +7,6 @@ export async function POST(request) {
 
   const { returnInput } = await request.json(); // Parse the request body
   const variables = { returnInput: returnInput }; // Define variables separately
-  console.log('variables: ', variables);
 
   const query = `
     mutation createReturn($returnInput: ReturnInput!) {
@@ -24,7 +23,6 @@ export async function POST(request) {
       }
     }
   `
-
   try {
     const client = createAdminApiClient({
       storeDomain: process.env.SHOPIFY_SHOP_NAME,
@@ -33,7 +31,7 @@ export async function POST(request) {
     });
 
     const response = await client.request(query, { variables: variables });
-    console.log('Shopify response: ', response);
+
     return NextResponse.json(response.data);
 
   } catch (error) {

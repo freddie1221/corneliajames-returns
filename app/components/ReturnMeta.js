@@ -7,17 +7,9 @@ export default function ReturnMeta({ returnData }) {
   const { data, loading, error } = useReturnMeta(returnData.name)
   console.log('data ', data)
 
-  if (loading) {
-    return <Message type="info" message="Loading Return Meta..." />
-  }
-
-  if (error) {
-    return <Message type="error" message="Error fetching return meta: {error.message}" />
-  }
-
-  if (!data) {
-    return <Message type="error" message="No Return Meta available." />
-  }
+  if (loading) {return <Message type="info" message="Loading Return Meta..." />}
+  if (error) {return <Message type="error" message={`Error fetching return: ${error.message}`} />}
+  if (!data) {return <Message type="error" message="No Return Meta available." />}
 
 
   return (

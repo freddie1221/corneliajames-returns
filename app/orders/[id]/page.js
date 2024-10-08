@@ -7,11 +7,11 @@ import { simplifyOrder } from '@/app/utils/simplifyOrder';
 
 export default async function OrderPage({ params }) {
   const { id } = params;
-  const { data: rawOrder, error } = await getOrder(id);
+  const response = await getOrder(id);
 
-  if (error) { return <Message type="error" text={error} />;}
+  // if (error) { return <Message type="error" text={error} />;}
 
-  const order = simplifyOrder(rawOrder);
+  const order = simplifyOrder(response);
 
   return (
     <div className="container">

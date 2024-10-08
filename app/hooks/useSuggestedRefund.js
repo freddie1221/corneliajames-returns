@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 
 
-export default function useReturnMeta(name) {
+export default function useSuggestedRefund(id, returnLineItems) {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    if (!name) {
+    if (!id || !returnLineItems) {
       setLoading(false)
       setData(null)
       return
@@ -17,7 +17,13 @@ export default function useReturnMeta(name) {
       setLoading(true)
       setError(null)
       try {
-        const response = await fetch(`/api/airtable/returns?name=${encodeURIComponent(name)}`)
+        const response = await fetch(`/api/shopify/returns/${id}/refunds`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ returnLineItems })
+        })
         if (!response.ok) {
           throw new Error(`Error: ${response.status} ${response.statusText}`)
         }
@@ -32,7 +38,7 @@ export default function useReturnMeta(name) {
     }
 
     fetchData()
-  }, [name])
+  }, [id, returnLineItems])
 
   return { data, loading, error }
 }

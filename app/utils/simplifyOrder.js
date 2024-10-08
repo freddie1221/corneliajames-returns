@@ -2,7 +2,7 @@ import simplifyReturn from "./simplifyReturn";
 
 
 export function simplifyOrder(order) {
-  
+  console.log('order on simplifyOrder', order);
  
   const fulfilledItems = order.fulfillments.flatMap(fulfillment => fulfillment.fulfillmentLineItems.nodes);
   const orderItems = fulfilledItems.map(item => {

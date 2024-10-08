@@ -7,7 +7,7 @@ import simplifyReturn from '@/app/utils/simplifyReturn';
 export default async function ReturnPage({ params }) {
   const { id } = params;
 
-  const { data } = await getReturn(id);
+  const data = await getReturn(id);
   const returnData = simplifyReturn(data.return)
 
   
