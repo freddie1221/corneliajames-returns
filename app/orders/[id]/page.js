@@ -8,8 +8,8 @@ import { Message } from '@/app/components/Elements';
 export default async function OrderPage({ params }) {
   const { id } = params;
 
-  const response = await getOrder(id);
-  const order = await response.json();
+  const order = await getOrder(id);
+
 
   // if (error) { return <Message type="error" text={error} />;}
 

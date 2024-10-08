@@ -2,9 +2,13 @@ import simplifyReturn from "./simplifyReturn";
 
 
 export default function simplifyOrder(order) {
-  // console.log('order on simplifyOrder', order);
+  
+  // console.log('Raw order: ', order);
  
   const fulfilledItems = order.fulfillments.flatMap(fulfillment => fulfillment.fulfillmentLineItems.nodes);
+  
+  // console.log('Fulfilled items: ', fulfilledItems);
+
   const orderItems = fulfilledItems.map(item => {
     return {
       id: item.id,

@@ -1,31 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import OrderItem from '../../../components/OrderItem';
+import { useFetchOrder } from '@/app/hooks/useFetchOrder';
+import OrderItem from '@/app/components/OrderItem';
 import { Message } from '@/app/components/Elements';
+import LoadingSpinner from '@/app/components/LoadingSpinner';
 
 
 export default function OrderItemsSelector({ items, returnLineItems, setReturnLineItems, returnType, orderId }) {
-  const [order, setOrder] = useState(null);
-
-  useEffect(() => {
-    const fetchOrder = async () => {
-      try {
-        const response = await fetch(`/api/shopify/orders/${orderId}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch order');
-        }
-        const order = await response.json();
-        console.log('order: ', order)
-        setOrder(order);
-
-      } catch (error) {
-        console.error('Error fetching order:', error);
-      }
-    };
-
-    fetchOrder();
-  }, [orderId]);
+  const { order, error, loading } = useFetchOrder(orderId);
 
   const handleSelectItem = (returnLineItem, checked) => {
     if (checked) {
@@ -35,9 +17,8 @@ export default function OrderItemsSelector({ items, returnLineItems, setReturnLi
     }
   };
 
-  if (!order) {
-    return <Message text="Loading..." type="loading" />
-  }
+  if (loading) { return <LoadingSpinner /> }
+  if (error) { return <Message text={`Error: ${error}`} type="error" /> }
 
 
   return (
