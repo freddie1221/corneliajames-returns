@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import OrderItem from '../../../components/OrderItem';
 
-export default function ReturnItemSelector({ items, returnLineItems, setReturnLineItems }) {
+export default function ReturnItemSelector({ items, returnLineItems, setReturnLineItems, returnType }) {
   
   const handleSelectItem = (returnLineItem, checked) => {
     if (checked) {
@@ -14,7 +14,7 @@ export default function ReturnItemSelector({ items, returnLineItems, setReturnLi
   };
 
   useEffect(() => {
-    console.log(returnLineItems);
+
   }, [returnLineItems]);
 
   return (
@@ -27,6 +27,7 @@ export default function ReturnItemSelector({ items, returnLineItems, setReturnLi
               key={item.id + index}
               index={index}
               item={item} 
+              returnType={returnType}
               onSelectItem={handleSelectItem}
             />
             );

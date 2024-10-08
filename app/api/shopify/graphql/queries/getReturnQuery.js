@@ -1,4 +1,4 @@
-import { RETURN_FIELDS_FRAGMENT } from '@/app/utils/graphql/fragments/graphqlFragments';
+import { RETURN_FIELDS_FRAGMENT } from '@/app/api/shopify/graphql/fragments/graphqlFragments';
 
 const getReturnQuery = (id) => `
   ${RETURN_FIELDS_FRAGMENT}

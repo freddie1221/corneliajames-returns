@@ -1,7 +1,7 @@
 import '@shopify/shopify-api/adapters/node';
 import { createAdminApiClient } from '@shopify/admin-api-client';
 import { NextResponse } from 'next/server';
-import getReturnQuery from '@/app/utils/graphql/queries/getReturnQuery';
+import getReturnQuery from '@/app/api/shopify/graphql/queries/getReturnQuery';
 
 export async function GET(req, { params }) {
   const { id } = params;

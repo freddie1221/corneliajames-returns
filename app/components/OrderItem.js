@@ -68,14 +68,17 @@ export default function OrderItem({ item, index, onSelectItem, existingReturn })
               <div className=" flex flex-row justify-between text-xs text-gray-600 ">
                 <span>Discount</span> <span> {currencyCode} {discount.toFixed(2)}</span>
               </div>
-
             </div>
         </div>
       </div>
+      {existingReturn && (
+        <div className="flex flex-col w-full bg-gray-100 p-2 mt-2 rounded-md">
+          <div className="text-xs">Return reason</div>
+          <div className="text-sm">{item.returnReasonNote}</div>
+        </div>
+      )}
 
       {!existingReturn && (
-
-
           <div className="flex flex-col space-y-3 max-w-md w-full">
               <ReturnReasonTextarea
                 id={item.id}
@@ -115,12 +118,7 @@ export default function OrderItem({ item, index, onSelectItem, existingReturn })
                   />
                 </div>
               </div>
-                
-
-
-              
             </div>
-
       )}
     </li>
   );

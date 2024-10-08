@@ -50,5 +50,8 @@ body {
   .heading-secondary {
     @apply text-xl font-semibold mt-4 mb-2 uppercase tracking-wider;
   }
+  .heading-tertiary {
+    @apply text-lg font-semibold uppercase tracking-wider text-center;
+  }
 
 }

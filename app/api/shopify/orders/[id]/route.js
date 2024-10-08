@@ -1,7 +1,7 @@
 import '@shopify/shopify-api/adapters/node';
 import { createAdminApiClient } from '@shopify/admin-api-client';
 import { NextResponse } from 'next/server';
-import getOrderQuery from '@/app/utils/graphql/queries/getOrderQuery';
+import getOrderQuery from '@/app/api/shopify/graphql/queries/getOrderQuery';
 
 export async function GET(req, { params }) {
   const { id } = params;

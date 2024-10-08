@@ -2,12 +2,12 @@
 
 import React from 'react';
 
-export default function ReturnOptions({ currencyCode, setReturnType, returnType, returnValue }) {
+export default function ReturnOptions({ currencyCode, returnValue, setReturnType, returnType,  }) {
   const totalAmount = returnValue;
   const totalQuantity = 1
 
   return (
-    <div className="return-options">
+    <section className="return-options">
       <h2 className="heading-secondary text-center">Choose Your Return Option</h2>
       
       <div className="space-y-6">
@@ -16,6 +16,7 @@ export default function ReturnOptions({ currencyCode, setReturnType, returnType,
           title="Instant Store Credit"
           subtitle="10% bonus + Free Return Shipping"
           setReturnType={setReturnType}
+          returnType={returnType}
         >
           <p>Your store credit will be emailed to you instantly upon confirming your return. Enjoy a 10% bonus on your original purchase amount, usable immediately in our store.</p>
           <p>We'll provide a complimentary return label. Please return your original items within 30 days.</p>
@@ -27,6 +28,7 @@ export default function ReturnOptions({ currencyCode, setReturnType, returnType,
           type="Refund"
           title="Refund to Original Payment Method"
           setReturnType={setReturnType}
+          returnType={returnType}
         >
           <p>Your refund will be processed to your original payment method upon receipt of the returned items.</p>
           <p>Items being returned: {totalQuantity}</p>
@@ -35,17 +37,17 @@ export default function ReturnOptions({ currencyCode, setReturnType, returnType,
           <p>You may choose to purchase a return label from us or use your preferred shipping service.</p>
         </OptionCard>
       </div>
-    </div>
+    </section>
   );
 }
 
-function OptionCard({ type, title, subtitle, children, setReturnType }) {
+function OptionCard({ type, title, subtitle, children, setReturnType, returnType }) {
   return (
-    <div
-      className={`cursor-pointer rounded-lg p-6 transition-all duration-300 bg-white`}
-      onClick={() => {
-        setReturnType(type);
-      }}
+    <button
+      className={`cursor-pointer rounded-lg p-6 bg-white 
+        ${returnType === type ? 'border-2 border-blue-500' : 'border-2 border-transparent'}
+        hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
+      onClick={() => { setReturnType(type) }}
     >
       <div className="flex items-center mb-4">
         <div>
@@ -54,6 +56,6 @@ function OptionCard({ type, title, subtitle, children, setReturnType }) {
         </div>
       </div>
       <div className="space-y-2 text-sm">{children}</div>
-    </div>
+    </button>
   );
 }
