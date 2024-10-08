@@ -1,9 +1,8 @@
 import '@shopify/shopify-api/adapters/node';
 import { createAdminApiClient } from '@shopify/admin-api-client';
-import { NextResponse } from 'next/server';
 import getOrderQuery from '../graphql/queries/getOrderQuery';
 import simplifyOrder from './simplifyOrder';
-import noCacheHeaders from './noCacheHeaders';
+
 
 
 export async function getOrder(id) {

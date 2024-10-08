@@ -10,9 +10,12 @@ export async function GET(req, { params }) {
   try {
     
     const order = await getOrder(id);
-
-    // console.log('order: ', order)
-    return NextResponse.json(order, { headers: noCacheHeaders });
+    return NextResponse.json(order, { 
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-store, max-age=0'
+      },  
+    })
 
   } catch (error) {
     
