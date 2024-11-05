@@ -16,6 +16,7 @@
     "graphql-request": "^7.1.0",
     "graphql-tag": "^2.12.6",
     "next": "14.2.5",
+    "node-fetch": "^3.3.2",
     "react": "^18",
     "react-dom": "^18"
   },

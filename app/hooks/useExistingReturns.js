@@ -26,13 +26,13 @@ export default function useExistingReturns(orderId) {
         }
 
         const data = await response.json();
-        console.log('existing returns data: ', data)
+
         const returns = data.returns
 
         setReturns(returns);
         setLoading(false);
       } catch (err) {
-        console.log('error: ', err)
+
         setError(err.message);
         setLoading(false);
       }

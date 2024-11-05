@@ -4,8 +4,6 @@ import { getOrder } from "@/app/utils/getOrder";
 
 export async function GET(req, { params }) {
   const { id } = params;
-  console.log('id: ', id)
-
 
   try {    
     const order = await getOrder(id);

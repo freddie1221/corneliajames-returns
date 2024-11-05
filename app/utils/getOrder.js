@@ -2,8 +2,30 @@ import '@shopify/shopify-api/adapters/node';
 import { createAdminApiClient } from '@shopify/admin-api-client';
 import getOrderQuery from '../graphql/queries/getOrderQuery';
 import simplifyOrder from './simplifyOrder';
+import { makeGraphQLRequest } from './makeGraphQLRequest';
 
 
+export async function getOrder(id) {
+  const query = getOrderQuery(id);
+
+  try {
+    const data = await makeGraphQLRequest(query);
+
+    if (!data.order) {
+      console.error('API error', data);
+      throw new Error('Order not found');
+    }
+
+
+    const order = simplifyOrder(data.order);
+    return order;
+
+  } catch (error) {
+
+    throw error;
+  }
+}
+/*
 export async function getOrder(id) {
   const query = getOrderQuery(id);
   
@@ -32,3 +54,4 @@ export async function getOrder(id) {
   }
 }
 
+*/

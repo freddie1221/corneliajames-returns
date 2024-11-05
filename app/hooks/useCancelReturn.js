@@ -23,7 +23,7 @@ export default function useCancelReturn() {
 
       const data = await response.json();
       setSuccess(true);
-      mutate(); // Trigger refetch
+
       return data;
     } catch (err) {
       setError(err.message);
