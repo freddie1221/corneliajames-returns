@@ -1,4 +1,4 @@
-import simplifyReturn from '@/app/utils/simplifyReturn';
+
 import { useEffect, useState } from 'react';
 
 export default function useExistingReturns(orderId) {
@@ -28,7 +28,6 @@ export default function useExistingReturns(orderId) {
         const data = await response.json();
         console.log('existing returns data: ', data)
         const returns = data.returns
-
 
         setReturns(returns);
         setLoading(false);

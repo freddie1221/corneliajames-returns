@@ -7,7 +7,6 @@ import { Message } from "@/app/components/Elements";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 export default function ExistingReturns({ orderId }) {
-	// console.log('orderId: ', orderId)
 	
 	const { returns, loading, error } = useExistingReturns(orderId);
 

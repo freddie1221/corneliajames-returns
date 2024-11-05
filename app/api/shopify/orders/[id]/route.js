@@ -1,14 +1,13 @@
 import { NextResponse } from 'next/server';
 import { getOrder } from "@/app/utils/getOrder";
-import noCacheHeaders from '@/app/utils/noCacheHeaders';
+
 
 export async function GET(req, { params }) {
   const { id } = params;
   console.log('id: ', id)
 
 
-  try {
-    
+  try {    
     const order = await getOrder(id);
     return NextResponse.json(order, { 
       headers: {

@@ -4,7 +4,6 @@ import getOrderQuery from '../graphql/queries/getOrderQuery';
 import simplifyOrder from './simplifyOrder';
 
 
-
 export async function getOrder(id) {
   const query = getOrderQuery(id);
   
@@ -23,6 +22,7 @@ export async function getOrder(id) {
       throw new Error('Order not found');
     }
 
+    console.log('data: ', data.returns)
     const order = simplifyOrder(data);
     return order;
 
