@@ -13,6 +13,7 @@ export default function simplifyReturn(returnData) {
       price: parseFloat(item.fulfillmentLineItem.originalTotalSet.presentmentMoney.amount),
       discount: parseFloat(item.fulfillmentLineItem.discountedTotalSet.presentmentMoney.amount),
       currencyCode: item.fulfillmentLineItem.originalTotalSet.presentmentMoney.currencyCode,
+      restockingFee: item.restockingFee?.percentage || 0,
     }
   })
 

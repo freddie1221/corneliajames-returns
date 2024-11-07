@@ -53,8 +53,8 @@ export default function OrderItem({ item, index, onSelectItem, existingReturn })
   return (
     <li className="mb-4 flex flex-col bg-white shadow-md p-4 rounded-lg w-full">
       <div className="flex flex-row items-center">
-        <Image src={image} alt={name} width={80} height={80} className="mr-6 rounded" />
-        <div className="flex-1 w-full ">
+        <Image src={image} alt={name} width={80} height={80} />
+        <div className="flex-1 w-full ml-4">
           <h3 className="text-lg font-semibold">{name} x {quantity}</h3>
 
             <div className="max-w-40 w-full mt-1">

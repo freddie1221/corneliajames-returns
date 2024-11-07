@@ -14,6 +14,10 @@ export const RETURN_FIELDS_FRAGMENT = `
         returnReasonNote
         returnReason
         ... on ReturnLineItem {
+          restockingFee {
+            percentage
+          }
+
           fulfillmentLineItem {
             lineItem {
               name

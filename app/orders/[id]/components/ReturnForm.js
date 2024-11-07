@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import OrderItemsSelector from './OrderItemsSelector';
 import ReturnOptions from './ReturnOptions';
 import useCreateReturn from '@/app/hooks/useCreateReturn';
@@ -8,9 +8,8 @@ import { Message } from '@/app/components/Elements';
 import calculateFee from '@/app/utils/calculateFee';
 
 
-export default function ReturnForm({ orderId }) {
 
-	console.log('orderId: ', orderId)
+export default function ReturnForm({ orderId }) {
 	
 	const [returnType, setReturnType] = useState('');
 	const [returnLineItems, setReturnLineItems] = useState([]);
@@ -21,35 +20,30 @@ export default function ReturnForm({ orderId }) {
 	const restockingFee = { percentage: calculateFee(returnType, itemsCount) };
 	const creditAmount = 0
 
+	useEffect(() => {
+		console.log('returnLineItems: ', returnLineItems)
+	}, [returnLineItems])
+
 
 	const handleSubmit = async () => {
-		
 		const lineItemsAndFee = returnLineItems.map((item, index) => ({
 			...item,
 			restockingFee: restockingFee
 		}));
 
 		const shopifyInput = { 
-			orderId: orderId,
+			orderId: `gid://shopify/Order/${orderId}`,
 			returnLineItems: lineItemsAndFee,
 			notifyCustomer: true
 		};
-
-		const airtableInput = {
-			returnType: returnType,
-			creditAmount: creditAmount
-		};
-		// console.log('shopifyInput: ', shopifyInput);
-		// console.log('airtableInput: ', airtableInput);
-		createReturn(shopifyInput, airtableInput);
+		createReturn(shopifyInput);
 	};
-
 
 	if(loading) { return( <Message text="Loading..." type="loading" />) }
 	if(error) { return( <Message text={`Error: ${error}`} type="error" />) }
 	if(success) { return <Message text="Return request submitted successfully!" type="success" />}
 
-	// console.log('returnable items: ', order.returnableItems)
+
 
 	return (
 		<div className="flex flex-col gap-4 bg-gray-100 shadow-md rounded p-5">
