@@ -2,8 +2,8 @@
 import Link from 'next/link';
 import { getReturn } from '@/app/utils/getReturn';
 import ReturnDetails from '@/app/components/ReturnDetails';
-import getSuggestedRefund from '@/app/utils/getSuggestedRefund';
-import simplifyReturn from '@/app/utils/simplifyReturn';
+import getSuggestedRefund from '@/app/utils/api/getSuggestedRefund';
+import simplifyReturn from '@/app/utils/helpers/simplifyReturn';
 import Cancel from './components/Cancel';
 
 export default async function ReturnPage({ params }) {

@@ -1,6 +1,6 @@
 import OrderItem from "./OrderItem";
 import { DetailItem } from "./Elements";
-import getSuggestedRefund from "@/app/utils/getSuggestedRefund";
+import getSuggestedRefund from "@/app/utils/api/getSuggestedRefund";
 
 export default async function ReturnDetails({ returnData }) {
 

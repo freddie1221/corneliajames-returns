@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getOrder } from "@/app/utils/getOrder";
+import { getOrder } from "@/app/utils/api/getOrder";
 
 
 export async function GET(req, { params }) {

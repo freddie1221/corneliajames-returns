@@ -1,17 +1,12 @@
 import Link from "next/link";
 import ReturnDetails from "@/app/components/ReturnDetails";
-import { Message } from "@/app/components/Elements";
-
 
 export default function ExistingReturns({ returns }) {
-	
-	if (returns.length === 0) return <Message type="info" text="No existing returns" />
 
 	return (
 		<div className="flex flex-col gap-4 items-center bg-gray-100 shadow-md rounded p-5 mb-4">
 			<h2 className="heading-secondary text-center">Existing Returns</h2>
 			{returns.map((returnData, index) => (
-				
 				<Link 
 					href={`/returns/${returnData.id.split('/').pop()}`} 
 					key={index} 
@@ -19,7 +14,6 @@ export default function ExistingReturns({ returns }) {
 				>
 					<ReturnDetails returnData={returnData} />
 				</Link>	
-
 			))}
 		</div>
     );

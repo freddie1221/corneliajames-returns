@@ -1,6 +1,6 @@
 import '@shopify/shopify-api/adapters/node';
 import { createAdminApiClient } from '@shopify/admin-api-client';
-import getSuggestedRefundQuery from '../graphql/queries/getSuggestedRefundQuery';
+import getSuggestedRefundQuery from '../../graphql/queries/getSuggestedRefundQuery';
 
 export default async function getSuggestedRefund(returnData) {
 

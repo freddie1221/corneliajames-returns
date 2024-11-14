@@ -1,6 +1,6 @@
 import '@shopify/shopify-api/adapters/node';
-import getOrderQuery from '../graphql/queries/getOrderQuery';
-import simplifyOrder from './simplifyOrder';
+import getOrderQuery from '../../graphql/queries/getOrderQuery';
+import simplifyOrder from '../helpers/simplifyOrder';
 import { makeGraphQLRequest } from './makeGraphQLRequest';
 
 export async function getOrder(id) {
