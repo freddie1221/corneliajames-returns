@@ -21,7 +21,6 @@ export async function POST(request) {
     });
 
     const response = await client.request(query, { variables: variables });
-    // console.log('Shopify API response: ', response);
 
     return NextResponse.json(response.data);
 

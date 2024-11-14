@@ -24,6 +24,7 @@ export default function simplifyReturn(returnData) {
     id: returnData.id,
     orderId: returnData.order.id.split('/').pop(),
     items: items,
+    currency: items[0].currencyCode,
   }
 
   return returnData

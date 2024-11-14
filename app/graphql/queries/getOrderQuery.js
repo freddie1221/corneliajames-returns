@@ -46,6 +46,11 @@ const getOrderQuery = (id) => `
                   url
                 }
                 currentQuantity
+                discountedUnitPriceAfterAllDiscountsSet {
+                  presentmentMoney {
+                    amount
+                  }
+                }
               }
               quantity
               id

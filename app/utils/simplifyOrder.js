@@ -6,7 +6,6 @@ export default function simplifyOrder(order) {
   // console.log('Raw order: ', order);
  
   const fulfilledItems = order.fulfillments.flatMap(fulfillment => fulfillment.fulfillmentLineItems.nodes);
-  
   // console.log('Fulfilled items: ', fulfilledItems);
 
   const orderItems = fulfilledItems.map(item => {
@@ -15,6 +14,7 @@ export default function simplifyOrder(order) {
       name: item.lineItem.name,
       quantity: item.lineItem.currentQuantity,
       image: item.lineItem.image.url,
+      value: parseFloat(item.lineItem.discountedUnitPriceAfterAllDiscountsSet.presentmentMoney.amount),
       price: parseFloat(item.originalTotalSet.presentmentMoney.amount),
       discount: parseFloat(item.discountedTotalSet.presentmentMoney.amount),
       currencyCode: item.originalTotalSet.presentmentMoney.currencyCode,

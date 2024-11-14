@@ -15,7 +15,6 @@ export function useFetchOrder(orderId) {
           throw new Error('Failed to fetch order');
         }
         const data = await response.json();
-        
         // console.log('order: ', data);
         
         setOrder(data);

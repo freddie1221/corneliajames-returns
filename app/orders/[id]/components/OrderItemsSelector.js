@@ -1,12 +1,12 @@
 'use client';
 
-import { useFetchOrder } from '@/app/hooks/useFetchOrder';
 import OrderItem from '@/app/components/OrderItem';
 import { Message } from '@/app/components/Elements';
+import { useFetchOrder } from '@/app/hooks/useFetchOrder';
 import LoadingSpinner from '@/app/components/LoadingSpinner';
 
 
-export default function OrderItemsSelector({ items, returnLineItems, setReturnLineItems, returnType, orderId }) {
+export default function OrderItemsSelector({ setReturnLineItems, returnType, orderId }) {
   const { order, error, loading } = useFetchOrder(orderId);
 
   const handleSelectItem = (returnLineItem, checked) => {

@@ -1,18 +1,10 @@
-'use client'
-
 import Link from "next/link";
 import ReturnDetails from "@/app/components/ReturnDetails";
-import useExistingReturns from "@/app/hooks/useExistingReturns";
 import { Message } from "@/app/components/Elements";
-import LoadingSpinner from "@/app/components/LoadingSpinner";
 
-export default function ExistingReturns({ orderId }) {
+
+export default function ExistingReturns({ returns }) {
 	
-	const { returns, loading, error } = useExistingReturns(orderId);
-
-
-	if (loading) return <LoadingSpinner />
-	if (error) return <Message type="error" text="Error loading existing returns" />
 	if (returns.length === 0) return <Message type="info" text="No existing returns" />
 
 	return (

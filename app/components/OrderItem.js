@@ -6,7 +6,7 @@ import QuantitySelector from '../orders/[id]/components/QuantitySelector';
 import ReturnReasonTextarea from '../orders/[id]/components/ReturnReasonTextarea';
 
 export default function OrderItem({ item, index, onSelectItem, existingReturn }) {
-  const { id, name, quantity, image, price, discount, currencyCode } = item;
+  const { id, name, quantity, image, value, price, discount, currencyCode } = item;
   const [isChecked, setIsChecked] = useState(false);
   const [returnQuantity, setReturnQuantity] = useState(1)
   const [returnReasonNote, setReturnReasonNote] = useState('');
@@ -47,28 +47,18 @@ export default function OrderItem({ item, index, onSelectItem, existingReturn })
     setIsChecked(checked);
     onSelectItem(createReturnLineItem(), checked);
   };
-  
-  const itemValue = price - discount
 
   return (
     <li className="mb-4 flex flex-col bg-white shadow-md p-4 rounded-lg w-full">
-      <div className="flex flex-row items-center">
+      <div className="flex flex-row items-center mb-4">
         <Image src={image} alt={name} width={80} height={80} />
         <div className="flex-1 w-full ml-4">
           <h3 className="text-lg font-semibold">{name} x {quantity}</h3>
-
-            <div className="max-w-40 w-full mt-1">
-              <div className="flex flex-row justify-between text-sm">
-                <span>Item Value</span> <span> {currencyCode} {itemValue.toFixed(2)}</span>
-              </div>
-              <div className="h-[1px] bg-gray-300 w-full mt-1 mb-2"></div>
-              <div className="flex flex-row justify-between text-xs text-gray-600">
-                <span>Price</span> <span> {currencyCode} {price.toFixed(2)}</span>
-              </div>
-              <div className=" flex flex-row justify-between text-xs text-gray-600 ">
-                <span>Discount</span> <span> {currencyCode} {discount.toFixed(2)}</span>
-              </div>
+          <div className="max-w-40 w-full mt-1">
+            <div className="flex flex-row justify-between text-sm">
+              <span>Value</span> <span> {currencyCode} {value?.toFixed(2)}</span>
             </div>
+          </div>
         </div>
       </div>
       {existingReturn && (

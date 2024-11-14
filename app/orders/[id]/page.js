@@ -2,7 +2,6 @@ import { getOrder } from '@/app/utils/getOrder';
 import ReturnForm from './components/ReturnForm';
 import ExistingReturns from './components/ExistingReturns';
 import OrderDetails from './components/OrderDetails';
-import { Message } from '@/app/components/Elements';
 
 
 export default async function OrderPage({ params }) {
@@ -11,13 +10,10 @@ export default async function OrderPage({ params }) {
   const order = await getOrder(id);
 
 
-  // if (error) { return <Message type="error" text={error} />;}
-
-
   return (
     <div className="container">
         <OrderDetails order={order} />
-        <ExistingReturns orderId={order.id} />
+        <ExistingReturns returns={order.returns} />
         <ReturnForm orderId={order.id} />
     </div>
   );
@@ -27,3 +23,4 @@ export default async function OrderPage({ params }) {
 
 
 
+// 

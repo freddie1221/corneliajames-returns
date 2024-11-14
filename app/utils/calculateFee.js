@@ -1,7 +1,7 @@
 
 
 export default function calculateFee(returnType, itemsCount) {
-  let fee = 0;
+  let fee = 15;
   if(returnType === 'Credit') {
     fee = 100;
   }
