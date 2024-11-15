@@ -7,32 +7,32 @@ import useCreateReturn from '@/app/hooks/useCreateReturn';
 import { Message } from '@/app/components/Elements';
 import calculateFee from '@/app/utils/helpers/calculateFee';
 
-
-
-export default function ReturnForm({ orderId }) {
+export default function ReturnForm({ order }) {
 	
 	const [returnType, setReturnType] = useState('');
 	const [returnLineItems, setReturnLineItems] = useState([]);
-	const [returnValue, setReturnValue] = useState(0);
 	const [itemsCount, setItemsCount] = useState(0);
+	const [returnValue, setReturnValue] = useState(0);
+	const [restockingFee, setRestockingFee] = useState(0);
+	const [restockingFeeExplainer, setRestockingFeeExplainer] = useState('');
 	const { createReturn, loading, error, success } = useCreateReturn();
-	
-	const restockingFee = { percentage: calculateFee(returnType, itemsCount) };
-	const creditAmount = 0
+
 
 	useEffect(() => {
-		console.log('returnLineItems: ', returnLineItems)
-	}, [returnLineItems])
+    const { fee, explainer } = calculateFee(returnType, itemsCount)
+		setRestockingFee(fee);
+		setRestockingFeeExplainer(explainer);
+	}, [returnType, itemsCount])
 
 
 	const handleSubmit = async () => {
 		const lineItemsAndFee = returnLineItems.map((item, index) => ({
 			...item,
-			restockingFee: restockingFee
+			restockingFee: {percentage: restockingFee}
 		}));
 
 		const shopifyInput = { 
-			orderId: `gid://shopify/Order/${orderId}`,
+			orderId: `gid://shopify/Order/${order.id}`,
 			returnLineItems: lineItemsAndFee,
 			notifyCustomer: true
 		};
@@ -43,29 +43,43 @@ export default function ReturnForm({ orderId }) {
 	if(error) { return( <Message text={`Error: ${error}`} type="error" />) }
 	if(success) { return <Message text="Return request submitted successfully!" type="success" />}
 
-
-
 	return (
-		<div className="flex flex-col gap-4 bg-gray-100 shadow-md rounded p-5">
+		<div className="flex flex-col rounded">
 			<OrderItemsSelector 
-				orderId={orderId}
+				orderId={order.id}
 				returnLineItems={returnLineItems}
 				setReturnLineItems={setReturnLineItems}
 				setReturnValue={setReturnValue}
+				setItemsCount={setItemsCount}
 				returnType={returnType}
 			/>
-			<ReturnOptions 
-				setReturnType={setReturnType}
-				returnType={returnType}
-				returnValue={returnValue}
-			/>
-			<button 
-				onClick={handleSubmit}
-				disabled={loading}
-				className={`mt-4 bg-blue-500 text-white px-4 py-2 rounded ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-			>
-				Submit Return Request
-		</button>
+			{itemsCount > 0 && (
+				<>
+					<ReturnOptions 
+						setReturnType={setReturnType}
+						returnType={returnType}
+						itemsCount={itemsCount}
+						returnValue={returnValue}
+						restockingFee={restockingFee}
+						restockingFeeExplainer={restockingFeeExplainer}
+						returnShippingFee={order.returnShippingFee}
+						currencyCode={order.currencyCode}
+					/>
+					<SubmitButton loading={loading} handleSubmit={handleSubmit} />
+				</>
+			)}
 		</div>
 	);
+}
+
+function SubmitButton({ loading, handleSubmit }) {
+  return (
+    <button 
+      onClick={handleSubmit}
+      disabled={loading}
+      className={`btn-primary ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+    >
+      Submit Return Request
+    </button>
+  )
 }

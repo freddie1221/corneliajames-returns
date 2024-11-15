@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@graphql-tools/graphql-file-loader": "^8.0.1",
+    "@heroicons/react": "^2.1.5",
     "@shopify/shopify-api": "^11.1.0",
     "airtable": "^0.12.2",
     "graphql": "^16.9.0",

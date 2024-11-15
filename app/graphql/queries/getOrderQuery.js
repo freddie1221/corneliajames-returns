@@ -28,6 +28,7 @@ const getOrderQuery = (id) => `
           address1
           address2
           city
+          countryCode
           country
           zip
         }
@@ -42,6 +43,7 @@ const getOrderQuery = (id) => `
             nodes {
               lineItem {
                 name
+                requiresShipping
                 image {
                   url
                 }

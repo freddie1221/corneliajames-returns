@@ -38,26 +38,26 @@ body {
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
   .color-primary {
-    @apply bg-gradient-to-r from-blue-500 to-indigo-700 text-white;
+    @apply bg-gradient-to-br from-cream-light to-champagne-light text-navy-dark;
   }
-  .heading-primary {
-    @apply text-xl mt-4 mb-2 font-caslon;
+  
+  .luxury-card {
+    @apply bg-white border border-champagne/20 shadow-sm hover:shadow-md transition-shadow duration-200;
   }
-  .heading-secondary {
-    @apply text-xl font-semibold mt-4 mb-2 uppercase tracking-wider;
+  
+  .luxury-input {
+    @apply border-champagne-dark/30 focus:border-navy/30 focus:ring-navy/20 rounded-sm;
   }
-  .heading-tertiary {
-    @apply text-lg font-semibold uppercase tracking-wider text-center;
-  }
-  .color-primary {
-    @apply bg-gradient-to-r from-blue-500 to-indigo-700 text-white;
-  }
-
+  
   .btn {
-    @apply px-4 py-2 rounded-md font-semibold;
+    @apply px-4 py-2 rounded-sm border border-champagne-dark/20 bg-white 
+           hover:bg-champagne-light transition-colors duration-200 
+           text-navy-dark font-semibold shadow-sm;
+  }
+  
+  .btn-primary {
+    @apply px-4 py-3 rounded-md bg-navy hover:bg-navy 
+           text-white transition-colors duration-200 font-semibold shadow-md;
   }
 }

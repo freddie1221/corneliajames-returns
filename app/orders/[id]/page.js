@@ -9,9 +9,9 @@ export default async function OrderPage({ params }) {
 
   return (
     <div className="container">
-        <OrderDetails order={order} />
-        {order.returns.length > 0 && <ExistingReturns returns={order.returns} />}
-        <ReturnForm orderId={order.id} />
+      <OrderDetails order={order} />
+      {order.returns.length > 0 && <ExistingReturns returns={order.returns} />}
+      <ReturnForm order={order} />
     </div>
   );
 }

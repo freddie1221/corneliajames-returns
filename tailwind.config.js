@@ -14,10 +14,35 @@ module.exports = {
       },
       colors: {
         gold: {
-          DEFAULT: '#d4af37',
-          light: '#f2d675',
-          dark: '#b8860b',
+          DEFAULT: '#B8860B',  // Darker, richer gold
+          light: '#D4AF37',    // Classic gold
+          dark: '#996515',     // Deep antique gold
         },
+        cream: {
+          DEFAULT: '#FDF5E6',  // Old lace
+          light: '#FFFAF0',    // Floral white
+          dark: '#FAF0E6',     // Linen
+        },
+        navy: {
+          DEFAULT: '#051E38',  // Classic navy
+          light: '#1B2B4D',    // Midnight blue
+          dark: '#0F1729',     // Dark navy
+        },
+        stone: {
+          DEFAULT: '#F5F5F5',  // White smoke
+          light: '#FAFAFA',    // Almost white
+          dark: '#E5E5E5',     // Light gray
+        },
+        champagne: {
+          DEFAULT: '#F7E7CE',  // Champagne
+          light: '#FFF8E7',    // Light champagne
+          dark: '#E8D0A9',     // Dark champagne
+        },
+        burgundy: {
+          DEFAULT: '#800020',  // Classic burgundy
+          light: '#A3142D',    // Light burgundy
+          dark: '#4A000F',     // Dark burgundy
+        }
       },
       fontFamily: {
         avenir: ['AvenirNextLTPro', 'sans-serif'],

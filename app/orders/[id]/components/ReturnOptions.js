@@ -1,62 +1,151 @@
 'use client';
 
 import React from 'react';
+import { GiftIcon, CreditCardIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 
-export default function ReturnOptions({ returnValue, setReturnType, returnType,  }) {
-  const totalAmount = returnValue;
-  const totalQuantity = 1
-  const currencyCode = 'GBP'
+export default function ReturnOptions({ setReturnType, returnType, itemsCount, currencyCode, returnValue, restockingFee, returnShippingFee, restockingFeeExplainer }) {
+
+  const feeValue = (returnValue * (restockingFee / 100)).toFixed(2)
+  const refundAmount = (returnValue - feeValue).toFixed(2)
+	const storeCreditAmount = (returnValue * 1.1).toFixed(2)
 
   return (
-    <section className="return-options">
-      <h2 className="heading-secondary text-center">Choose Your Return Option</h2>
+    <section className="max-w-4xl mx-auto py-8">
+      <h2 className="text-3xl font-light text-center mb-12 tracking-wide">Select Your Preferred Return Option</h2>
       
-      <div className="space-y-6">
-        <OptionCard
-          type="Credit"
-          title="Instant Store Credit"
-          subtitle="10% bonus + Free Return Shipping"
-          setReturnType={setReturnType}
-          returnType={returnType}
-        >
-          <p>Your store credit will be emailed to you instantly upon confirming your return. Enjoy a 10% bonus on your original purchase amount, usable immediately in our store.</p>
-          <p>We'll provide a complimentary return label. Please return your original items within 30 days.</p>
-          <p>Items being returned: {totalQuantity}</p>
-          <p className="font-semibold">Store credit amount {currencyCode} {totalAmount}</p>
-        </OptionCard>
-        
-        <OptionCard
-          type="Refund"
-          title="Refund to Original Payment Method"
-          setReturnType={setReturnType}
-          returnType={returnType}
-        >
-          <p>Your refund will be processed to your original payment method upon receipt of the returned items.</p>
-          <p>Items being returned: {totalQuantity}</p>
-          <p>Return shipping: GBP 4.50</p>
-          <p className="font-semibold">Refund amount: {currencyCode} {totalAmount}</p>
-          <p>You may choose to purchase a return label from us or use your preferred shipping service.</p>
-        </OptionCard>
+      <div className="flex flex-col gap-8">
+        <StoreCreditOption 
+          setReturnType={setReturnType} 
+          returnType={returnType} 
+          itemsCount={itemsCount} 
+          currencyCode={currencyCode} 
+          storeCreditAmount={storeCreditAmount} 
+        />
+        {returnType === "Credit" && (
+          <BackButton setReturnType={setReturnType} />
+        )}
+        {returnType !== 'Credit' && (
+          <RefundOption 
+            setReturnType={setReturnType} 
+            returnType={returnType} 
+            itemsCount={itemsCount} 
+            currencyCode={currencyCode} 
+            refundAmount={refundAmount} 
+            returnShippingFee={returnShippingFee} 
+            feeValue={feeValue}
+            restockingFeeExplainer={restockingFeeExplainer}
+          />
+        )}
       </div>
     </section>
   );
 }
 
-function OptionCard({ type, title, subtitle, children, setReturnType, returnType }) {
+function StoreCreditOption({ setReturnType, returnType, itemsCount, currencyCode, storeCreditAmount }) {
   return (
-    <button
-      className={`cursor-pointer rounded-lg p-6 bg-white 
-        ${returnType === type ? 'border-2 border-blue-500' : 'border-2 border-transparent'}
-        hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
-      onClick={() => { setReturnType(type) }}
+    <PremiumOptionCard
+      type="Credit"
+      isSelected={returnType === 'Credit'}
+      setReturnType={setReturnType}
+      className="md:transform md:hover:scale-105 transition-transform duration-300"
     >
-      <div className="flex items-center mb-4">
-        <div>
-          <h3 className="text-xl font-semibold">{title}</h3>
-          {subtitle && <p className="text-sm opacity-80">{subtitle}</p>}
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="text-2xl font-light mb-2">Instant Store Credit</h3>
+            <div className="inline-block bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-sm">
+              Recommended Choice
+            </div>
+          </div>
+          <GiftIcon className={`w-8 h-8 ${returnType === 'Credit' ? 'text-emerald-600' : 'text-gray-400'}`} />
+        </div>
+        
+        <BenefitsList benefits={[
+          { text: `${currencyCode} ${storeCreditAmount} in store credit (10% bonus)`, highlighted: true },
+          'Complimentary return shipping',
+          'Instant credit upon submitting your return',
+          'Valid for 24 months on all purchases'
+        ]} />
+
+        <div className="text-sm text-gray-600 space-y-2">
+          <p>Items being returned: {itemsCount}</p>
+          <p className="text-emerald-600 font-medium">Return shipping: Complimentary</p>
         </div>
       </div>
-      <div className="space-y-2 text-sm">{children}</div>
+    </PremiumOptionCard>
+  )
+}
+
+function RefundOption({ setReturnType, returnType, itemsCount, currencyCode, refundAmount, returnShippingFee, feeValue, restockingFeeExplainer }) {
+  return (
+    <PremiumOptionCard
+      type="Refund"
+      isSelected={returnType === 'Refund'}
+      setReturnType={setReturnType}
+    >
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="text-2xl font-light mb-2">Return for Refund</h3>
+            <div className="inline-block bg-gray-50 text-gray-600 px-3 py-1 rounded-full text-sm">
+              Standard Return
+            </div>
+          </div>
+          <CreditCardIcon className={`w-8 h-8 ${returnType === 'Refund' ? 'text-emerald-600' : 'text-gray-400'}`} />
+        </div>
+
+        <BenefitsList benefits={[
+          { text: `${currencyCode} ${refundAmount} refund to original payment method`, highlighted: false },
+          `Return shipping: ${currencyCode} ${returnShippingFee}`,
+          feeValue > 0 ? `${restockingFeeExplainer}: ${currencyCode} ${feeValue}` : 'No restocking fee',
+          'Refund issued upon receipt & check of the returned items'
+        ]} />
+
+        <div className="text-sm text-gray-500 border-t border-gray-100 pt-4">
+          <p className="mb-2">Items being returned: {itemsCount}</p>
+          <p className="italic">You may choose to purchase a return label from us or use your preferred shipping service.</p>
+        </div>
+      </div>
+    </PremiumOptionCard>
+  )
+}
+
+function PremiumOptionCard({ type, children, isSelected, setReturnType, className = '' }) {
+  return (
+    <button
+      className={`w-full text-left transition-all duration-300 rounded-xl p-8 shadow-md
+        ${isSelected ? 'bg-white shadow-xl border-2 border-gray-200' : 'bg-gray-50 hover:bg-white hover:shadow-lg'}
+        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200
+        ${className}`}
+      onClick={() => setReturnType(type)}
+    >
+      {children}
     </button>
   );
+}
+
+function BenefitsList({ benefits }) {
+  return (
+    <ul className="space-y-3">
+      {benefits.map((benefit, index) => (
+        <li key={index} className="flex items-center gap-2">
+          <CheckCircleIcon className="w-5 h-5 text-emerald-500 flex-shrink-0" />
+          <span className={benefit.highlighted ? 'font-medium text-emerald-700' : 'text-gray-600'}>
+            {typeof benefit === 'string' ? benefit : benefit.text}
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function BackButton({ setReturnType }) {
+  return (
+    <button
+      onClick={() => setReturnType("")}
+      className="text-gray-500 hover:text-gray-700 text-sm font-medium"
+    >
+      ← Back to options
+    </button>
+  )
 }

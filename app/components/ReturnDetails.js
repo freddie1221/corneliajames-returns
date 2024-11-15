@@ -1,4 +1,4 @@
-import OrderItem from "./OrderItem";
+import OrderItem from "../orders/[id]/components/OrderItem";
 import { DetailItem } from "./Elements";
 import getSuggestedRefund from "@/app/utils/api/getSuggestedRefund";
 

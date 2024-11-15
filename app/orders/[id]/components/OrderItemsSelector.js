@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import OrderItem from '@/app/components/OrderItem';
+import OrderItem from '@/app/orders/[id]/components/OrderItem';
 import { Message } from '@/app/components/Elements';
 import { useFetchOrder } from '@/app/hooks/useFetchOrder';
 import LoadingSpinner from '@/app/components/LoadingSpinner';
 
 
-export default function OrderItemsSelector({ setReturnLineItems, returnType, orderId }) {
+export default function OrderItemsSelector({ setReturnLineItems, setReturnValue, setItemsCount, returnType, orderId }) {
   const { order, error, loading } = useFetchOrder(orderId);
-
+  
   const handleSelectItem = (returnLineItem, checked) => {
     if (checked) {
       setReturnLineItems(prev => [...prev, returnLineItem]);
@@ -19,7 +19,6 @@ export default function OrderItemsSelector({ setReturnLineItems, returnType, ord
 
   if (loading) { return <LoadingSpinner /> }
   if (error) { return <Message text={`Error: ${error}`} type="error" /> }
-
 
   return (
     <div className="flex flex-col gap-4 ">
@@ -32,6 +31,8 @@ export default function OrderItemsSelector({ setReturnLineItems, returnType, ord
               index={index}
               item={item} 
               returnType={returnType}
+              setItemsCount={setItemsCount}
+              setReturnValue={setReturnValue}
               onSelectItem={handleSelectItem}
             />
             );

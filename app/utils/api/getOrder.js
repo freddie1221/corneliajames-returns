@@ -13,12 +13,9 @@ export async function getOrder(id) {
       console.error('API error', data);
       throw new Error('Order not found');
     }
-
     const order = simplifyOrder(data.order);
     return order;
-
   } catch (error) {
-
     throw error;
   }
 }

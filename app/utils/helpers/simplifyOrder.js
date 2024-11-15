@@ -1,5 +1,5 @@
 import simplifyReturn from "./simplifyReturn";
-
+import returnShipping from "./returnShipping";
 export default function simplifyOrder(order) {
  
   const fulfilledItems = order.fulfillments.flatMap(fulfillment => fulfillment.fulfillmentLineItems.nodes);
@@ -10,6 +10,7 @@ export default function simplifyOrder(order) {
       name: item.lineItem.name,
       quantity: item.lineItem.currentQuantity,
       image: item.lineItem.image.url,
+      requiresShipping: item.lineItem.requiresShipping,
       value: parseFloat(item.lineItem.discountedUnitPriceAfterAllDiscountsSet.presentmentMoney.amount),
       price: parseFloat(item.originalTotalSet.presentmentMoney.amount),
       discount: parseFloat(item.discountedTotalSet.presentmentMoney.amount),
@@ -27,6 +28,7 @@ export default function simplifyOrder(order) {
     totalPrice: parseFloat(order.subtotalPriceSet.presentmentMoney.amount),
     totalDiscount: parseFloat(order.totalDiscountsSet.presentmentMoney.amount),
     currencyCode: order.subtotalPriceSet.presentmentMoney.currencyCode,
+    returnShippingFee: parseFloat(returnShipping(order.shippingAddress.countryCode)).toFixed(2),
     orderItems: orderItems,
     returnableItems: returnableItems,
     returns: order.returns.nodes.map(returnData => simplifyReturn(returnData)),
