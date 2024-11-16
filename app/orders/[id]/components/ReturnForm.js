@@ -13,22 +13,20 @@ export default function ReturnForm({ order }) {
 	const [returnLineItems, setReturnLineItems] = useState([]);
 	const [itemsCount, setItemsCount] = useState(0);
 	const [returnValue, setReturnValue] = useState(0);
-	const [restockingFee, setRestockingFee] = useState(0);
-	const [restockingFeeExplainer, setRestockingFeeExplainer] = useState('');
+	const [restockingFee, setRestockingFee] = useState();
+	const [includeShipping, setIncludeShipping] = useState(false);
 	const { createReturn, loading, error, success } = useCreateReturn();
 
-
 	useEffect(() => {
-    const { fee, explainer } = calculateFee(returnType, itemsCount)
-		setRestockingFee(fee);
-		setRestockingFeeExplainer(explainer);
+		setRestockingFee(calculateFee(returnType, itemsCount));
+		console.log(restockingFee)
 	}, [returnType, itemsCount])
 
 
 	const handleSubmit = async () => {
 		const lineItemsAndFee = returnLineItems.map((item, index) => ({
 			...item,
-			restockingFee: {percentage: restockingFee}
+			restockingFee: {percentage: restockingFee.fee}
 		}));
 
 		const shopifyInput = { 
@@ -61,9 +59,10 @@ export default function ReturnForm({ order }) {
 						itemsCount={itemsCount}
 						returnValue={returnValue}
 						restockingFee={restockingFee}
-						restockingFeeExplainer={restockingFeeExplainer}
-						returnShippingFee={order.returnShippingFee}
+						returnShipping={order.returnShipping}
 						currencyCode={order.currencyCode}
+						includeShipping={includeShipping}
+						setIncludeShipping={setIncludeShipping}
 					/>
 					<SubmitButton loading={loading} handleSubmit={handleSubmit} />
 				</>

@@ -1,6 +1,6 @@
 
 import Link from 'next/link';
-import { getReturn } from '@/app/utils/getReturn';
+import { getReturn } from '@/app/utils/api/getReturn';
 import ReturnDetails from '@/app/components/ReturnDetails';
 import getSuggestedRefund from '@/app/utils/api/getSuggestedRefund';
 import simplifyReturn from '@/app/utils/helpers/simplifyReturn';

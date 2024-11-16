@@ -1,6 +1,6 @@
 import '@shopify/shopify-api/adapters/node';
 import { createAdminApiClient } from '@shopify/admin-api-client';
-import getReturnQuery from '../graphql/queries/getReturnQuery';
+import getReturnQuery from '@/app/graphql/queries/getReturnQuery';
 
 
 export async function getReturn(id) {

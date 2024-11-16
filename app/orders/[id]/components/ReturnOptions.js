@@ -3,11 +3,23 @@
 import React from 'react';
 import { GiftIcon, CreditCardIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 
-export default function ReturnOptions({ setReturnType, returnType, itemsCount, currencyCode, returnValue, restockingFee, returnShippingFee, restockingFeeExplainer }) {
+export default function ReturnOptions({ 
+  setReturnType, 
+  returnType, 
+  itemsCount, 
+  currencyCode, 
+  returnValue, 
+  restockingFee, 
+  returnShipping, 
+  includeShipping,
+  setIncludeShipping
+}) {
 
-  const feeValue = (returnValue * (restockingFee / 100)).toFixed(2)
-  const refundAmount = (returnValue - feeValue).toFixed(2)
+  const feeValue = (returnValue * (restockingFee.fee / 100)).toFixed(2)
 	const storeCreditAmount = (returnValue * 1.1).toFixed(2)
+  const returnShippingFee = includeShipping ? returnShipping.fee : 0
+  const refundAmount = (returnValue - feeValue - returnShippingFee).toFixed(2)
+
 
   return (
     <section className="max-w-4xl mx-auto py-8">
@@ -20,30 +32,45 @@ export default function ReturnOptions({ setReturnType, returnType, itemsCount, c
           itemsCount={itemsCount} 
           currencyCode={currencyCode} 
           storeCreditAmount={storeCreditAmount} 
+          returnShipping={returnShipping}
         />
         {returnType === "Credit" && (
           <BackButton setReturnType={setReturnType} />
         )}
         {returnType !== 'Credit' && (
-          <RefundOption 
-            setReturnType={setReturnType} 
-            returnType={returnType} 
-            itemsCount={itemsCount} 
-            currencyCode={currencyCode} 
-            refundAmount={refundAmount} 
-            returnShippingFee={returnShippingFee} 
-            feeValue={feeValue}
-            restockingFeeExplainer={restockingFeeExplainer}
-          />
+          <>
+            <RefundOption 
+              setReturnType={setReturnType} 
+              returnType={returnType} 
+              itemsCount={itemsCount} 
+              currencyCode={currencyCode} 
+              refundAmount={refundAmount} 
+              returnShipping={returnShipping}
+              restockingFee={restockingFee}
+              feeValue={feeValue}
+            />
+            <ReturnShipping 
+              returnShipping={returnShipping}
+              includeShipping={includeShipping}
+              setIncludeShipping={setIncludeShipping}
+            />
+          </>
         )}
       </div>
     </section>
   );
 }
 
-function StoreCreditOption({ setReturnType, returnType, itemsCount, currencyCode, storeCreditAmount }) {
+function StoreCreditOption({ setReturnType, returnType, itemsCount, currencyCode, storeCreditAmount, returnShipping }) {
+  
+  const benefits = [
+    { text: `${currencyCode} ${storeCreditAmount} in store credit (10% bonus)`, highlighted: true },
+    `Complimentary ${returnShipping.text}`,
+    'Instant credit upon submitting your return'
+  ];
+  
   return (
-    <PremiumOptionCard
+    <OptionCard
       type="Credit"
       isSelected={returnType === 'Credit'}
       setReturnType={setReturnType}
@@ -60,25 +87,27 @@ function StoreCreditOption({ setReturnType, returnType, itemsCount, currencyCode
           <GiftIcon className={`w-8 h-8 ${returnType === 'Credit' ? 'text-emerald-600' : 'text-gray-400'}`} />
         </div>
         
-        <BenefitsList benefits={[
-          { text: `${currencyCode} ${storeCreditAmount} in store credit (10% bonus)`, highlighted: true },
-          'Complimentary return shipping',
-          'Instant credit upon submitting your return',
-          'Valid for 24 months on all purchases'
-        ]} />
+        <BenefitsList benefits={benefits} />
 
         <div className="text-sm text-gray-600 space-y-2">
           <p>Items being returned: {itemsCount}</p>
           <p className="text-emerald-600 font-medium">Return shipping: Complimentary</p>
         </div>
       </div>
-    </PremiumOptionCard>
+    </OptionCard>
   )
 }
 
-function RefundOption({ setReturnType, returnType, itemsCount, currencyCode, refundAmount, returnShippingFee, feeValue, restockingFeeExplainer }) {
+function RefundOption({ setReturnType, returnType, itemsCount, currencyCode, refundAmount, feeValue, restockingFee }) {
+
+  const benefits = [
+    { text: `${currencyCode} ${refundAmount} refund to original payment method`, highlighted: true },
+    feeValue > 0 ? `${restockingFee.explainer}: ${currencyCode} ${feeValue}` : null,
+    'Refund issued upon receipt & check of the returned items'
+  ].filter(Boolean); // Remove any null values
+
   return (
-    <PremiumOptionCard
+    <OptionCard
       type="Refund"
       isSelected={returnType === 'Refund'}
       setReturnType={setReturnType}
@@ -91,30 +120,40 @@ function RefundOption({ setReturnType, returnType, itemsCount, currencyCode, ref
               Standard Return
             </div>
           </div>
-          <CreditCardIcon className={`w-8 h-8 ${returnType === 'Refund' ? 'text-emerald-600' : 'text-gray-400'}`} />
+          <CreditCardIcon className={`w-8 h-8 ${returnType === 'Refund' ? 'text-navy' : 'text-gray-400'}`} />
         </div>
 
-        <BenefitsList benefits={[
-          { text: `${currencyCode} ${refundAmount} refund to original payment method`, highlighted: false },
-          `Return shipping: ${currencyCode} ${returnShippingFee}`,
-          feeValue > 0 ? `${restockingFeeExplainer}: ${currencyCode} ${feeValue}` : 'No restocking fee',
-          'Refund issued upon receipt & check of the returned items'
-        ]} />
+        <BenefitsList benefits={benefits} color="navy" />
 
         <div className="text-sm text-gray-500 border-t border-gray-100 pt-4">
           <p className="mb-2">Items being returned: {itemsCount}</p>
           <p className="italic">You may choose to purchase a return label from us or use your preferred shipping service.</p>
         </div>
       </div>
-    </PremiumOptionCard>
-  )
+    </OptionCard>
+  );
 }
 
-function PremiumOptionCard({ type, children, isSelected, setReturnType, className = '' }) {
+function BenefitsList({ benefits, color = 'emerald-600' }) {
+  return (
+    <ul className="space-y-3">
+      {benefits.map((benefit, index) => (
+        <li key={index} className="flex items-center gap-2">
+          <CheckCircleIcon className={`w-5 h-5 text-${color} flex-shrink-0`} />
+          <span className={benefit.highlighted ? `font-medium text-${color}` : `text-gray-600`}>
+            {typeof benefit === 'string' ? benefit : benefit.text}
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function OptionCard({ type, children, isSelected, setReturnType, className = '' }) {
   return (
     <button
       className={`w-full text-left transition-all duration-300 rounded-xl p-8 shadow-md
-        ${isSelected ? 'bg-white shadow-xl border-2 border-gray-200' : 'bg-gray-50 hover:bg-white hover:shadow-lg'}
+        ${isSelected ? 'bg-white shadow-xl border-2 border-navy' : 'bg-gray-50 hover:bg-white hover:shadow-lg'}
         focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200
         ${className}`}
       onClick={() => setReturnType(type)}
@@ -124,19 +163,27 @@ function PremiumOptionCard({ type, children, isSelected, setReturnType, classNam
   );
 }
 
-function BenefitsList({ benefits }) {
+function ReturnShipping({ returnShipping, includeShipping, setIncludeShipping }) {
+
   return (
-    <ul className="space-y-3">
-      {benefits.map((benefit, index) => (
-        <li key={index} className="flex items-center gap-2">
-          <CheckCircleIcon className="w-5 h-5 text-emerald-500 flex-shrink-0" />
-          <span className={benefit.highlighted ? 'font-medium text-emerald-700' : 'text-gray-600'}>
-            {typeof benefit === 'string' ? benefit : benefit.text}
-          </span>
-        </li>
-      ))}
-    </ul>
-  );
+    <button
+      className={`w-full text-left transition-all duration-300 rounded-xl p-8 shadow-md
+        ${includeShipping ? 'bg-white shadow-xl border-2 border-navy' : 'bg-gray-50 hover:bg-white hover:shadow-lg'}
+        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200`}
+      onClick={() => setIncludeShipping(!includeShipping)}
+    >
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h3 className="text-xl font-light mb-2">Add Return Shipping Label</h3>
+          <CreditCardIcon className={`w-8 h-8 ${includeShipping ? 'text-navy' : 'text-gray-400'}`} />
+        </div>
+        <BenefitsList benefits={[
+          `${returnShipping.text} Label: GBP ${returnShipping.fee}`,
+          'Simply print label and book collection with DHL'
+        ]}  color="navy" />
+      </div>
+    </button>
+  )
 }
 
 function BackButton({ setReturnType }) {
@@ -144,8 +191,6 @@ function BackButton({ setReturnType }) {
     <button
       onClick={() => setReturnType("")}
       className="text-gray-500 hover:text-gray-700 text-sm font-medium"
-    >
-      ← Back to options
-    </button>
+    >← Back to options</button>
   )
 }
