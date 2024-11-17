@@ -57,7 +57,6 @@ body {
   }
   
   .btn-primary {
-    @apply px-4 py-3 rounded-md bg-navy hover:bg-navy 
-           text-white transition-colors duration-200 font-semibold shadow-md;
+    @apply px-4 py-3 rounded-md text-white transition-colors duration-200 font-semibold shadow-md;
   }
 }

@@ -16,12 +16,11 @@ export default function ReturnForm({ order }) {
 	const [restockingFee, setRestockingFee] = useState();
 	const [includeShipping, setIncludeShipping] = useState(false);
 	const { createReturn, loading, error, success } = useCreateReturn();
+	const color = returnType === 'Credit' ? 'navy' : 'emerald-600'
 
 	useEffect(() => {
 		setRestockingFee(calculateFee(returnType, itemsCount));
-		console.log(restockingFee)
 	}, [returnType, itemsCount])
-
 
 	const handleSubmit = async () => {
 		const lineItemsAndFee = returnLineItems.map((item, index) => ({
@@ -52,31 +51,32 @@ export default function ReturnForm({ order }) {
 				returnType={returnType}
 			/>
 			{itemsCount > 0 && (
-				<>
-					<ReturnOptions 
-						setReturnType={setReturnType}
-						returnType={returnType}
-						itemsCount={itemsCount}
-						returnValue={returnValue}
-						restockingFee={restockingFee}
-						returnShipping={order.returnShipping}
-						currencyCode={order.currencyCode}
-						includeShipping={includeShipping}
-						setIncludeShipping={setIncludeShipping}
-					/>
-					<SubmitButton loading={loading} handleSubmit={handleSubmit} />
-				</>
+				<ReturnOptions 
+					setReturnType={setReturnType}
+					returnType={returnType}
+					itemsCount={itemsCount}
+					returnValue={returnValue}
+					restockingFee={restockingFee}
+					returnShipping={order.returnShipping}
+					currencyCode={order.currencyCode}
+					includeShipping={includeShipping}
+					setIncludeShipping={setIncludeShipping}
+				/>
+			)}
+			{itemsCount > 0 && returnType && (
+				<SubmitButton loading={loading} handleSubmit={handleSubmit} returnType={returnType} />
 			)}
 		</div>
 	);
 }
 
-function SubmitButton({ loading, handleSubmit }) {
+function SubmitButton({ loading, handleSubmit, returnType }) {
+	const color = returnType === 'Credit' ? 'bg-emerald-600' : 'bg-navy'
   return (
     <button 
       onClick={handleSubmit}
       disabled={loading}
-      className={`btn-primary ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+      className={`btn-primary ${color} ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
     >
       Submit Return Request
     </button>

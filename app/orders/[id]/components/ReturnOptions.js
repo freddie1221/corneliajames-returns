@@ -20,9 +20,8 @@ export default function ReturnOptions({
   const returnShippingFee = includeShipping ? returnShipping.fee : 0
   const refundAmount = (returnValue - feeValue - returnShippingFee).toFixed(2)
 
-
   return (
-    <section className="max-w-4xl mx-auto py-8">
+    <section className="py-8">
       <h2 className="text-3xl font-light text-center mb-12 tracking-wide">Select Your Preferred Return Option</h2>
       
       <div className="flex flex-col gap-8">
@@ -74,6 +73,7 @@ function StoreCreditOption({ setReturnType, returnType, itemsCount, currencyCode
       type="Credit"
       isSelected={returnType === 'Credit'}
       setReturnType={setReturnType}
+      borderColor="border-emerald-600"
       className="md:transform md:hover:scale-105 transition-transform duration-300"
     >
       <div className="space-y-6">
@@ -111,6 +111,7 @@ function RefundOption({ setReturnType, returnType, itemsCount, currencyCode, ref
       type="Refund"
       isSelected={returnType === 'Refund'}
       setReturnType={setReturnType}
+      borderColor="border-navy"
     >
       <div className="space-y-6">
         <div className="flex items-center justify-between">
@@ -124,7 +125,6 @@ function RefundOption({ setReturnType, returnType, itemsCount, currencyCode, ref
         </div>
 
         <BenefitsList benefits={benefits} color="navy" />
-
         <div className="text-sm text-gray-500 border-t border-gray-100 pt-4">
           <p className="mb-2">Items being returned: {itemsCount}</p>
           <p className="italic">You may choose to purchase a return label from us or use your preferred shipping service.</p>
@@ -149,11 +149,11 @@ function BenefitsList({ benefits, color = 'emerald-600' }) {
   );
 }
 
-function OptionCard({ type, children, isSelected, setReturnType, className = '' }) {
+function OptionCard({ type, children, isSelected, setReturnType, className, borderColor = 'border-emerald-600' }) {
   return (
     <button
       className={`w-full text-left transition-all duration-300 rounded-xl p-8 shadow-md
-        ${isSelected ? 'bg-white shadow-xl border-2 border-navy' : 'bg-gray-50 hover:bg-white hover:shadow-lg'}
+        ${isSelected ? `bg-white shadow-xl border-2 ${borderColor}` : `bg-gray-50 hover:bg-white hover:shadow-lg`}
         focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200
         ${className}`}
       onClick={() => setReturnType(type)}
