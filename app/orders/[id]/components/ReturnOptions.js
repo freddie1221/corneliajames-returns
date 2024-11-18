@@ -178,6 +178,12 @@ function OptionCard({ type, children, isSelected, setReturnType, className, bord
 }
 
 function ReturnShipping({ returnShipping, includeShipping, setIncludeShipping }) {
+  
+  const benefits = [
+    {text: `${returnShipping.text} Label: GBP ${returnShipping.fee}`, highlighted: true},
+    'Simply print label and book collection with DHL'
+  ]
+  
   return (
     <button
       className={`w-full text-left transition-all duration-300 rounded-xl p-8 shadow-md
@@ -187,13 +193,10 @@ function ReturnShipping({ returnShipping, includeShipping, setIncludeShipping })
     >
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h3 className="text-xl font-light mb-2">Add Return Shipping Label</h3>
+          <h3 className="text-xl font-light mb-2">Include Return Shipping Label</h3>
           <PaperAirplaneIcon className={`w-8 h-8 ${includeShipping ? 'text-navy' : 'text-gray-400'}`} />
         </div>
-        <BenefitsList benefits={[
-          `${returnShipping.text} Label: GBP ${returnShipping.fee}`,
-          'Simply print label and book collection with DHL'
-        ]}  color="navy" />
+        <BenefitsList benefits={benefits} color="navy" />
       </div>
     </button>
   )

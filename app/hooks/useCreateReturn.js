@@ -21,7 +21,7 @@ export default function useCreateReturn() {
 
 			setSuccess(true);
 			const data = await response.json();
-			console.log('useCreateReturn data: ', data);
+			// console.log('useCreateReturn data: ', data);
 			const returnId = data.returnCreate.return.id.split('/').pop();
 			router.push(`/returns/${returnId}`);
 

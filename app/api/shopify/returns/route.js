@@ -7,7 +7,7 @@ import '@shopify/shopify-api/adapters/node';
 export async function POST(request) {
 
   const { returnInput } = await request.json(); // Parse the request body
-  console.log('returnInput: ', returnInput);
+  // console.log('returnInput: ', returnInput);
 
   const variables = { returnInput: returnInput }; // Define variables separately
 

@@ -4,8 +4,39 @@ export const RETURN_FIELDS_FRAGMENT = `
     status
     totalQuantity
     id
+    returnShippingFees {
+      amountSet {
+  			presentmentMoney {
+          currencyCode
+          amount
+        }
+      }
+    }
+    reverseFulfillmentOrders(first: 10) {
+      nodes {
+        reverseDeliveries(first: 10) {
+          nodes {
+            deliverable {
+              ... on ReverseDeliveryShippingDeliverable {
+                label {
+                  publicFileUrl
+                }
+                tracking {
+                  number
+                  carrierName
+                  url
+                }
+              }
+            }
+          }
+        }
+      }
+    }
     order {
       id
+      shippingAddress {
+        countryCodeV2
+      }
     }
     returnLineItems(first: 10) {
       nodes {

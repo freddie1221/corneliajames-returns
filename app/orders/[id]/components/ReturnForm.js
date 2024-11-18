@@ -23,7 +23,7 @@ export default function ReturnForm({ order }) {
 	useEffect(() => {
 		setRestockingFee(calculateFee(returnType, itemsCount));
 		includeShipping ? setShippingFee(order.returnShipping.fee) : setShippingFee(0)
-	}, [returnType, itemsCount])
+	}, [returnType, itemsCount, includeShipping])
 
 	const handleSubmit = async () => {
 		const lineItemsAndFee = returnLineItems.map((item, index) => ({

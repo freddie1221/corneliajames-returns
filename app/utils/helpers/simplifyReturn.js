@@ -25,7 +25,16 @@ export default function simplifyReturn(returnData) {
     orderId: returnData.order.id.split('/').pop(),
     items: items,
     currency: items[0].currencyCode,
+    countryCode: returnData.order.shippingAddress.countryCodeV2,
+    restockingFeePercentage: parseFloat(items[0].restockingFee),
+    returnType: parseFloat(items[0].restockingFee) === 100 ? 'Credit' : 'Refund',
+    returnShippingFee: returnData.returnShippingFees?.[0].amountSet.presentmentMoney.amount,
+    returnDocuments: returnData.reverseFulfillmentOrders.nodes[0].reverseDeliveries.nodes[0]?.deliverable.label.publicFileUrl,
+    returnTrackingURL: returnData.reverseFulfillmentOrders.nodes[0].reverseDeliveries.nodes[0]?.deliverable.tracking.url,
+    returnTrackingNumber: returnData.reverseFulfillmentOrders.nodes[0].reverseDeliveries.nodes[0]?.deliverable.tracking.number,
+    returnTrackingCarrier: returnData.reverseFulfillmentOrders.nodes[0].reverseDeliveries.nodes[0]?.deliverable.tracking.carrierName,
   }
 
+  // console.log(returnData)
   return returnData
 }

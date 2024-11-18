@@ -16,9 +16,9 @@ export function ErrorMessage({text}) {
 }
 
 
-export function DetailItem({ label, value, fullWidth = false }) {
+export function DetailItem({ label, value, align = "items-center" }) {
   return (
-    <div className="flex flex-col items-center">
+    <div className={`flex flex-col ${align}`}>
       <span className="text-gray-600 text-sm">{label}</span>
       <span className="font-semibold text-md">{value}</span>
     </div>
