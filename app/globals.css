@@ -38,6 +38,14 @@ body {
 }
 
 @layer utilities {
+  .heading-primary {
+    @apply text-xl mb-4 uppercase tracking-wider text-center;
+  }
+
+  .heading-secondary {
+    @apply text-lg my-3 uppercase tracking-wider text-center;
+  }
+
   .color-primary {
     @apply bg-gradient-to-br from-cream-light to-champagne-light text-navy-dark;
   }

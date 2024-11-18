@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import LoadingSpinner from './LoadingSpinner';
+import { ErrorMessage } from './Elements';
 
 export default function FindOrder() {
   const [email, setEmail] = useState('');
@@ -37,7 +38,6 @@ export default function FindOrder() {
 
       if (response.ok) {
         const orderId = await response.json();
-        console.log('Order found', orderId);
         router.push(`/orders/${orderId}`);
       } else {
         setError('Order not found');
@@ -50,39 +50,38 @@ export default function FindOrder() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Order Lookup</h1>
-      <form onSubmit={handleSubmit} className="max-w-md">
-        <div className="mb-4">
-          <label htmlFor="email" className="block mb-2">Email:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-3 py-2 border rounded"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="orderNumber" className="block mb-2">Order Number:</label>
-          <input
-            type="text"
-            id="orderNumber"
-            value={orderNumber}
-            onChange={(e) => setOrderNumber(e.target.value)}
-            className="w-full px-3 py-2 border rounded"
-            required
-            pattern="\d{5}"
-          />
-        </div>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
-        {loading ? ( <LoadingSpinner /> ) : (
-          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
-            Look up Order
-          </button>
-        )}
-      </form>
-    </div>
+    <form onSubmit={handleSubmit} className="w-full max-w-md flex flex-col space-y-4">
+      <div>
+        <label htmlFor="email" className="block">Email</label>
+        <div className="text-sm text-gray-500 mb-2">The email address used to place the order</div>
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="w-full px-3 py-2 border rounded"
+          required
+        />
+      </div>
+      <div>
+        <label htmlFor="orderNumber" className="block">Order Number</label>
+        <div className="text-sm text-gray-500 mb-2">A 5 digit number beginning with #</div>
+        <input
+          type="number"
+          id="orderNumber"
+          value={orderNumber}
+          onChange={(e) => setOrderNumber(e.target.value)}
+          className="w-full px-3 py-2 border rounded"
+          required
+          pattern="\d{5}"
+        />
+      </div>
+      {loading ? ( <LoadingSpinner /> ) : (
+        <button type="submit" className="btn-primary bg-navy w-full">
+          Start Return / Exchange
+        </button>
+      )}
+      {error && <ErrorMessage text={error} />}
+    </form>
   );
 }

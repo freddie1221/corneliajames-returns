@@ -1,10 +1,18 @@
 
 export function Message({text}) {
-    return (
-        <div className="rounded-md bg-gray-100 p-4 text-center">
-          {text}
-        </div>
-    );
+  return (
+    <div className="rounded-md bg-gray-100 p-4 text-center">
+      {text}
+    </div>
+  );
+}
+
+export function ErrorMessage({text}) {
+  return (
+    <div className="rounded-md bg-navy bg-opacity-10 p-4 text-center">
+      {text}
+    </div>
+  );
 }
 
 

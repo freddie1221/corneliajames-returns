@@ -21,8 +21,8 @@ export default function OrderItemsSelector({ setReturnLineItems, setReturnValue,
   if (error) { return <Message text={`Error: ${error}`} type="error" /> }
 
   return (
-    <div className="flex flex-col gap-4 ">
-      <h2 className="heading-secondary text-center">Items in your order</h2>
+    <div className="">
+      <h2 className="heading-secondary">Items in your order</h2>
       <ul className="flex flex-col gap-3 w-full">
         {order.returnableItems.map((item, index) => {
           return (
