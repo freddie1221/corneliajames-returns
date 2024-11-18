@@ -13,13 +13,16 @@ export default function ReturnForm({ order }) {
 	const [returnLineItems, setReturnLineItems] = useState([]);
 	const [itemsCount, setItemsCount] = useState(0);
 	const [returnValue, setReturnValue] = useState(0);
+	const [includeShipping, setIncludeShipping] = useState(true);
 	const [restockingFee, setRestockingFee] = useState();
-	const [includeShipping, setIncludeShipping] = useState(false);
+	const [shippingFee, setShippingFee] = useState(0)
+	const [confirmation, setConfirmation] = useState(false);
 	const { createReturn, loading, error, success } = useCreateReturn();
-	const color = returnType === 'Credit' ? 'navy' : 'emerald-600'
+
 
 	useEffect(() => {
 		setRestockingFee(calculateFee(returnType, itemsCount));
+		includeShipping ? setShippingFee(order.returnShipping.fee) : setShippingFee(0)
 	}, [returnType, itemsCount])
 
 	const handleSubmit = async () => {
@@ -28,12 +31,18 @@ export default function ReturnForm({ order }) {
 			restockingFee: {percentage: restockingFee.fee}
 		}));
 
-		const shopifyInput = { 
+		const returnPayload = { 
 			orderId: `gid://shopify/Order/${order.id}`,
+			returnShippingFee: {
+        amount: {
+          amount: shippingFee,
+          currencyCode: "GBP"
+        }
+      },
 			returnLineItems: lineItemsAndFee,
 			notifyCustomer: true
 		};
-		createReturn(shopifyInput);
+		createReturn(returnPayload);
 	};
 
 	if(loading) { return( <Message text="Loading..." type="loading" />) }
@@ -61,21 +70,29 @@ export default function ReturnForm({ order }) {
 					currencyCode={order.currencyCode}
 					includeShipping={includeShipping}
 					setIncludeShipping={setIncludeShipping}
+					shippingFee={shippingFee}
+					setConfirmation={setConfirmation}
+					confirmation={confirmation}
 				/>
 			)}
-			{itemsCount > 0 && returnType && (
-				<SubmitButton loading={loading} handleSubmit={handleSubmit} returnType={returnType} />
+			{itemsCount > 0 && returnType && confirmation && (
+				<SubmitButton 
+					loading={loading} 
+					handleSubmit={handleSubmit} 
+					confirmation={confirmation} 
+					returnType={returnType}
+				/>
 			)}
 		</div>
 	);
 }
 
-function SubmitButton({ loading, handleSubmit, returnType }) {
+function SubmitButton({ loading, handleSubmit, returnType, confirmation }) {
 	const color = returnType === 'Credit' ? 'bg-emerald-600' : 'bg-navy'
   return (
     <button 
       onClick={handleSubmit}
-      disabled={loading}
+      disabled={!confirmation || loading}
       className={`btn-primary ${color} ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
     >
       Submit Return Request

@@ -29,7 +29,7 @@ module.exports = {
           dark: '#0F1729',     // Dark navy
         },
         stone: {
-          DEFAULT: '#F5F5F5',  // White smoke
+          DEFAULT: '#F6F3ED',  // White smoke
           light: '#FAFAFA',    // Almost white
           dark: '#E5E5E5',     // Light gray
         },

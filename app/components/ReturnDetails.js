@@ -4,36 +4,26 @@ import getSuggestedRefund from "@/app/utils/api/getSuggestedRefund";
 
 export default async function ReturnDetails({ returnData }) {
 
-  if (!returnData) return nul
-
-  const suggestedRefund = await getSuggestedRefund(returnData)
-  const currencyCode = returnData.currency
-
-
-  return (
-    <div className="flex flex-col gap-4 border rounded-md w-full p-5">
-
-      <div className="flex justify-between ">
-        <DetailItem label="Return Name" value={returnData.name} />
-        <DetailItem label="Return Status" value={returnData.status} />
-        <DetailItem label="Refund" value={`${currencyCode} ${suggestedRefund}`} />
-      </div>
-      
-
-      <h2 className="heading-tertiary">Items</h2>
-        <div className="flex flex-col gap-4 w-full">
-          {returnData.items.map((item, index) => (
-            <OrderItem 
-              item={item}
-              index={index}
-              key={index}
-              existingReturn={true}
-            />
-          ))}
+    if (!returnData) return nul
+  
+    const suggestedRefund = await getSuggestedRefund(returnData)
+    const currencyCode = returnData.currency
+  
+    return (
+      <div className="flex justify-between flex flex-col gap-4 rounded-md w-full ">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <DetailItem label="Return Reference" value={returnData.name} />
+          <DetailItem label="Return Status" value={returnData.status} />
+          <DetailItem label="Refund Amount" value={`${currencyCode} ${suggestedRefund}`} />
         </div>
-        <div className="text-xs text-center">
-          ID: {returnData.id.split('/').pop()}
-        </div>
+        {returnData.items.map((item, index) => (
+          <OrderItem 
+            item={item}
+            index={index}
+            key={index}
+            existingReturn={true}
+          />
+        ))}
       </div>
-  )
-}
+    )
+  }

@@ -13,7 +13,7 @@ export default function Cancel({ returnId, orderId }) {
 
   return (
     <button
-      className="btn color-primary"
+      className="btn-primary"
       onClick={() => {
         cancelReturn(returnId);
         router.push(`/orders/${orderId}`);

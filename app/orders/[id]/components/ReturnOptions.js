@@ -1,7 +1,6 @@
 'use client';
 
-import React from 'react';
-import { GiftIcon, CreditCardIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
+import { GiftIcon, CreditCardIcon, CheckCircleIcon, PaperAirplaneIcon, ArrowUturnLeftIcon } from '@heroicons/react/24/outline';
 
 export default function ReturnOptions({ 
   setReturnType, 
@@ -10,15 +9,21 @@ export default function ReturnOptions({
   currencyCode, 
   returnValue, 
   restockingFee, 
-  returnShipping, 
+  returnShipping,
+  shippingFee,
   includeShipping,
-  setIncludeShipping
+  setIncludeShipping,
+  confirmation,
+  setConfirmation
 }) {
-
+  
   const feeValue = (returnValue * (restockingFee.fee / 100)).toFixed(2)
 	const storeCreditAmount = (returnValue * 1.1).toFixed(2)
-  const returnShippingFee = includeShipping ? returnShipping.fee : 0
-  const refundAmount = (returnValue - feeValue - returnShippingFee).toFixed(2)
+
+  
+  const refundAmount = (returnValue - feeValue - shippingFee).toFixed(2)
+  const textColor = returnType === 'Credit' ? 'text-emerald-600' : 'text-navy'
+  const borderColor = returnType === 'Credit' ? 'border-emerald-600' : 'border-navy'
 
   return (
     <section className="py-8">
@@ -37,23 +42,31 @@ export default function ReturnOptions({
           <BackButton setReturnType={setReturnType} />
         )}
         {returnType !== 'Credit' && (
-          <>
-            <RefundOption 
-              setReturnType={setReturnType} 
-              returnType={returnType} 
-              itemsCount={itemsCount} 
-              currencyCode={currencyCode} 
-              refundAmount={refundAmount} 
-              returnShipping={returnShipping}
-              restockingFee={restockingFee}
-              feeValue={feeValue}
-            />
-            <ReturnShipping 
-              returnShipping={returnShipping}
-              includeShipping={includeShipping}
-              setIncludeShipping={setIncludeShipping}
-            />
-          </>
+          <RefundOption 
+            setReturnType={setReturnType} 
+            returnType={returnType} 
+            itemsCount={itemsCount} 
+            currencyCode={currencyCode} 
+            refundAmount={refundAmount} 
+            returnShipping={returnShipping}
+            restockingFee={restockingFee}
+            feeValue={feeValue}
+          />
+        )}
+        {returnType === 'Refund' && (
+          <ReturnShipping 
+            returnShipping={returnShipping}
+            includeShipping={includeShipping}
+            setIncludeShipping={setIncludeShipping}
+          />
+        )}
+        {returnType && (
+          <Confirmation 
+            confirmation={confirmation} 
+            setConfirmation={setConfirmation} 
+            textColor={textColor} 
+            borderColor={borderColor}
+          />
         )}
       </div>
     </section>
@@ -104,7 +117,7 @@ function RefundOption({ setReturnType, returnType, itemsCount, currencyCode, ref
     { text: `${currencyCode} ${refundAmount} refund to original payment method`, highlighted: true },
     feeValue > 0 ? `${restockingFee.explainer}: ${currencyCode} ${feeValue}` : null,
     'Refund issued upon receipt & check of the returned items'
-  ].filter(Boolean); // Remove any null values
+  ].filter(Boolean); 
 
   return (
     <OptionCard
@@ -112,6 +125,7 @@ function RefundOption({ setReturnType, returnType, itemsCount, currencyCode, ref
       isSelected={returnType === 'Refund'}
       setReturnType={setReturnType}
       borderColor="border-navy"
+      className=""
     >
       <div className="space-y-6">
         <div className="flex items-center justify-between">
@@ -154,7 +168,7 @@ function OptionCard({ type, children, isSelected, setReturnType, className, bord
     <button
       className={`w-full text-left transition-all duration-300 rounded-xl p-8 shadow-md
         ${isSelected ? `bg-white shadow-xl border-2 ${borderColor}` : `bg-gray-50 hover:bg-white hover:shadow-lg`}
-        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200
+        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 md:transform transition-transform duration-300
         ${className}`}
       onClick={() => setReturnType(type)}
     >
@@ -164,24 +178,40 @@ function OptionCard({ type, children, isSelected, setReturnType, className, bord
 }
 
 function ReturnShipping({ returnShipping, includeShipping, setIncludeShipping }) {
-
   return (
     <button
       className={`w-full text-left transition-all duration-300 rounded-xl p-8 shadow-md
         ${includeShipping ? 'bg-white shadow-xl border-2 border-navy' : 'bg-gray-50 hover:bg-white hover:shadow-lg'}
-        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200`}
+        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 md:transform transition-transform duration-300`}
       onClick={() => setIncludeShipping(!includeShipping)}
     >
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <h3 className="text-xl font-light mb-2">Add Return Shipping Label</h3>
-          <CreditCardIcon className={`w-8 h-8 ${includeShipping ? 'text-navy' : 'text-gray-400'}`} />
+          <PaperAirplaneIcon className={`w-8 h-8 ${includeShipping ? 'text-navy' : 'text-gray-400'}`} />
         </div>
         <BenefitsList benefits={[
           `${returnShipping.text} Label: GBP ${returnShipping.fee}`,
           'Simply print label and book collection with DHL'
         ]}  color="navy" />
       </div>
+    </button>
+  )
+}
+
+function Confirmation({ confirmation, setConfirmation, textColor, borderColor }) {
+  return (
+    <button
+      className={`w-full text-left transition-all duration-300 rounded-xl p-8 shadow-md
+        ${confirmation ? `bg-white shadow-xl border-2 ${borderColor}` : 'bg-gray-50 hover:bg-white hover:shadow-lg'}
+        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 md:transform transition-transform duration-300`}
+      onClick={() => setConfirmation(!confirmation)}
+    >
+        <div className="flex items-center justify-between  mb-2">
+          <h3 className="text-xl font-light">Confirmation</h3>
+          <CheckCircleIcon className={`w-8 h-8 ${textColor}`} />
+        </div>
+        <p className="text-gray-500">Please confirm that the item/s you are returning to us have not been worn or used in any way, and as such are in brand new condition.</p>
     </button>
   )
 }
