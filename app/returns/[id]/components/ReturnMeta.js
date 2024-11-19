@@ -1,5 +1,5 @@
 import React from 'react'
-import useReturnMeta from '../hooks/useReturnMeta'
+import useReturnMeta from '../../../hooks/useReturnMeta'
 import { Message, DetailItem } from '@/app/components/Elements/'
 
 

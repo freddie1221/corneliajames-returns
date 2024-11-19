@@ -1,6 +1,6 @@
 
 
-import { DetailItem } from "./Elements";
+import { DetailItem } from "../../../components/Elements";
 import ReturnItem from "./ReturnItem"
 import getSuggestedRefund from "@/app/utils/api/getSuggestedRefund";
 

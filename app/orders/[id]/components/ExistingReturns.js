@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ReturnDetails from "@/app/components/ReturnDetails";
+import ReturnDetails from "@/app/returns/[id]/components/ReturnDetails";
 
 export default function ExistingReturns({ returns }) {
 

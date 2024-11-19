@@ -1,16 +1,19 @@
-import { DetailItem } from "./Elements";
-
+import { DetailItem } from "../../../components/Elements";
+import GetLabel from "./GetLabelButton";
 
 export default function ReturnDocuments({ returnData }) {
   return (
     <div>
       <h2 className="heading-secondary">Return Shipping</h2>
+      <GetLabel returnData={returnData} />
       {returnData.returnDocuments && returnData.countryCode !== 'GB' ? <ReturnDocumentsContent returnData={returnData} /> : ''}
       {!returnData.returnDocuments && returnData.countryCode !== 'GB' ? 'Please wait a moment while your documents are being generated...' : ''}
       {returnData.countryCode === 'GB' ? <RoyalMailInfo /> : ''}
     </div>
   )
 }
+
+
 
 function ReturnDocumentsContent({ returnData }) {
   return (

@@ -14,6 +14,12 @@ export const RETURN_FIELDS_FRAGMENT = `
     }
     reverseFulfillmentOrders(first: 10) {
       nodes {
+        id
+        order {
+          shippingAddress {
+            countryCodeV2
+          }
+        }
         reverseDeliveries(first: 10) {
           nodes {
             deliverable {
