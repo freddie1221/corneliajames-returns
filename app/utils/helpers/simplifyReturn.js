@@ -1,6 +1,8 @@
 
 
 export default function simplifyReturn(returnData) {
+
+  console.log(returnData)
   
   const items = returnData.returnLineItems.nodes.map(item => {
     return {
@@ -10,9 +12,6 @@ export default function simplifyReturn(returnData) {
       returnReason: item.returnReason,
       name: item.fulfillmentLineItem.lineItem.name,
       image: item.fulfillmentLineItem.lineItem.image.url,
-      price: parseFloat(item.fulfillmentLineItem.originalTotalSet.presentmentMoney.amount),
-      discount: parseFloat(item.fulfillmentLineItem.discountedTotalSet.presentmentMoney.amount),
-      currencyCode: item.fulfillmentLineItem.originalTotalSet.presentmentMoney.currencyCode,
       restockingFee: item.restockingFee?.percentage || 0,
     }
   })
@@ -24,7 +23,7 @@ export default function simplifyReturn(returnData) {
     id: returnData.id,
     orderId: returnData.order.id.split('/').pop(),
     items: items,
-    currency: items[0].currencyCode,
+    currency: "GBP",
     countryCode: returnData.order.shippingAddress.countryCodeV2,
     shippingAddress: returnData.order.shippingAddress,
     restockingFeePercentage: parseFloat(items[0].restockingFee),
@@ -40,6 +39,5 @@ export default function simplifyReturn(returnData) {
     },
   }
 
-  // console.log(returnData)
   return returnData
 }

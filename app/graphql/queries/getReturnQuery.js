@@ -5,6 +5,47 @@ const getReturnQuery = (id) => `
   {
     return(id: "gid://shopify/Return/${id}") {
       ...ReturnFields
+      order {
+        id
+        shippingAddress {
+          name
+          company
+          address1
+          address2
+          city
+          provinceCode
+          zip
+          countryCodeV2
+          phone
+        }
+      }
+      reverseFulfillmentOrders(first: 10) {
+        nodes {
+          id
+          lineItems(first:100) {
+            nodes {
+              totalQuantity
+              id
+            }
+          }
+          reverseDeliveries(first: 10) {
+            nodes {
+              deliverable {
+                ... on ReverseDeliveryShippingDeliverable {
+                  label {
+                    publicFileUrl
+                  }
+                  tracking {
+                    number
+                    carrierName
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 `;

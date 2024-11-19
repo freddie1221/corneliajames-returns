@@ -1,4 +1,4 @@
-import simplifyReturn from "./simplifyReturn";
+import summariseReturn from "./summariseReturn";
 import returnShipping from "./calculateShipping";
 export default function simplifyOrder(order) {
  
@@ -32,7 +32,7 @@ export default function simplifyOrder(order) {
     returnShipping: returnShipping(order.shippingAddress.countryCode),
     orderItems: orderItems,
     returnableItems: returnableItems,
-    returns: order.returns.nodes.map(returnData => simplifyReturn(returnData)),
+    returns: order.returns.nodes.map(returnData => summariseReturn(returnData)),
   }
   
   return order

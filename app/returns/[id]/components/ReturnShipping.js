@@ -33,15 +33,19 @@ function InternationalShipping({ returnData }){
   if(returnData.returnDocs.label) return <ReturnDocs returnDocs={returnData.returnDocs} />
   if(isLoading) return <LoadingSpinner />
   if(error) return <Message text={error} />
-  if(!success) return <button className="btn-primary" onClick={() => getLabel(returnData)}>Get Label</button>
-  
+  if(!success) return( 
+    <div className="flex flex-col gap-4 items-center">
+      <p className="text-sm text-center">Click here below to generate your return label.</p>
+      <button className="btn-primary max-w-[50%] " onClick={() => getLabel(returnData)}>Get Label</button>
+    </div>
+  )
 }
 
 function ReturnDocs({ returnDocs }){
   return (
     <div className="flex flex-row justify-between">
       <div className="flex flex-col gap-2">
-        <DetailItem label="Carrier" value={returnDocs.carrier} align="items-start" />
+        <DetailItem label="Carrier" value="DHL Express" align="items-start" />
         <DetailItem label="Tracking Number" value={returnDocs.number} align="items-start" />
       </div>
       <div className="flex flex-col gap-2">

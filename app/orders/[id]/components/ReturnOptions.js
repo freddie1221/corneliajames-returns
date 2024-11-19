@@ -214,7 +214,10 @@ function Confirmation({ confirmation, setConfirmation, textColor, borderColor })
           <h3 className="text-xl font-light">Confirmation</h3>
           <CheckCircleIcon className={`w-8 h-8 ${textColor}`} />
         </div>
-        <p className="text-gray-500">Please confirm that the item/s you are returning to us have not been worn or used in any way, and as such are in brand new condition.</p>
+        <p className="text-gray-500">
+          Please confirm that the item/s you are returning to us have not been worn or used in any way, and as such are in brand new condition.
+          If you have any doubts in this respect, please do contact us first.
+        </p>
     </button>
   )
 }

@@ -7,7 +7,7 @@ export default function ReturnItem({ item }) {
   return (
     <li className="mb-4 flex flex-col bg-white border border-gray-200 shadow-md p-4 rounded-lg w-full">
       <div className="flex flex-row items-center">
-        <Image src={image} alt={name} width={100} height={80} />
+        <Image src={image} alt={name} width={100} height={80} className="rounded-md"/>
         <div className="flex-1 w-full ml-4">
           <h3 className="text-lg font-semibold">{name}</h3>
           
