@@ -12,6 +12,7 @@ export default function OrderItem({ item, onSelectItem, setItemsCount, setReturn
   
 
   const handleReasonChange = (e) => {
+    setReturnReasonMissing(false);
     setReturnReasonNote(e.target.value);
   };
 
@@ -38,7 +39,6 @@ export default function OrderItem({ item, onSelectItem, setItemsCount, setReturn
 
   const handleSelectChange = (e) => {
     const checked = e.target.checked;
-    setReturnReasonMissing(false);
 
     if (!returnReasonNote) {
       setReturnReasonMissing(true);
@@ -64,7 +64,7 @@ export default function OrderItem({ item, onSelectItem, setItemsCount, setReturn
   };
 
   return (
-    <li className="flex md:flex-row flex-col mb-4 bg-white shadow-md p-2 md:p-4 rounded-lg w-full justify-between">
+    <li className="flex md:flex-row flex-col mb-4 bg-white shadow-md p-2 md:p-5 rounded-lg w-full justify-between">
       <div className="flex w-full">
         <Image src={image} alt={name} width={130} height={130} className="rounded-md" />
         
