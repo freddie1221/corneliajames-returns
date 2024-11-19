@@ -4,7 +4,7 @@ import { getReturn } from '@/app/utils/api/getReturn';
 import getSuggestedRefund from '@/app/utils/api/getSuggestedRefund';
 import Cancel from './components/Cancel';
 import ReturnDetails from '@/app/returns/[id]/components/ReturnDetails';
-import ReturnDocuments from '@/app/returns/[id]/components/ReturnDocuments';
+import ReturnShipping from '@/app/returns/[id]/components/ReturnShipping';
 
 export default async function ReturnPage({ params }) {
   const { id } = params;
@@ -18,7 +18,7 @@ export default async function ReturnPage({ params }) {
         <ReturnDetails returnData={returnData} suggestedRefund={suggestedRefund} />
       </div>
       <div className="container bg-white rounded-lg p-5">
-        <ReturnDocuments returnData={returnData} />
+        <ReturnShipping returnData={returnData} />
       </div>
         
       <div className="container flex gap-4 w-full">

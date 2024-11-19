@@ -26,13 +26,18 @@ export default function simplifyReturn(returnData) {
     items: items,
     currency: items[0].currencyCode,
     countryCode: returnData.order.shippingAddress.countryCodeV2,
+    shippingAddress: returnData.order.shippingAddress,
     restockingFeePercentage: parseFloat(items[0].restockingFee),
     returnType: parseFloat(items[0].restockingFee) === 100 ? 'Credit' : 'Refund',
     returnShippingFee: returnData.returnShippingFees?.[0].amountSet.presentmentMoney.amount,
-    returnDocuments: returnData.reverseFulfillmentOrders.nodes[0].reverseDeliveries.nodes[0]?.deliverable.label.publicFileUrl,
-    returnTrackingURL: returnData.reverseFulfillmentOrders.nodes[0].reverseDeliveries.nodes[0]?.deliverable.tracking.url,
-    returnTrackingNumber: returnData.reverseFulfillmentOrders.nodes[0].reverseDeliveries.nodes[0]?.deliverable.tracking.number,
-    returnTrackingCarrier: returnData.reverseFulfillmentOrders.nodes[0].reverseDeliveries.nodes[0]?.deliverable.tracking.carrierName,
+    reverseFulfillmentOrderId: returnData.reverseFulfillmentOrders.nodes[0].id,
+    reverseFulfillmentOrderLineItems: returnData.reverseFulfillmentOrders.nodes[0].lineItems.nodes,
+    returnDocs: {
+      label: returnData.reverseFulfillmentOrders.nodes[0].reverseDeliveries.nodes[0]?.deliverable.label.publicFileUrl,
+      tracking: returnData.reverseFulfillmentOrders.nodes[0].reverseDeliveries.nodes[0]?.deliverable.tracking.url,
+      number: returnData.reverseFulfillmentOrders.nodes[0].reverseDeliveries.nodes[0]?.deliverable.tracking.number,
+      carrier: returnData.reverseFulfillmentOrders.nodes[0].reverseDeliveries.nodes[0]?.deliverable.tracking.carrierName,
+    },
   }
 
   // console.log(returnData)

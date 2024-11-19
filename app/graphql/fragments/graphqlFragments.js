@@ -4,6 +4,20 @@ export const RETURN_FIELDS_FRAGMENT = `
     status
     totalQuantity
     id
+    order {
+      id
+      shippingAddress {
+        name
+        company
+        address1
+        address2
+        city
+        provinceCode
+        zip
+        countryCodeV2
+        phone
+      }
+    }
     returnShippingFees {
       amountSet {
   			presentmentMoney {
@@ -15,9 +29,10 @@ export const RETURN_FIELDS_FRAGMENT = `
     reverseFulfillmentOrders(first: 10) {
       nodes {
         id
-        order {
-          shippingAddress {
-            countryCodeV2
+        lineItems(first:100) {
+          nodes {
+            totalQuantity
+            id
           }
         }
         reverseDeliveries(first: 10) {
@@ -36,12 +51,6 @@ export const RETURN_FIELDS_FRAGMENT = `
             }
           }
         }
-      }
-    }
-    order {
-      id
-      shippingAddress {
-        countryCodeV2
       }
     }
     returnLineItems(first: 10) {

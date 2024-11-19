@@ -7,7 +7,6 @@ const getReturnQuery = (id) => `
       ...ReturnFields
     }
   }
-  
 `;
 
 export default getReturnQuery;
