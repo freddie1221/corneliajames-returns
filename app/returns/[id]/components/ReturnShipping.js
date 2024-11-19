@@ -1,5 +1,8 @@
 "use client"
 
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+
 import { DetailItem } from "../../../components/Elements";
 import useGetLabel from "@/app/hooks/useGetLabel";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
@@ -19,12 +22,19 @@ export default function ReturnShipping({ returnData }) {
 
 function InternationalShipping({ returnData }){
   const { isLoading, error, success, getLabel } = useGetLabel();
-  console.log(returnData.returnDocs)
+  const router = useRouter();
+  
+  useEffect(() => {
+    if (success) {
+      router.refresh();
+    }
+  }, [success, router]);
   
   if(returnData.returnDocs.label) return <ReturnDocs returnDocs={returnData.returnDocs} />
   if(isLoading) return <LoadingSpinner />
   if(error) return <Message text={error} />
   if(!success) return <button className="btn-primary" onClick={() => getLabel(returnData)}>Get Label</button>
+  
 }
 
 function ReturnDocs({ returnDocs }){
