@@ -44,28 +44,15 @@ export default function FindOrder() {
       }
     } catch (error) {
       setError('An error occurred. Please try again.');
-    } finally {
-      setLoading(false); // Set loading to false when request completes
+      setLoading(false)
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-md flex flex-col space-y-4">
-      <div>
-        <label htmlFor="email" className="block">Email</label>
-        <div className="text-sm text-gray-500 mb-2">The email address used to place the order</div>
-        <input
-          type="email"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-3 py-2 border rounded"
-          required
-        />
-      </div>
+    <form onSubmit={handleSubmit} className="w-full max-w-md flex flex-col space-y-4 p-4">
       <div>
         <label htmlFor="orderNumber" className="block">Order Number</label>
-        <div className="text-sm text-gray-500 mb-2">A 5 digit number beginning with #</div>
+        <span className="text-sm text-gray-500 mb-2">This should be a 4-6 digit number that begins with #</span>
         <input
           type="number"
           id="orderNumber"
@@ -76,8 +63,20 @@ export default function FindOrder() {
           pattern="\d{5}"
         />
       </div>
+      <div>
+        <label htmlFor="email" className="block">Email</label>
+        <span className="text-sm text-gray-500 mb-2">The email address used to place the order</span>
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="w-full px-3 py-2 border rounded"
+          required
+        />
+      </div>
       {loading ? ( <LoadingSpinner /> ) : (
-        <button type="submit" className="btn-primary bg-navy w-full">
+        <button type="submit" className="btn-primary bg-navy w-full mt-10">
           Start Return / Exchange
         </button>
       )}

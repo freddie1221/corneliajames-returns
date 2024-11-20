@@ -97,7 +97,7 @@ export default function OrderItem({ item, onSelectItem, setItemsCount, setReturn
 
       <div className="flex flex-col space-y-3 justify-center items-center mx-4 ">
           <div className="flex flex-col items-center text-center m-4">
-            <label htmlFor={`return-${item.id}`} className="text-center annotation">
+            <label htmlFor={`return-${item.id}`} className="text-center annotation mb-1">
               Return
             </label>
             <input
@@ -106,7 +106,10 @@ export default function OrderItem({ item, onSelectItem, setItemsCount, setReturn
               type="checkbox"
               checked={isChecked}
               onChange={handleSelectChange}
-              className="border-gray-100 h-9 w-9 btransition rounded-md duration-150 ease-in-out focus:ring-2 focus:ring-navy focus:ring-offset-2"
+              className="
+                h-9 w-9 appearance-none border-2 border-gray-300 rounded-md
+                transition duration-150 ease-in-out focus:ring-2 text-white
+                focus:ring-navy focus:ring-offset-2 checked:bg-navy checked:border-navy checkbox-custom"
               aria-checked={isChecked}
             />
           </div>

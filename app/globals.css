@@ -58,23 +58,31 @@ body {
     @apply border-champagne-dark/30 focus:border-navy/30 focus:ring-navy/20 rounded-sm;
   }
   
-  .btn {
-    @apply px-4 py-2 rounded-sm border border-champagne-dark/20 bg-white 
-           hover:bg-champagne-light transition-colors duration-200 
-           text-navy-dark font-semibold shadow-sm;
-  }
+
 
   .annotation {
     @apply text-xs text-gray-700 uppercase tracking-wide;
   }
+
+  .btn {
+    @apply px-4 py-4 rounded-md
+  }
   
   .btn-primary {
-    @apply px-4 py-3 rounded-md text-white transition-colors duration-200 font-semibold shadow-md bg-navy w-full;
+    @apply px-4 py-4 rounded-md text-white transition-colors duration-200 font-semibold shadow-md bg-navy w-full;
   }
   .btn-secondary {
-    @apply px-4 py-3 rounded-md text-gray-800 transition-colors duration-200 font-semibold bg-white w-full text-center;
+    @apply px-4 py-4 rounded-md text-gray-800 transition-colors duration-200 font-semibold bg-white w-full text-center;
   }
   .btn-tertiary {
-    @apply px-4 py-2 rounded-md text-navy transition-colors duration-200 font-semibold bg-white border border-navy text-center;
+    @apply px-4 py-4 rounded-md text-navy transition-colors duration-200 font-semibold bg-white border border-navy text-center;
   }
+}
+
+.checkbox-custom:checked::after {
+  content: '✔';
+  display: block;
+  text-align: center;
+  color: white;
+  font-size: 24px;
 }
