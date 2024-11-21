@@ -11,7 +11,7 @@ import { Message } from "@/app/components/Elements";
 export default function ReturnShipping({ returnData }) {
   
   return (
-    <div className="container bg-white rounded-lg p-5">
+    <div className="container bg-white rounded-lg p-5 md:px-8">
       <h2 className="heading-secondary">Return Shipping</h2>
       {returnData.countryCode === 'GB' ? 
         <GbShipping /> : 
