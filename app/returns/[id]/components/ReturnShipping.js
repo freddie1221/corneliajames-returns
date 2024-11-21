@@ -11,7 +11,7 @@ import { Message } from "@/app/components/Elements";
 export default function ReturnShipping({ returnData }) {
   
   return (
-    <div className="container bg-white rounded-lg p-5 md:px-8">
+    <div className="container bg-white rounded-lg p-5 md:px-8 md:pb-8">
       <h2 className="heading-secondary">Return Shipping</h2>
       {returnData.countryCode === 'GB' ? 
         <GbShipping /> : 
@@ -43,7 +43,8 @@ function InternationalShipping({ returnData }){
 
 function ReturnDocs({ returnDocs }){
   return (
-    <div className="flex flex-row justify-between">
+    <div className="flex flex-row justify-around py-4">
+      
       <div className="flex flex-col gap-2">
         <DetailItem label="Carrier" value="DHL Express" align="items-start" />
         <DetailItem label="Tracking Number" value={returnDocs.number} align="items-start" />
@@ -56,6 +57,7 @@ function ReturnDocs({ returnDocs }){
           <a className="text-blue-500 underline" href={returnDocs.label} target="_blank" rel="noopener noreferrer">Download Label</a>
         </div>
       </div>
+
       <div className="flex flex-col gap-2">
         <span className="text-gray-600 text-sm">Your Shipping Label</span>
         <Image src={returnDocs.label} alt="Return Label" width={180} height={180} className=" border border-gray-300 rounded-lg p-2" />

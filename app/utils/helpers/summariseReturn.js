@@ -27,7 +27,7 @@ export default function summariseReturn(returnData) {
     
     restockingFeePercentage: parseFloat(items[0].restockingFee),
     returnType: parseFloat(items[0].restockingFee) === 100 ? 'Credit' : 'Refund',
-    returnShippingFee: returnData.returnShippingFees?.[0].amountSet.presentmentMoney.amount,
+    returnShippingFee: returnData.returnShippingFees?.[0]?.amountSet?.presentmentMoney?.amount,
   }
 
   return returnData
