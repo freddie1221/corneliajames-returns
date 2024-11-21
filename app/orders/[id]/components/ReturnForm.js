@@ -13,7 +13,7 @@ export default function ReturnForm({ order }) {
 	const [returnLineItems, setReturnLineItems] = useState([]);
 	const [itemsCount, setItemsCount] = useState(0);
 	const [returnValue, setReturnValue] = useState(0);
-	const [includeShipping, setIncludeShipping] = useState(true);
+	const [includeShipping, setIncludeShipping] = useState();
 	const [restockingFee, setRestockingFee] = useState();
 	const [shippingFee, setShippingFee] = useState(0)
 	const [confirmation, setConfirmation] = useState(false);

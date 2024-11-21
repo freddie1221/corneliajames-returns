@@ -111,7 +111,7 @@ function StoreCreditOption({ setReturnType, returnType, itemsCount, currencyCode
   )
 }
 
-function RefundOption({ setReturnType, returnType, itemsCount, currencyCode, refundAmount, feeValue, restockingFee }) {
+function RefundOption({ setReturnType, returnType, itemsCount, currencyCode, refundAmount, feeValue, restockingFee, includeShipping }) {
 
   const benefits = [
     { text: `${currencyCode} ${refundAmount} refund to original payment method`, highlighted: true },

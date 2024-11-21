@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { getReturn } from '@/app/utils/api/getReturn';
 
 import getSuggestedRefund from '@/app/utils/api/getSuggestedRefund';
-import Cancel from './components/Cancel';
+import CancelReturn from './components/CancelReturn';
 import ReturnDetails from '@/app/returns/[id]/components/ReturnDetails';
 import ReturnShipping from '@/app/returns/[id]/components/ReturnShipping';
 
@@ -17,17 +17,28 @@ export default async function ReturnPage({ params }) {
         <h1 className="heading-secondary">Return Details</h1>
         <ReturnDetails returnData={returnData} suggestedRefund={suggestedRefund} />
       </div>
-      <div className="container bg-white rounded-lg p-5">
-        <ReturnShipping returnData={returnData} />
-      </div>
-        
-      <div className="container flex gap-4 w-full">
-        <Link href={`/orders/${returnData.orderId}`} className="btn-secondary w-full">View Order</Link>
-        <Cancel returnId={id} orderId={returnData.orderId} />
-      </div>
+      
+      <ReturnShipping returnData={returnData} />
+      <ReturnActions returnData={returnData} />
     </div>
   )
+}
 
+function ReturnActions({ returnData }){
+  return (
+    <div className="container flex gap-4 w-full py-6">
+      <CancelReturn returnId={returnData.id.split('/').pop()} orderId={returnData.orderId} />
+      <Link href={`/orders/${returnData.orderId}`} className="btn-secondary w-full">View Order</Link>
+    </div>
+  )
 }
 
 
+
+/*
+  useEffect(() => {
+    if (success) {
+      router.refresh();
+    }
+  }, [success, router]);
+*/

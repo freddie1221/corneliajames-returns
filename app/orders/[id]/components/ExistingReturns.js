@@ -3,7 +3,7 @@ import ReturnDetails from "@/app/returns/[id]/components/ReturnDetails";
 
 export default function ExistingReturns({ returns }) {
 
-	console.log(returns)
+	// console.log(returns)
 
 	return (
 		<div className="flex flex-col gap-4 items-center bg-white shadow-md rounded-lg p-5 mb-4">

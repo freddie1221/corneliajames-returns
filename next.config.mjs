@@ -19,6 +19,11 @@ const nextConfig = {
         hostname: 'cdn.shopify.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'easypost-files.s3.us-west-2.amazonaws.com',
+        pathname: '/**',
+      },
     ],
   },
 };

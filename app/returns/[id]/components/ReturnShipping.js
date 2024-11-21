@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-
+import Image from "next/image";
 import { DetailItem } from "../../../components/Elements";
 import useGetLabel from "@/app/hooks/useGetLabel";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
@@ -11,7 +11,7 @@ import { Message } from "@/app/components/Elements";
 export default function ReturnShipping({ returnData }) {
   
   return (
-    <div>
+    <div className="container bg-white rounded-lg p-5">
       <h2 className="heading-secondary">Return Shipping</h2>
       {returnData.countryCode === 'GB' ? 
         <GbShipping /> : 
@@ -47,10 +47,18 @@ function ReturnDocs({ returnDocs }){
       <div className="flex flex-col gap-2">
         <DetailItem label="Carrier" value="DHL Express" align="items-start" />
         <DetailItem label="Tracking Number" value={returnDocs.number} align="items-start" />
+        <div className="flex flex-col">
+          <span className="text-gray-600 text-sm">Tracking Link</span>
+          <a className="text-blue-500 underline" href={returnDocs.tracking} target="_blank" rel="noopener noreferrer">Tracking Link</a>
+        </div>
+        <div className="flex flex-col">
+          <span className="text-gray-600 text-sm">Download Label</span>
+          <a className="text-blue-500 underline" href={returnDocs.label} target="_blank" rel="noopener noreferrer">Download Label</a>
+        </div>
       </div>
       <div className="flex flex-col gap-2">
-        <a className="text-right text-blue-500 underline" href={returnDocs.label} target="_blank" rel="noopener noreferrer">Download Label & Documents</a>
-        <a className="text-right text-blue-500 underline" href={returnDocs.tracking} target="_blank" rel="noopener noreferrer">Tracking Link</a>
+        <span className="text-gray-600 text-sm">Your Shipping Label</span>
+        <Image src={returnDocs.label} alt="Return Label" width={180} height={180} className=" border border-gray-300 rounded-lg p-2" />
       </div>
     </div>
   )
