@@ -1,8 +1,6 @@
-
+import mapReturnStatus from "./mapReturnStatus";
 
 export default function summariseReturn(returnData) {
-
-  // console.log(returnData)
   
   const items = returnData.returnLineItems.nodes.map(item => {
     return {
@@ -18,13 +16,11 @@ export default function summariseReturn(returnData) {
 
   returnData =  {
     name: returnData.name,
-    status: returnData.status,
+    status: mapReturnStatus(returnData.status),
     totalQuantity: returnData.totalQuantity,
     id: returnData.id,
-
     items: items,
     currency: "GBP",
-    
     restockingFeePercentage: parseFloat(items[0].restockingFee),
     returnType: parseFloat(items[0].restockingFee) === 100 ? 'Credit' : 'Refund',
     returnShippingFee: returnData.returnShippingFees?.[0]?.amountSet?.presentmentMoney?.amount,

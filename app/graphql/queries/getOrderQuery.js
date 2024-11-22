@@ -30,6 +30,7 @@ const getOrderQuery = (id) => `
           address1
           address2
           city
+          province
           countryCode
           country
           zip

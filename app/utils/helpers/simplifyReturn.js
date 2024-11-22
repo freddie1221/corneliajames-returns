@@ -1,4 +1,4 @@
-
+import mapReturnStatus from "./mapReturnStatus";
 
 export default function simplifyReturn(data) {
 
@@ -23,7 +23,7 @@ export default function simplifyReturn(data) {
 
   const returnData =  {
     name: data.name,
-    status: statusMap[data.status] || data.status,
+    status: mapReturnStatus(data.status),
     totalQuantity: data.totalQuantity,
     id: data.id,
     orderId: data.order.id.split('/').pop(),

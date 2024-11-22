@@ -16,11 +16,13 @@ export function ErrorMessage({text}) {
 }
 
 
-export function DetailItem({ label, value = "-", align = "items-center" }) {
+export function DetailItem({ label, value }) {
   return (
     <div className={`flex flex-col items-start`}>
       <span className="text-gray-600 text-sm">{label}</span>
-      <span className="font-semibold text-md">{value}</span>
+      <span className="font-semibold text-md">
+        {value === "" ? "-" : value}
+      </span>
     </div>
   );
 }
