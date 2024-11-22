@@ -1,10 +1,10 @@
 "use client"
 
-import { useRouter, useEffect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import useCancelReturn from "@/app/hooks/useCancelReturn";
 
 export default function CancelReturn({ returnId, orderId }) {
-  const { cancelReturn, loading, error, success } = useCancelReturn();
+  const { cancelReturn, loading, error } = useCancelReturn();
   const router = useRouter();
   
   const handleCancelReturn = async () => {
@@ -26,12 +26,3 @@ export default function CancelReturn({ returnId, orderId }) {
     </button>
   );
 }
-
-/*
-  useEffect(() => {
-    if (success) {
-      router.push(`/orders/${orderId}`);
-      router.refresh();
-    }
-  }, [success, router]);
-*/

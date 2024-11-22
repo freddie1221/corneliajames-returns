@@ -36,14 +36,14 @@ function InternationalShipping({ returnData }){
   if(!success) return( 
     <div className="flex flex-col gap-4 items-center">
       <p className="text-sm text-center">Click here below to generate your return label.</p>
-      <button className="btn-primary max-w-[50%] " onClick={() => getLabel(returnData)}>Get Label</button>
+      <button className="btn-primary md:max-w-[50%] " onClick={() => getLabel(returnData)}>Get Return Shipping Label</button>
     </div>
   )
 }
 
 function ReturnDocs({ returnDocs }){
   return (
-    <div className="flex flex-row justify-around py-4">
+    <div className="flex flex-row justify-around py-4 bg-gray-50 rounded-lg p-4">
       
       <div className="flex flex-col gap-2">
         <DetailItem label="Carrier" value="DHL Express" align="items-start" />

@@ -2,7 +2,7 @@
 
 export default function simplifyReturn(returnData) {
 
-  console.log(returnData)
+  // console.log(returnData)
   
   const items = returnData.returnLineItems.nodes.map(item => {
     return {

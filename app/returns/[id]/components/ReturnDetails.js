@@ -7,9 +7,8 @@ import getSuggestedRefund from "@/app/utils/api/getSuggestedRefund";
 export default async function ReturnDetails({ returnData }) {
 
     if (!returnData) return null
-    console.log("Return Details ", returnData)
   
-    const suggestedRefund = await getSuggestedRefund(returnData)
+    const { refundAmount, storeCreditAmount } = await getSuggestedRefund(returnData)
     const currencyCode = returnData.currency
     const statusMap = {
       OPEN: 'Awaiting Items',
@@ -32,7 +31,8 @@ export default async function ReturnDetails({ returnData }) {
           <DetailItem label="Return Reference" value={returnData.name} />
           <DetailItem label="Total Items" value={returnData.totalQuantity} />
           <DetailItem label="Return Type" value={returnType} />
-          <DetailItem label="Refund Amount" value={`${currencyCode} ${suggestedRefund}`} />
+          {returnType === 'Refund' && <DetailItem label="Refund Amount" value={`${currencyCode} ${refundAmount}`} />}
+          {returnType === 'Store Credit' && <DetailItem label="Store Credit Issued" value={`${currencyCode} ${storeCreditAmount}`} />}
           <DetailItem label="Return Status" value={returnStatus} />
           <DetailItem label="Return Shipping" value={returnShipping} />
         </div>

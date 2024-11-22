@@ -4,33 +4,19 @@ query GetSuggestedRefund($id: ID!, $returnRefundLineItems: [ReturnRefundLineItem
     suggestedRefund(
       returnRefundLineItems: $returnRefundLineItems
     ) {
-      amount {
-        presentmentMoney {
-          amount
+        amount {
+          presentmentMoney {
+            amount
+          }
         }
-      }
-      refundDuties {
-        amountSet {
+        discountedSubtotal {
           presentmentMoney {
             amount
           }
         }
       }
-      suggestedTransactions {
-        amountSet {
-          shopMoney {
-            amount
-          }
-        }
-        gateway
-        parentTransaction {
-          kind
-          id
-        }
-      }
     }
   }
-}
 `;
 
 export default getSuggestedRefundQuery;

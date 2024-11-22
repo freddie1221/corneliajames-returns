@@ -1,6 +1,6 @@
 import '@shopify/shopify-api/adapters/node';
 import { createAdminApiClient } from '@shopify/admin-api-client';
-import { makeGraphQLRequest } from './makeGraphQLRequest';
+
 
 import getSuggestedRefundQuery from '../../graphql/queries/getSuggestedRefundQuery';
 
@@ -24,7 +24,10 @@ export default async function getSuggestedRefund(returnData) {
   });
   
   const response = await client.request(getSuggestedRefundQuery,  { variables: variables });
-  const suggestedRefund = response.data.return.suggestedRefund.amount.presentmentMoney.amount;
-  return suggestedRefund;
+
+  const refundAmount = parseFloat(response.data.return.suggestedRefund.amount.presentmentMoney.amount).toFixed(2);
+  const storeCreditAmount = parseFloat((response.data.return.suggestedRefund.discountedSubtotal.presentmentMoney.amount * 1.1).toFixed(2));
+
+  return { refundAmount, storeCreditAmount }
 
 }

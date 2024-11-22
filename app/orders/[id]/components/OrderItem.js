@@ -64,8 +64,8 @@ export default function OrderItem({ item, onSelectItem, setItemsCount, setReturn
   };
 
   return (
-    <li className="flex md:flex-row flex-col mb-4 bg-white shadow-md p-2 md:p-6 rounded-lg w-full justify-between">
-      <div className="flex w-full">
+    <li className="mb-4 flex flex-col bg-white border border-gray-200 shadow-md p-4 md:p-6 rounded-lg w-full">
+      <div className="flex flex-row items-center">
         <Image src={image} alt={name} width={130} height={130} className="rounded-md" />
         
         <div className="flex flex-col ml-4 space-y-2 w-full">
@@ -94,43 +94,41 @@ export default function OrderItem({ item, onSelectItem, setItemsCount, setReturn
         </div>
       </div>
       
-
       <div className="flex flex-col space-y-3 justify-center items-center mx-4 ">
-          <div className="flex flex-col items-center text-center m-4">
-            <label htmlFor={`return-${item.id}`} className="text-center annotation mb-1">
-              Return
-            </label>
-            <input
-              id={`return-${item.id}`}
-              name={`return-${item.id}`}
-              type="checkbox"
-              checked={isChecked}
-              onChange={handleSelectChange}
-              className="
-                h-9 w-9 appearance-none border-2 border-gray-300 rounded-md
-                transition duration-150 ease-in-out focus:ring-2 text-white
-                focus:ring-navy focus:ring-offset-2 checked:bg-navy checked:border-navy checkbox-custom"
-              aria-checked={isChecked}
+        <div className="flex flex-col items-center text-center m-4">
+          <label htmlFor={`return-${item.id}`} className="text-center annotation mb-1">
+            Return
+          </label>
+          <input
+            id={`return-${item.id}`}
+            name={`return-${item.id}`}
+            type="checkbox"
+            checked={isChecked}
+            onChange={handleSelectChange}
+            className="
+              h-9 w-9 appearance-none border-2 border-gray-300 rounded-md
+              transition duration-150 ease-in-out focus:ring-2 text-white
+              focus:ring-navy focus:ring-offset-2 checked:bg-navy checked:border-navy checkbox-custom"
+            aria-checked={isChecked}
+          />
+        </div>
+        
+        {item.quantity > 1 && (
+          <div className="flex flex-col items-center space-x-2">
+            <label htmlFor={`returnQuantity-${item.id}`} className="annotation">
+            Quantity
+          </label>
+          <QuantitySelector
+            quantity={returnQuantity}
+            onIncrement={handleIncrement}
+            onDecrement={handleDecrement}
+            max={item.quantity}
+            min={1}
+            disabled={isChecked}
             />
           </div>
-          
-          {item.quantity > 1 && (
-            <div className="flex flex-col items-center space-x-2">
-              <label htmlFor={`returnQuantity-${item.id}`} className="annotation">
-              Quantity
-            </label>
-            <QuantitySelector
-              quantity={returnQuantity}
-              onIncrement={handleIncrement}
-              onDecrement={handleDecrement}
-              max={item.quantity}
-              min={1}
-              disabled={isChecked}
-              />
-            </div>
-          )}
-        </div>
-
+        )}
+      </div>
     </li>
   );
 }
