@@ -4,10 +4,10 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import OrderItemsSelector from './OrderItemsSelector';
 import ReturnOptions from './ReturnOptions';
-import useCreateReturn from '@/app/hooks/useCreateReturn';
-import useStoreCredit from '@/app/hooks/useStoreCredit';
 import { Message } from '@/app/components/Elements';
 import calculateFee from '@/app/utils/helpers/calculateFee';
+import useCreateReturn from '@/app/hooks/useCreateReturn';
+import useStoreCredit from '@/app/hooks/useStoreCredit';
 
 export default function ReturnForm({ order }) {
 	const router = useRouter();
@@ -22,6 +22,7 @@ export default function ReturnForm({ order }) {
 	const { createReturn, loading, error, success } = useCreateReturn();
 	const { createStoreCredit } = useStoreCredit();
 
+
 	useEffect(() => {
 		setRestockingFee(calculateFee(returnType, itemsCount));
 		includeShipping ? setShippingFee(order.returnShipping.fee) : setShippingFee(0)
@@ -33,8 +34,12 @@ export default function ReturnForm({ order }) {
 			restockingFee: {percentage: restockingFee.fee}
 		}));
 
-
-		const returnId = await createReturn({orderId: order.id, shippingFee: shippingFee, lineItemsAndFee: lineItemsAndFee});
+		const returnId = await createReturn({
+			orderId: order.id, 
+			shippingFee: shippingFee, 
+			lineItemsAndFee: lineItemsAndFee,
+			currency: order.currencyCode
+		});
 
     if (returnId) {
 			if (returnType === "Credit") {

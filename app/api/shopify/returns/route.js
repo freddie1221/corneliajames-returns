@@ -18,9 +18,14 @@ export async function POST(request) {
       apiVersion: '2024-07',
     });
 
+    console.log("variables: ", variables)
     const response = await client.request(query, { variables: variables });
 
-    return NextResponse.json(response.data);
+    if(response.data.returnCreate.return) {
+      return NextResponse.json(response.data.returnCreate.return);
+    } else {
+      return NextResponse.json({ error: response.data.returnCreate.userErrors.message }, { status: 400 });
+    }
 
   } catch (error) {
     console.error('error: ', error);

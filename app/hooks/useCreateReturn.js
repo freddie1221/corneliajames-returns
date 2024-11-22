@@ -1,13 +1,11 @@
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 export default function useCreateReturn() {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 	const [success, setSuccess] = useState(false); 
-	const router = useRouter();
 	
-	async function createReturn({orderId, shippingFee, lineItemsAndFee}) {
+	async function createReturn({orderId, shippingFee, lineItemsAndFee, currency}) {
 		setLoading(true);
 		setError(null);
 		setSuccess(false);
@@ -17,7 +15,7 @@ export default function useCreateReturn() {
 			returnShippingFee: {
         amount: {
           amount: shippingFee,
-          currencyCode: "GBP"
+          currencyCode: currency
         }
       },
 			returnLineItems: lineItemsAndFee,
@@ -33,7 +31,9 @@ export default function useCreateReturn() {
 
 			setSuccess(true);
 			const data = await response.json();
-			const returnId = data.returnCreate.return.id.split('/').pop();
+			console.log("Create Return Data: ", data)
+
+			const returnId = data.id.split('/').pop();
 			return returnId;
 
 		} catch (err) {
