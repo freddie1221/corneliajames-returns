@@ -37,6 +37,7 @@ const getOrderQuery = (id) => `
         }
         customer {
           displayName
+          id
           email
           phone
         }

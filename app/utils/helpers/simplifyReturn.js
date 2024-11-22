@@ -1,10 +1,15 @@
 
 
-export default function simplifyReturn(returnData) {
+export default function simplifyReturn(data) {
 
-  // console.log(returnData)
+  const statusMap = {
+    OPEN: 'Awaiting Items',
+    CANCELLED: 'Cancelled',
+    CLOSED: 'Complete',
+  };
+
   
-  const items = returnData.returnLineItems.nodes.map(item => {
+  const items = data.returnLineItems.nodes.map(item => {
     return {
       id: item.id,
       quantity: item.quantity,
@@ -16,26 +21,27 @@ export default function simplifyReturn(returnData) {
     }
   })
 
-  returnData =  {
-    name: returnData.name,
-    status: returnData.status,
-    totalQuantity: returnData.totalQuantity,
-    id: returnData.id,
-    orderId: returnData.order.id.split('/').pop(),
+  const returnData =  {
+    name: data.name,
+    status: statusMap[data.status] || data.status,
+    totalQuantity: data.totalQuantity,
+    id: data.id,
+    orderId: data.order.id.split('/').pop(),
     items: items,
+    email: data.order.email,
     currency: "GBP",
-    countryCode: returnData.order.shippingAddress.countryCodeV2,
-    shippingAddress: returnData.order.shippingAddress,
+    countryCode: data.order.shippingAddress.countryCodeV2,
+    shippingAddress: data.order.shippingAddress,
     restockingFeePercentage: parseFloat(items[0].restockingFee),
     returnType: parseFloat(items[0].restockingFee) === 100 ? 'Credit' : 'Refund',
-    returnShippingFee: returnData.returnShippingFees?.[0]?.amountSet?.presentmentMoney?.amount || 0,
-    reverseFulfillmentOrderId: returnData.reverseFulfillmentOrders.nodes[0].id,
-    reverseFulfillmentOrderLineItems: returnData.reverseFulfillmentOrders.nodes[0].lineItems.nodes,
+    returnShippingFee: parseFloat(data.returnShippingFees?.[0]?.amountSet?.presentmentMoney?.amount || 0).toFixed(2),
+    reverseFulfillmentOrderId: data.reverseFulfillmentOrders.nodes[0].id,
+    reverseFulfillmentOrderLineItems: data.reverseFulfillmentOrders.nodes[0].lineItems.nodes,
     returnDocs: {
-      label: returnData.reverseFulfillmentOrders.nodes[0].reverseDeliveries.nodes[0]?.deliverable.label.publicFileUrl,
-      tracking: returnData.reverseFulfillmentOrders.nodes[0].reverseDeliveries.nodes[0]?.deliverable.tracking.url,
-      number: returnData.reverseFulfillmentOrders.nodes[0].reverseDeliveries.nodes[0]?.deliverable.tracking.number,
-      carrier: returnData.reverseFulfillmentOrders.nodes[0].reverseDeliveries.nodes[0]?.deliverable.tracking.carrierName,
+      label: data.reverseFulfillmentOrders.nodes[0].reverseDeliveries.nodes[0]?.deliverable.label.publicFileUrl,
+      tracking: data.reverseFulfillmentOrders.nodes[0].reverseDeliveries.nodes[0]?.deliverable.tracking.url,
+      number: data.reverseFulfillmentOrders.nodes[0].reverseDeliveries.nodes[0]?.deliverable.tracking.number,
+      carrier: data.reverseFulfillmentOrders.nodes[0].reverseDeliveries.nodes[0]?.deliverable.tracking.carrierName,
     },
   }
 

@@ -23,9 +23,11 @@ export default function simplifyOrder(order) {
   order = {
     id: order.id.split('/').pop(),
     fullName: `${order.shippingAddress.firstName} ${order.shippingAddress.lastName}`,
+    firstName: order.shippingAddress.firstName,
     name: order.name,
     email: order.email,
     phone: order.phone,
+    customerId: order.customer.id.split('/').pop(),
     createdAt: order.createdAt,
     totalPrice: parseFloat(order.subtotalPriceSet.presentmentMoney.amount),
     totalDiscount: parseFloat(order.totalDiscountsSet.presentmentMoney.amount),

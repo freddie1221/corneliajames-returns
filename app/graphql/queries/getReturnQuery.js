@@ -7,6 +7,7 @@ const getReturnQuery = (id) => `
       ...ReturnFields
       order {
         id
+        email
         shippingAddress {
           name
           company

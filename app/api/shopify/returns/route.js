@@ -6,8 +6,8 @@ import '@shopify/shopify-api/adapters/node';
 
 export async function POST(request) {
 
-  const { returnInput } = await request.json(); // Parse the request body
-  const variables = { returnInput: returnInput }; // Define variables separately
+  const { returnInput } = await request.json();
+  const variables = { returnInput: returnInput };
 
   const query = CREATE_RETURN_MUTATION;
 

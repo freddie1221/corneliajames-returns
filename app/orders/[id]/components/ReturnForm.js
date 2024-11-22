@@ -1,14 +1,16 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import OrderItemsSelector from './OrderItemsSelector';
 import ReturnOptions from './ReturnOptions';
 import useCreateReturn from '@/app/hooks/useCreateReturn';
+import useStoreCredit from '@/app/hooks/useStoreCredit';
 import { Message } from '@/app/components/Elements';
 import calculateFee from '@/app/utils/helpers/calculateFee';
 
 export default function ReturnForm({ order }) {
-	
+	const router = useRouter();
 	const [returnType, setReturnType] = useState('');
 	const [returnLineItems, setReturnLineItems] = useState([]);
 	const [itemsCount, setItemsCount] = useState(0);
@@ -18,12 +20,12 @@ export default function ReturnForm({ order }) {
 	const [shippingFee, setShippingFee] = useState(0)
 	const [confirmation, setConfirmation] = useState(false);
 	const { createReturn, loading, error, success } = useCreateReturn();
-
+	const { createStoreCredit } = useStoreCredit();
 
 	useEffect(() => {
 		setRestockingFee(calculateFee(returnType, itemsCount));
 		includeShipping ? setShippingFee(order.returnShipping.fee) : setShippingFee(0)
-	}, [returnType, itemsCount, includeShipping])
+	}, [returnType, itemsCount, includeShipping, returnValue])
 
 	const handleSubmit = async () => {
 		const lineItemsAndFee = returnLineItems.map((item, index) => ({
@@ -31,18 +33,15 @@ export default function ReturnForm({ order }) {
 			restockingFee: {percentage: restockingFee.fee}
 		}));
 
-		const returnPayload = { 
-			orderId: `gid://shopify/Order/${order.id}`,
-			returnShippingFee: {
-        amount: {
-          amount: shippingFee,
-          currencyCode: "GBP"
-        }
-      },
-			returnLineItems: lineItemsAndFee,
-			notifyCustomer: true
-		};
-		createReturn(returnPayload);
+
+		const returnId = await createReturn({orderId: order.id, shippingFee: shippingFee, lineItemsAndFee: lineItemsAndFee});
+
+    if (returnId) {
+			if (returnType === "Credit") {
+				createStoreCredit({order: order, amount: returnValue * 1.1})
+			}
+      router.push(`/returns/${returnId}`);
+    }
 	};
 
 	if(loading) { return( <Message text="Loading..." type="loading" />) }
@@ -93,7 +92,7 @@ function SubmitButton({ loading, handleSubmit, returnType, confirmation }) {
     <button 
       onClick={handleSubmit}
       disabled={!confirmation || loading}
-      className={`btn-primary ${color} ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+      className={`btn btn-primary ${color} ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
     >
       Submit Return Request
     </button>

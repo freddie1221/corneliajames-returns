@@ -7,10 +7,22 @@ export default function useCreateReturn() {
 	const [success, setSuccess] = useState(false); 
 	const router = useRouter();
 	
-	async function createReturn(returnInput) {
+	async function createReturn({orderId, shippingFee, lineItemsAndFee}) {
 		setLoading(true);
 		setError(null);
 		setSuccess(false);
+
+		const returnInput = { 
+			orderId: `gid://shopify/Order/${orderId}`,
+			returnShippingFee: {
+        amount: {
+          amount: shippingFee,
+          currencyCode: "GBP"
+        }
+      },
+			returnLineItems: lineItemsAndFee,
+			notifyCustomer: true
+		};
 
 		try {
 			const response = await fetch('/api/shopify/returns', {
@@ -21,9 +33,8 @@ export default function useCreateReturn() {
 
 			setSuccess(true);
 			const data = await response.json();
-			// console.log('useCreateReturn data: ', data);
 			const returnId = data.returnCreate.return.id.split('/').pop();
-			router.push(`/returns/${returnId}`);
+			return returnId;
 
 		} catch (err) {
 			setError(err.message);

@@ -43,7 +43,7 @@ body {
   }
 
   .heading-secondary {
-    @apply text-lg my-3 uppercase tracking-wider text-center;
+    @apply text-lg uppercase tracking-wider text-center mb-3;
   }
 
   .color-primary {
@@ -57,25 +57,23 @@ body {
   .luxury-input {
     @apply border-champagne-dark/30 focus:border-navy/30 focus:ring-navy/20 rounded-sm;
   }
-  
-
 
   .annotation {
     @apply text-xs text-gray-700 uppercase tracking-wide;
   }
 
   .btn {
-    @apply px-4 py-4 rounded-md
+    @apply px-6 py-3 rounded-md font-semibold whitespace-nowrap text-center disabled:opacity-50;
   }
-  
+
   .btn-primary {
-    @apply px-4 py-4 rounded-md text-white transition-colors duration-200 font-semibold shadow-md bg-navy w-full;
+    @apply text-white transition-colors duration-200 font-semibold shadow-md bg-navy w-full;
   }
   .btn-secondary {
-    @apply px-4 py-4 rounded-md text-gray-800 transition-colors duration-200 font-semibold bg-white w-full text-center;
+    @apply text-gray-800 transition-colors duration-200 font-semibold bg-white w-full ;
   }
   .btn-tertiary {
-    @apply px-4 py-4 rounded-md text-navy transition-colors duration-200 font-semibold bg-white border border-navy text-center;
+    @apply text-navy bg-white hover:bg-navy hover:text-white transition-colors duration-200 border border-navy;
   }
 }
 

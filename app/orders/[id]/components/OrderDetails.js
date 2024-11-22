@@ -4,7 +4,7 @@ export default function OrderDetails({ order }) {
   return (
     <>
       <h1 className="heading-secondary">Order Details</h1>
-      <div className="shadow-md rounded-lg p-6 mb-4 bg-white flex md:flex-row flex-col gap-4">
+      <div className="shadow-md rounded-lg p-6 bg-white flex md:flex-row flex-col gap-4">
         <div className="flex flex-col space-y-2 bg-gray-100 p-4 rounded-lg w-full">
           <DetailItem label="Order Number" value={order.name} />
           <DetailItem label="Order Date" value={new Date(order.createdAt).toLocaleDateString()} />

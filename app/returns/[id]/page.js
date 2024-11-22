@@ -29,8 +29,13 @@ export default async function ReturnPage({ params }) {
 function ReturnActions({ returnData }){
   return (
     <div className="container flex gap-4 w-full py-6">
-      <CancelReturn returnId={returnData.id.split('/').pop()} orderId={returnData.orderId} />
-      <Link href={`/orders/${returnData.orderId}`} className="btn-secondary w-full">View Order</Link>
+      <CancelReturn 
+        returnId={returnData.id.split('/').pop()} 
+        orderId={returnData.orderId} 
+        returnType={returnData.returnType} 
+        status={returnData.status} 
+      />
+      <Link href={`/orders/${returnData.orderId}`} className="btn btn-tertiary w-full">View Order</Link>
     </div>
   )
 }

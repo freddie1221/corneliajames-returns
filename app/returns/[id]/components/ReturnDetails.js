@@ -9,33 +9,31 @@ export default async function ReturnDetails({ returnData }) {
     if (!returnData) return null
   
     const { refundAmount, storeCreditAmount } = await getSuggestedRefund(returnData)
-    const currencyCode = returnData.currency
-    const statusMap = {
-      OPEN: 'Awaiting Items',
-      CANCELLED: 'Cancelled',
-      CLOSED: 'Complete',
-    };
-    const returnStatus = statusMap[returnData.status] || returnData.status;
 
     const typeMap = {
       Refund: 'Refund',
       Credit: 'Store Credit',
     }
     const returnType = typeMap[returnData.returnType] || returnData.returnType;
-    const returnShipping = returnData.returnShippingFee ? `${currencyCode} ${returnData.returnShippingFee}` : 'Free';
-  
+
+    const returnShipping = returnData.returnShippingFee === 0 ? `${returnData.currency} ${returnData.returnShippingFee}` : 'Free';
   
     return (
       <div className="flex justify-between flex flex-col gap-4 rounded-md w-full ">
-        <div className="grid grid-cols-2 gap-4 bg-gray-50 rounded-lg p-4">
-          <DetailItem label="Return Reference" value={returnData.name} />
-          <DetailItem label="Total Items" value={returnData.totalQuantity} />
-          <DetailItem label="Return Type" value={returnType} />
-          {returnType === 'Refund' && <DetailItem label="Refund Amount" value={`${currencyCode} ${refundAmount}`} />}
-          {returnType === 'Store Credit' && <DetailItem label="Store Credit Issued" value={`${currencyCode} ${storeCreditAmount}`} />}
-          <DetailItem label="Return Status" value={returnStatus} />
-          <DetailItem label="Return Shipping" value={returnShipping} />
+        <div className="flex md:flex-row flex-col gap-4 bg-gray-50">
+          <div className="flex flex-col space-y-2 bg-gray-100 p-4 rounded-lg w-full">
+            <DetailItem label="Return Reference" value={returnData.name} />
+            <DetailItem label="Return Type" value={returnType} />
+            <DetailItem label="Return Status" value={returnData.status} />
+          </div>
+          <div className="flex flex-col space-y-2 bg-gray-100 p-4 rounded-lg w-full">
+            <DetailItem label="Total Items" value={returnData.totalQuantity} />
+            {returnType === 'Refund' && <DetailItem label="Refund Amount" value={`${returnData.currency} ${refundAmount}`} />}
+            {returnType === 'Store Credit' && <DetailItem label="Store Credit Issued" value={`${returnData.currency} ${storeCreditAmount}`} />}
+            <DetailItem label="Return Shipping" value={returnShipping} />
+          </div>
         </div>
+
         {returnData.items.map((item, index) => (
           <ReturnItem 
             item={item}

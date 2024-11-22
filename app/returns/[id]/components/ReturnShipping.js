@@ -36,7 +36,7 @@ function InternationalShipping({ returnData }){
   if(!success) return( 
     <div className="flex flex-col gap-4 items-center">
       <p className="text-sm text-center">Click here below to generate your return label.</p>
-      <button className="btn-primary md:max-w-[50%] " onClick={() => getLabel(returnData)}>Get Return Shipping Label</button>
+      <button className="btn btn-primary md:max-w-[50%] " onClick={() => getLabel(returnData)}>Get Return Shipping Label</button>
     </div>
   )
 }
