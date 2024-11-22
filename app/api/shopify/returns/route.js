@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createAdminApiClient } from '@shopify/admin-api-client';
-import { CREATE_RETURN_MUTATION } from '@/app/graphql/mutations/createReturn';
+import { CREATE_RETURN_MUTATION } from '@/app/graphql/mutations/createReturnMutation';
 import '@shopify/shopify-api/adapters/node';
 
 

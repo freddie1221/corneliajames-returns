@@ -25,12 +25,15 @@ const getOrderQuery = (id) => `
           }
         }
         shippingAddress {
+          firstName
+          lastName
           address1
           address2
           city
           countryCode
           country
           zip
+          phone
         }
         customer {
           displayName

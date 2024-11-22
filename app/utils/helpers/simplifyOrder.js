@@ -22,17 +22,20 @@ export default function simplifyOrder(order) {
 
   order = {
     id: order.id.split('/').pop(),
+    fullName: `${order.shippingAddress.firstName} ${order.shippingAddress.lastName}`,
     name: order.name,
     email: order.email,
+    phone: order.phone,
     createdAt: order.createdAt,
     totalPrice: parseFloat(order.subtotalPriceSet.presentmentMoney.amount),
     totalDiscount: parseFloat(order.totalDiscountsSet.presentmentMoney.amount),
     currencyCode: order.subtotalPriceSet.presentmentMoney.currencyCode,
-    countryCode: order.shippingAddress.countryCode,
     returnShipping: returnShipping(order.shippingAddress.countryCode),
     orderItems: orderItems,
     returnableItems: returnableItems,
     returns: order.returns.nodes.map(returnData => summariseReturn(returnData)),
+    address: order.shippingAddress,
+    countryCode: order.shippingAddress.countryCode,
   }
   
   return order
