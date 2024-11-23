@@ -67,10 +67,10 @@ body {
   }
 
   .btn-primary {
-    @apply text-white transition-colors duration-200 font-semibold shadow-md bg-navy w-full;
+    @apply text-white transition-colors duration-200 font-semibold shadow-md bg-navy;
   }
   .btn-secondary {
-    @apply text-gray-800 transition-colors duration-200 font-semibold bg-white w-full ;
+    @apply text-gray-800 transition-colors duration-200 font-semibold bg-white;
   }
   .btn-tertiary {
     @apply text-navy bg-white hover:bg-navy hover:text-white transition-colors duration-200 border border-navy;

@@ -6,7 +6,8 @@ export default function ReturnOptions({
   setReturnType, 
   returnType, 
   itemsCount, 
-  currencyCode, 
+  currencyCode,
+  countryCode,
   returnValue, 
   restockingFee, 
   returnShipping,
@@ -19,7 +20,6 @@ export default function ReturnOptions({
   
   const feeValue = (returnValue * (restockingFee.fee / 100)).toFixed(2)
 	const storeCreditAmount = (returnValue * 1.1).toFixed(2)
-
   
   const refundAmount = (returnValue - feeValue - shippingFee).toFixed(2)
   const textColor = returnType === 'Credit' ? 'text-emerald-600' : 'text-navy'
@@ -58,6 +58,8 @@ export default function ReturnOptions({
             returnShipping={returnShipping}
             includeShipping={includeShipping}
             setIncludeShipping={setIncludeShipping}
+            countryCode={countryCode}
+            currencyCode={currencyCode}
           />
         )}
         {returnType && (
@@ -177,11 +179,11 @@ function OptionCard({ type, children, isSelected, setReturnType, className, bord
   );
 }
 
-function ReturnShipping({ returnShipping, includeShipping, setIncludeShipping }) {
+function ReturnShipping({ returnShipping, includeShipping, setIncludeShipping, currencyCode }) {
   
   const benefits = [
-    {text: `${returnShipping.text} Label: GBP ${returnShipping.fee}`, highlighted: true},
-    'Simply print label and book collection with DHL'
+    {text: `${returnShipping.text} Label: ${currencyCode} ${returnShipping.fee}`, highlighted: true},
+    returnShipping.explainer
   ]
   
   return (

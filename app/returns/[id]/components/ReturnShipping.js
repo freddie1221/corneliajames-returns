@@ -68,9 +68,11 @@ function ReturnDocs({ returnDocs }){
 
 function GbShipping(){
   return (
-    <div>
-      <p>Please follow the Royal Mail link to get your Royal Mail Tracked Returns QR code.</p>
-      <a className="text-blue-500 underline" href="https://www.royalmail.com/track-my-return#/details/6353" target="_blank" rel="noopener noreferrer">Royal Mail Return Label</a>
+    <div className="flex flex-col gap-4 items-center">
+      <p>Please click below to get your Royal Mail Tracked Returns QR code.</p>
+      <div className="btn btn-primary w-fit">
+        <a href="https://www.royalmail.com/track-my-return#/details/6353" target="_blank" rel="noopener noreferrer">Royal Mail Return QR code</a>
+      </div>
     </div>
   )
 }

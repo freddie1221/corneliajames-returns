@@ -72,6 +72,7 @@ export default function ReturnForm({ order }) {
 					restockingFee={restockingFee}
 					returnShipping={order.returnShipping}
 					currencyCode={order.currencyCode}
+					countryCode={order.countryCode}
 					includeShipping={includeShipping}
 					setIncludeShipping={setIncludeShipping}
 					shippingFee={shippingFee}

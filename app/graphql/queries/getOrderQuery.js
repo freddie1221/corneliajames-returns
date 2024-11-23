@@ -18,6 +18,9 @@ const getOrderQuery = (id) => `
             amount
             currencyCode
           }
+          shopMoney {
+            amount
+          }
         }
         totalDiscountsSet {
           presentmentMoney {

@@ -19,6 +19,7 @@ export default function simplifyOrder(order) {
   });
   
   const returnableItems = orderItems.filter(item => item.quantity > 0);
+  const exchangeRate = parseFloat(order.subtotalPriceSet.presentmentMoney.amount) / parseFloat(order.subtotalPriceSet.shopMoney.amount)
 
   order = {
     id: order.id.split('/').pop(),
@@ -32,12 +33,12 @@ export default function simplifyOrder(order) {
     totalPrice: parseFloat(order.subtotalPriceSet.presentmentMoney.amount),
     totalDiscount: parseFloat(order.totalDiscountsSet.presentmentMoney.amount),
     currencyCode: order.subtotalPriceSet.presentmentMoney.currencyCode,
-    returnShipping: returnShipping(order.shippingAddress.countryCode),
     orderItems: orderItems,
     returnableItems: returnableItems,
     returns: order.returns.nodes.map(returnData => summariseReturn(returnData)),
     address: order.shippingAddress,
     countryCode: order.shippingAddress.countryCode,
+    returnShipping: returnShipping({countryCode: order.shippingAddress.countryCode, exchangeRate: exchangeRate}),
   }
   
   return order
