@@ -1,5 +1,7 @@
 import './globals.css'
 import Header from './components/Header'
+import MixpanelInitializer from './utils/analytics/mixpanel'
+
 export const metadata = {
   title: "Cornelia James | Returns & Store Credit",
   description: "Our returns and store credit portal",
@@ -16,6 +18,7 @@ export default function RootLayout({ children }) {
         <main className="min-h-screen text-gray-800 font-avenir max-w-2xl mx-auto ">
           {children}
         </main>
+        <MixpanelInitializer />
       </body>
     </html>
   )
