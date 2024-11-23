@@ -73,6 +73,7 @@ export default function ReturnForm({ order }) {
 					calculateShipping={order.calculateShipping}
 					currencyCode={order.currencyCode}
 					countryCode={order.countryCode}
+					exclusions={order.exclusions}
 					includeShipping={includeShipping}
 					setIncludeShipping={setIncludeShipping}
 					shippingFee={shippingFee}

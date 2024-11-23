@@ -10,6 +10,7 @@ export default function ReturnOptions({
   countryCode,
   returnValue, 
   restockingFee, 
+  exclusions,
   calculateShipping,
   shippingFee,
   includeShipping,
@@ -29,7 +30,7 @@ export default function ReturnOptions({
     <section className="py-8">
       <h2 className="text-3xl font-light text-center mb-12 tracking-wide">Select Your Preferred Return Option</h2>
       
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-8"> 
         <StoreCreditOption 
           setReturnType={setReturnType} 
           returnType={returnType} 
@@ -38,10 +39,11 @@ export default function ReturnOptions({
           storeCreditAmount={storeCreditAmount} 
           calculateShipping={calculateShipping}
         />
+
         {returnType === "Credit" && (
           <BackButton setReturnType={setReturnType} />
         )}
-        {returnType !== 'Credit' && (
+        {returnType !== 'Credit' && !exclusions.alteration && (
           <RefundOption 
             setReturnType={setReturnType} 
             returnType={returnType} 

@@ -1,6 +1,7 @@
 import summariseReturn from "./summariseReturn";
 import calculateShipping from "./calculateShipping";
 import calculateValidUntil from "./calculateValidUntil";
+import exclusions from "./exclusions";
 
 export default function simplifyOrder(order) {
  
@@ -31,6 +32,7 @@ export default function simplifyOrder(order) {
     name: order.name,
     email: order.email,
     phone: order.phone,
+    exclusions: exclusions(order.tags),
     customerId: order.customer.id.split('/').pop(),
     createdAt: order.createdAt,
     validUntil: calculateValidUntil(order.createdAt),

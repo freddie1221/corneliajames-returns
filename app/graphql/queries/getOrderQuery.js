@@ -8,6 +8,7 @@ const getOrderQuery = (id) => `
         name
         createdAt
         email
+        tags
         returns(first: 95, query:"NOT status:CANCELED") {
           nodes {
             ...ReturnFields
