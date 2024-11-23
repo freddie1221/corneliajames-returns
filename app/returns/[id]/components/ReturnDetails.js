@@ -20,7 +20,7 @@ export default async function ReturnDetails({ returnData }) {
   
     return (
       <div className="flex justify-between flex flex-col gap-4 rounded-md w-full ">
-        <div className="flex md:flex-row flex-col gap-4 bg-gray-50">
+        <div className="flex md:flex-row flex-col gap-4">
           <div className="flex flex-col space-y-2 bg-gray-100 p-4 rounded-lg w-full">
             <DetailItem label="Return Reference" value={returnData.name} />
             <DetailItem label="Return Type" value={returnType} />
