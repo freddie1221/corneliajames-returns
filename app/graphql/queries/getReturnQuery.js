@@ -19,6 +19,12 @@ const getReturnQuery = (id) => `
           countryCodeV2
           phone
         }
+        subtotalPriceSet {
+          presentmentMoney {
+            amount
+            currencyCode
+          }
+        }
       }
       reverseFulfillmentOrders(first: 10) {
         nodes {

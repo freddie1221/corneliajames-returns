@@ -3,6 +3,7 @@ import ReturnDetails from "@/app/returns/[id]/components/ReturnDetails";
 
 export default function ExistingReturns({ returns }) {
 
+	if (returns.length === 0) return null;
 
 	return (
 			<>

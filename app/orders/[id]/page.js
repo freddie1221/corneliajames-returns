@@ -12,7 +12,7 @@ export default async function OrderPage({ params }) {
     return (
       <div className="container flex flex-col space-y-6">  
         <OrderDetails order={order} />
-        {order.returns.length > 0 && <ExistingReturns returns={order.returns} />}
+        <ExistingReturns returns={order.returns} />
         <ReturnForm order={order} /> 
       </div>
     );

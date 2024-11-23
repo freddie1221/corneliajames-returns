@@ -1,5 +1,5 @@
 import summariseReturn from "./summariseReturn";
-import returnShipping from "./calculateShipping";
+import calculateShipping from "./calculateShipping";
 export default function simplifyOrder(order) {
  
   const fulfilledItems = order.fulfillments.flatMap(fulfillment => fulfillment.fulfillmentLineItems.nodes);
@@ -20,6 +20,7 @@ export default function simplifyOrder(order) {
   
   const returnableItems = orderItems.filter(item => item.quantity > 0);
   const exchangeRate = parseFloat(order.subtotalPriceSet.presentmentMoney.amount) / parseFloat(order.subtotalPriceSet.shopMoney.amount)
+  const currencyCode = order.subtotalPriceSet.presentmentMoney.currencyCode
 
   order = {
     id: order.id.split('/').pop(),
@@ -32,13 +33,13 @@ export default function simplifyOrder(order) {
     createdAt: order.createdAt,
     totalPrice: parseFloat(order.subtotalPriceSet.presentmentMoney.amount),
     totalDiscount: parseFloat(order.totalDiscountsSet.presentmentMoney.amount),
-    currencyCode: order.subtotalPriceSet.presentmentMoney.currencyCode,
+    currencyCode: currencyCode,
     orderItems: orderItems,
     returnableItems: returnableItems,
-    returns: order.returns.nodes.map(returnData => summariseReturn(returnData)),
+    returns: order.returns.nodes.map(returnData => summariseReturn(returnData, currencyCode)),
     address: order.shippingAddress,
     countryCode: order.shippingAddress.countryCode,
-    returnShipping: returnShipping({countryCode: order.shippingAddress.countryCode, exchangeRate: exchangeRate}),
+    calculateShipping: calculateShipping({countryCode: order.shippingAddress.countryCode, exchangeRate: exchangeRate}),
   }
   
   return order

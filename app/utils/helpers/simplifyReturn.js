@@ -1,13 +1,6 @@
 import mapReturnStatus from "./mapReturnStatus";
 
 export default function simplifyReturn(data) {
-
-  const statusMap = {
-    OPEN: 'Awaiting Items',
-    CANCELLED: 'Cancelled',
-    CLOSED: 'Complete',
-  };
-
   
   const items = data.returnLineItems.nodes.map(item => {
     return {
@@ -21,6 +14,8 @@ export default function simplifyReturn(data) {
     }
   })
 
+  console.log(data.order)
+
   const returnData =  {
     name: data.name,
     status: mapReturnStatus(data.status),
@@ -29,7 +24,7 @@ export default function simplifyReturn(data) {
     orderId: data.order.id.split('/').pop(),
     items: items,
     email: data.order.email,
-    currency: "GBP",
+    currency: data.order.subtotalPriceSet.presentmentMoney.currencyCode,
     countryCode: data.order.shippingAddress.countryCodeV2,
     shippingAddress: data.order.shippingAddress,
     restockingFeePercentage: parseFloat(items[0].restockingFee),
