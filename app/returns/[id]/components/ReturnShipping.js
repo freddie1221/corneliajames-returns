@@ -43,9 +43,8 @@ function InternationalShipping({ returnData }){
 
 function ReturnDocs({ returnDocs }){
   return (
-    <div className="flex flex-row justify-around py-4 bg-gray-50 rounded-lg p-4">
-      
-      <div className="flex flex-col gap-2">
+    <div className="flex md:flex-row flex-col gap-4">
+      <div className="flex flex-col space-y-2 bg-gray-100 p-4 rounded-lg w-full">
         <DetailItem label="Carrier" value="DHL Express" align="items-start" />
         <DetailItem label="Tracking Number" value={returnDocs.number} align="items-start" />
         <div className="flex flex-col">
@@ -56,11 +55,17 @@ function ReturnDocs({ returnDocs }){
           <span className="text-gray-600 text-sm">Download Label</span>
           <a className="text-blue-500 underline" href={returnDocs.label} target="_blank" rel="noopener noreferrer">Download Label</a>
         </div>
+        <div className="flex flex-col">
+          <span className="text-gray-800 text-sm mb-1">Instructions</span>
+          <span className="text-gray-600 text-sm">Please print and attach the label to your return package. 
+          Please also write on the outside of the package, in large letters, <span className='text-gray-800 font-bold'>"Goods being Returned to manufacturer. Returned goods relief from Duty"</span>
+          </span>
+        </div>
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col space-y-2 bg-gray-100 p-4 rounded-lg w-full items-center">
         <span className="text-gray-600 text-sm">Your Shipping Label</span>
-        <Image src={returnDocs.label} alt="Return Label" width={180} height={180} className=" border border-gray-300 rounded-lg p-2" />
+        <Image src={returnDocs.label} alt="Return Label" width={180} height={180} className=" border border-gray-300 rounded-lg" />
       </div>
     </div>
   )

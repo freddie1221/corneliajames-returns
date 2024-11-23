@@ -22,14 +22,13 @@ export default function ReturnForm({ order }) {
 	const { createReturn, loading, error, success } = useCreateReturn();
 	const { createStoreCredit } = useStoreCredit();
 
-
 	useEffect(() => {
 		setRestockingFee(calculateFee(returnType, itemsCount));
-		includeShipping ? setShippingFee(order.returnShipping.fee) : setShippingFee(0)
+		includeShipping ? setShippingFee(order.calculateShipping.fee) : setShippingFee(0)
 	}, [returnType, itemsCount, includeShipping, returnValue])
 
 	const handleSubmit = async () => {
-		const lineItemsAndFee = returnLineItems.map((item, index) => ({
+		const lineItemsAndFee = returnLineItems.map((item) => ({
 			...item,
 			restockingFee: {percentage: restockingFee.fee}
 		}));
@@ -57,6 +56,7 @@ export default function ReturnForm({ order }) {
 		<div className="flex flex-col rounded">
 			<OrderItemsSelector 
 				orderId={order.id}
+				order={order}
 				returnLineItems={returnLineItems}
 				setReturnLineItems={setReturnLineItems}
 				setReturnValue={setReturnValue}
@@ -70,7 +70,7 @@ export default function ReturnForm({ order }) {
 					itemsCount={itemsCount}
 					returnValue={returnValue}
 					restockingFee={restockingFee}
-					returnShipping={order.returnShipping}
+					calculateShipping={order.calculateShipping}
 					currencyCode={order.currencyCode}
 					countryCode={order.countryCode}
 					includeShipping={includeShipping}

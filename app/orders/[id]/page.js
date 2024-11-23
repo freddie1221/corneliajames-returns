@@ -10,7 +10,7 @@ export default async function OrderPage({ params }) {
   try {
     const order = await getOrder(id);
     return (
-      <div className="container flex flex-col space-y-6">  
+      <div className="container flex flex-col gap-6">  
         <OrderDetails order={order} />
         <ExistingReturns returns={order.returns} />
         <ReturnForm order={order} /> 

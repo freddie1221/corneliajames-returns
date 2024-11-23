@@ -1,28 +1,42 @@
 "use client";
 
 import OrderItem from '@/app/orders/[id]/components/OrderItem';
-import { Message } from '@/app/components/Elements';
-import { useFetchOrder } from '@/app/hooks/useFetchOrder';
-import LoadingSpinner from '@/app/components/LoadingSpinner';
+import { Message, ContactUs } from '@/app/components/Elements';
 
+export default function OrderItemsSelector({ setReturnLineItems, setReturnValue, setItemsCount, returnType, order }) {
 
-export default function OrderItemsSelector({ setReturnLineItems, setReturnValue, setItemsCount, returnType, orderId }) {
-  const { order, error, loading } = useFetchOrder(orderId);
+  if(order.validUntil < new Date()) {
+    return (
+      <div className="flex flex-col items-center bg-gray-100 rounded-lg p-4">
+        <Message text="The return window on this order has expired, please contact us if we can help" />
+        <ContactUs />
+      </div>
+    )
+  }
+
+  if(order.returnableItems.length === 0) {
+    return (
+      <div className="flex flex-col items-center bg-gray-100 rounded-lg p-4">
+        <Message text="There are no returnable items in this order, please contact us if we can help" />
+        <ContactUs />
+      </div>
+    )
+  }
   
   const handleSelectItem = (returnLineItem, checked) => {
     if (checked) {
       setReturnLineItems(prev => [...prev, returnLineItem]);
     } else {
-      setReturnLineItems(prev => prev.filter(ri => ri.fulfillmentLineItemId !== returnLineItem.fulfillmentLineItemId));
+      setReturnLineItems(prev => prev.filter(
+        ri => ri.fulfillmentLineItemId !== returnLineItem.fulfillmentLineItemId
+      ));
     }
   };
 
-  if (loading) { return <LoadingSpinner /> }
-  if (error) { return <Message text={`Error: ${error}`} type="error" /> }
 
   return (
     <div className="">
-      <h2 className="heading-secondary">Items in your order</h2>
+      <h2 className="heading-secondary">Choose items to return</h2>
       <ul className="flex flex-col gap-3 w-full">
         {order.returnableItems.map((item, index) => {
           return (

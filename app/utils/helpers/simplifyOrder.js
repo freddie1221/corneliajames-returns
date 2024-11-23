@@ -1,5 +1,7 @@
 import summariseReturn from "./summariseReturn";
 import calculateShipping from "./calculateShipping";
+import calculateValidUntil from "./calculateValidUntil";
+
 export default function simplifyOrder(order) {
  
   const fulfilledItems = order.fulfillments.flatMap(fulfillment => fulfillment.fulfillmentLineItems.nodes);
@@ -31,6 +33,7 @@ export default function simplifyOrder(order) {
     phone: order.phone,
     customerId: order.customer.id.split('/').pop(),
     createdAt: order.createdAt,
+    validUntil: calculateValidUntil(order.createdAt),
     totalPrice: parseFloat(order.subtotalPriceSet.presentmentMoney.amount),
     totalDiscount: parseFloat(order.totalDiscountsSet.presentmentMoney.amount),
     currencyCode: currencyCode,

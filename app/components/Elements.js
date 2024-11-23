@@ -26,3 +26,9 @@ export function DetailItem({ label, value }) {
     </div>
   );
 }
+
+export function ContactUs() {
+  return (
+    <a href="https://www.corneliajames.com/pages/contact" className="btn btn-primary">Contact Us</a>
+  )
+}

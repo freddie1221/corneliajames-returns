@@ -6,7 +6,7 @@ export async function makeGraphQLRequest(query, variables = {}) {
     headers: {
       'Content-Type': 'application/json',
       'X-Shopify-Access-Token': process.env.SHOPIFY_ACCESS_TOKEN,
-      'Cache-Control': 'no-cache', // Prevent intermediary caching
+      'Cache-Control': 'no-cache',
     },
     body: JSON.stringify({ query, variables }),
   });

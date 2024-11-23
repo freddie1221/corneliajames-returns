@@ -1,6 +1,6 @@
 'use client';
 
-import { GiftIcon, CreditCardIcon, CheckCircleIcon, PaperAirplaneIcon, ArrowUturnLeftIcon } from '@heroicons/react/24/outline';
+import { GiftIcon, CreditCardIcon, CheckCircleIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
 
 export default function ReturnOptions({ 
   setReturnType, 
@@ -10,7 +10,7 @@ export default function ReturnOptions({
   countryCode,
   returnValue, 
   restockingFee, 
-  returnShipping,
+  calculateShipping,
   shippingFee,
   includeShipping,
   setIncludeShipping,
@@ -36,7 +36,7 @@ export default function ReturnOptions({
           itemsCount={itemsCount} 
           currencyCode={currencyCode} 
           storeCreditAmount={storeCreditAmount} 
-          returnShipping={returnShipping}
+          calculateShipping={calculateShipping}
         />
         {returnType === "Credit" && (
           <BackButton setReturnType={setReturnType} />
@@ -48,14 +48,14 @@ export default function ReturnOptions({
             itemsCount={itemsCount} 
             currencyCode={currencyCode} 
             refundAmount={refundAmount} 
-            returnShipping={returnShipping}
+            calculateShipping={calculateShipping}
             restockingFee={restockingFee}
             feeValue={feeValue}
           />
         )}
         {returnType === 'Refund' && (
           <ReturnShipping 
-            returnShipping={returnShipping}
+            calculateShipping={calculateShipping}
             includeShipping={includeShipping}
             setIncludeShipping={setIncludeShipping}
             countryCode={countryCode}
@@ -75,11 +75,11 @@ export default function ReturnOptions({
   );
 }
 
-function StoreCreditOption({ setReturnType, returnType, itemsCount, currencyCode, storeCreditAmount, returnShipping }) {
+function StoreCreditOption({ setReturnType, returnType, itemsCount, currencyCode, storeCreditAmount, calculateShipping }) {
   
   const benefits = [
     { text: `${currencyCode} ${storeCreditAmount} in store credit (10% bonus)`, highlighted: true },
-    `Complimentary ${returnShipping.text}`,
+    `Complimentary ${calculateShipping.text}`,
     'Instant credit upon submitting your return'
   ];
   
@@ -179,11 +179,11 @@ function OptionCard({ type, children, isSelected, setReturnType, className, bord
   );
 }
 
-function ReturnShipping({ returnShipping, includeShipping, setIncludeShipping, currencyCode }) {
+function ReturnShipping({ calculateShipping, includeShipping, setIncludeShipping, currencyCode }) {
   
   const benefits = [
-    {text: `${returnShipping.text} Label: ${currencyCode} ${returnShipping.fee}`, highlighted: true},
-    returnShipping.explainer
+    {text: `${calculateShipping.text} Label: ${currencyCode} ${calculateShipping.fee}`, highlighted: true},
+    calculateShipping.explainer
   ]
   
   return (
