@@ -76,7 +76,7 @@ export default function FindOrder() {
         />
       </div>
       {loading ? ( <LoadingSpinner /> ) : (
-        <button type="submit" className="btn-primary bg-navy w-full mt-10">
+        <button type="submit" className="btn btn-primary bg-navy w-full mt-10">
           Start Return / Exchange
         </button>
       )}
