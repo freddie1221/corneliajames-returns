@@ -48,7 +48,7 @@ function ReturnDocs({ returnDocs, countryCode }){
       <div className="flex md:flex-row flex-col gap-4 mb-4">
         <div className="flex flex-col space-y-3 bg-gray-100 p-4 rounded-lg w-full">
           <DetailItem label="Carrier" value="DHL Express" align="items-start" />
-          <DetailItem label="Tracking Number" value={returnDocs.number} align="items-start" />
+          <DetailItem label="Waybill Number" value={returnDocs.number} align="items-start" />
           <div className="flex flex-col">
             <span className="text-gray-600 text-sm">Tracking Link</span>
             <a className="text-blue-500 underline" href={returnDocs.tracking} target="_blank" rel="noopener noreferrer">Tracking Link</a>
@@ -74,9 +74,13 @@ function ReturnDocs({ returnDocs, countryCode }){
         </div>
         <div className="w-full flex flex-col gap-2">
           <div className="heading-tertiary">Book Collection</div>
-          <span className="text-gray-600 text-sm">
+          <p className="text-gray-600 text-sm">
             Please click the link below to book your collection with DHL 
-          </span>
+          </p>
+          <ol className="list-decimal text-gray-600 text-sm pl-3 mb-2">
+            <li>Select "no", that you don't need to create a shipping label</li>
+            <li>Enter your waybill number, which is <span className="font-bold text-navy">{returnDocs.number}</span></li>
+          </ol>
           <a href={dhlBookingLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary w-fit">Book Collection</a>
         </div>
       </div>
