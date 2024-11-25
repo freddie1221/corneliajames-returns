@@ -26,7 +26,6 @@ export default async function createDelivery(deliveryData) {
     const data = await makeGraphQLRequest(createDeliveryMutation, variables)
 
     if (data.reverseDeliveryCreateWithShipping.reverseDelivery) {
-      console.log("delivery created!!!")
       return data.reverseDeliveryCreateWithShipping.reverseDelivery;
     } else {
       console.error("Failed to create delivery:", data.reverseDeliveryCreateWithShipping.userErrors);

@@ -15,12 +15,12 @@ export default function CancelReturn({ returnId, orderId, returnType, status }) 
 
   const isDisabled = returnType === "Credit" || status === "Complete";
   
-  if (error) return <button className="btn-primary">Error: {error}</button>;
-  if (loading) return <button className="btn btn-primary w-full">Cancelling...</button>;
+  if (error) return <button className="btn btn-tertiary w-full">Error: {error}</button>;
+  if (loading) return <button className="btn btn-tertiary w-full">Cancelling...</button>;
 
   return (
     <button
-      className="btn btn-primary w-full"
+      className="btn btn-tertiary w-full"
       onClick={handleCancelReturn}
       disabled={isDisabled}
     >

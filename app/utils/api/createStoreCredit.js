@@ -2,8 +2,7 @@
 
 export default async function createStoreCredit(storeCreditInput){
 
-  console.log("storeCreditInput: ", storeCreditInput)
-  
+  //console.log("storeCreditInput: ", storeCreditInput)
 
   const payloadString = "https://hook.eu1.make.com/l7upwyysgh8ptl1htat0krtb65wmxu5e?" +
     "customerId=" + storeCreditInput.customerId + "&" +

@@ -18,7 +18,7 @@ export async function POST(request) {
       apiVersion: '2024-07',
     });
 
-    console.log("variables: ", variables)
+    // console.log("variables: ", variables)
     const response = await client.request(query, { variables: variables });
 
     if(response.data.returnCreate.return) {

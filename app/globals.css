@@ -73,7 +73,7 @@ body {
     @apply text-gray-800 transition-colors duration-200 font-semibold bg-white;
   }
   .btn-tertiary {
-    @apply text-navy bg-white hover:bg-navy hover:text-white transition-colors duration-200 border border-navy;
+    @apply text-navy hover:bg-navy hover:text-white transition-colors duration-200 border border-navy;
   }
 }
 

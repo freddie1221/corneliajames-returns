@@ -2,7 +2,7 @@ import mapReturnStatus from "./mapReturnStatus";
 
 export default function summariseReturn(returnData, currencyCode) {
 
-  console.log(returnData)
+  //console.log(returnData)
   
   const items = returnData.returnLineItems.nodes.map(item => {
     return {

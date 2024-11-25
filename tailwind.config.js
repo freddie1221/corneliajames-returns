@@ -24,9 +24,9 @@ module.exports = {
           dark: '#FAF0E6',     // Linen
         },
         navy: {
-          DEFAULT: '#090985',  // Classic navy
+          DEFAULT: '#1504D3',  // Classic navy
           light: '#1B2B4D',    // Midnight blue
-          dark: '#0F1729',     // Dark navy
+          dark: '#090985',     // Dark navy
         },
         stone: {
           DEFAULT: '#F6F3ED',  // White smoke

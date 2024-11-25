@@ -14,8 +14,6 @@ export default function OrderItemsSelector({ setReturnLineItems, setReturnValue,
     )
   }
 
-  console.log(order.exclusions.noReturn)
-
   if(order.returnableItems.length === 0 || order.exclusions.noReturn) {
     return (
       <div className="flex flex-col items-center bg-gray-100 rounded-lg p-4">

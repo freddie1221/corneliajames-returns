@@ -14,7 +14,7 @@ export default function simplifyReturn(data) {
     }
   })
 
-  console.log(data.order)
+  // console.log(data.order)
 
   const returnData =  {
     name: data.name,

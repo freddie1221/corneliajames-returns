@@ -31,7 +31,6 @@ export default function useCreateReturn() {
 
 			setSuccess(true);
 			const data = await response.json();
-			console.log("Create Return Data: ", data)
 
 			const returnId = data.id.split('/').pop();
 			return returnId;

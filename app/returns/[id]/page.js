@@ -28,7 +28,7 @@ export default async function ReturnPage({ params }) {
 
 function ReturnActions({ returnData }){
   return (
-    <div className="container flex gap-4 w-full py-6">
+    <div className="container flex gap-4 w-full p-5 md:px-8">
       <CancelReturn 
         returnId={returnData.id.split('/').pop()} 
         orderId={returnData.orderId} 
