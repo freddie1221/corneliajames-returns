@@ -14,7 +14,6 @@
     "@heroicons/react": "^2.1.5",
     "@shopify/shopify-api": "^11.1.0",
     "@vercel/speed-insights": "^1.1.0",
-    "airtable": "^0.12.2",
     "easypost": "^0.1.1",
     "graphql": "^16.9.0",
     "graphql-request": "^7.1.0",
