@@ -7,8 +7,8 @@ export default function OrderItemsSelector({ setReturnLineItems, setReturnValue,
 
   if(order.validUntil < new Date()) {
     return (
-      <div className="flex flex-col items-center bg-gray-100 rounded-lg p-4">
-        <Message text="The return window on this order has expired, please contact us if we can help" />
+      <div className="flex flex-col items-center bg-gray-100 rounded-lg pb-4 px-4">
+        <Message text="It looks like the return window on this order has expired, please contact us if we can help" />
         <ContactUs />
       </div>
     )
