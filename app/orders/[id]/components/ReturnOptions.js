@@ -28,7 +28,7 @@ export default function ReturnOptions({
 
   return (
     <section className="py-8">
-      <h2 className="text-3xl font-light text-center mb-12 tracking-wide">Select Your Preferred Return Option</h2>
+      <h2 className="text-3xl font-light text-center mb-8 tracking-wide">Select Your Preferred Return Option</h2>
       
       <div className="flex flex-col gap-8"> 
         <StoreCreditOption 
@@ -82,7 +82,8 @@ function StoreCreditOption({ setReturnType, returnType, itemsCount, currencyCode
   const benefits = [
     { text: `${currencyCode} ${storeCreditAmount} in store credit (10% bonus)`, highlighted: true },
     `Complimentary ${calculateShipping.text}`,
-    'Instant credit upon submitting your return'
+    'Instant credit upon submitting your return',
+    'Shop straight away for the replacement items you would like, and receive them before shipping your originals back to us'
   ];
   
   return (
@@ -156,7 +157,7 @@ function BenefitsList({ benefits, color = 'emerald-600' }) {
   return (
     <ul className="space-y-3">
       {benefits.map((benefit, index) => (
-        <li key={index} className="flex items-center gap-2">
+        <li key={index} className="flex  gap-2">
           <CheckCircleIcon className={`w-5 h-5 text-${color} flex-shrink-0`} />
           <span className={benefit.highlighted ? `font-medium text-${color}` : `text-gray-600`}>
             {typeof benefit === 'string' ? benefit : benefit.text}
@@ -230,7 +231,7 @@ function BackButton({ setReturnType }) {
   return (
     <button
       onClick={() => setReturnType("")}
-      className="text-gray-500 hover:text-gray-700 text-sm font-medium"
+      className="text-gray-600 hover:text-gray-800 font-medium"
     >← Back to options</button>
   )
 }
