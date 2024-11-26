@@ -31,10 +31,10 @@ export default function simplifyOrder(order) {
     firstName: order.shippingAddress.firstName,
     name: order.name,
     email: order.email,
-    phone: order.phone,
     exclusions: exclusions(order.tags),
     customerId: order.customer.id.split('/').pop(),
     createdAt: order.createdAt,
+    shippedOn: order.fulfillments?.[0]?.createdAt,
     validUntil: calculateValidUntil(order.createdAt),
     totalPrice: parseFloat(order.subtotalPriceSet.presentmentMoney.amount),
     totalDiscount: parseFloat(order.totalDiscountsSet.presentmentMoney.amount),
@@ -46,6 +46,6 @@ export default function simplifyOrder(order) {
     countryCode: order.shippingAddress.countryCode,
     calculateShipping: calculateShipping({countryCode: order.shippingAddress.countryCode, exchangeRate: exchangeRate}),
   }
-  
+
   return order
 }

@@ -47,6 +47,7 @@ const getOrderQuery = (id) => `
           phone
         }
         fulfillments(first: 10) {
+          createdAt
           status
           fulfillmentLineItems(first: 10) {
             nodes {

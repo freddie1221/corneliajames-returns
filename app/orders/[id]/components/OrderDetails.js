@@ -7,7 +7,7 @@ export default function OrderDetails({ order }) {
       <div className="shadow-md rounded-lg p-6 bg-white flex md:flex-row flex-col md:gap-6 gap-4">
         <div className="flex flex-col space-y-2 bg-gray-100 p-4 rounded-lg w-full">
           <DetailItem label="Order Number" value={order.name} />
-          <DetailItem label="Order Date" value={new Date(order.createdAt).toLocaleDateString()} />
+          <DetailItem label="Order Shipped On" value={new Date(order.shippedOn).toLocaleDateString()} />
           <DetailItem label="Return Valid Until" value={new Date(order.validUntil).toLocaleDateString()} />
           <DetailItem label="Order Total" value={`${order.currencyCode} ${order.totalPrice}`} />
           <DetailItem label="Customer Name" value={order.fullName} />
