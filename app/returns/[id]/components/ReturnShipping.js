@@ -79,6 +79,7 @@ function ReturnDocs({ returnDocs, countryCode }){
           </p>
           <ol className="list-decimal text-gray-600 text-sm pl-3 mb-2">
             <li>Select "no", that you don't need to create a shipping label</li>
+            <li>Select "I have a DHL Waybill Number" in the dropdown menu</li>
             <li>Enter your waybill number, which is <span className="font-bold text-navy">{returnDocs.number}</span></li>
           </ol>
           <a href={dhlBookingLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary w-fit">Book Collection</a>
