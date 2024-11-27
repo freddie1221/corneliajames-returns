@@ -17,7 +17,7 @@ export default function OrderItemsSelector({ setReturnLineItems, setReturnValue,
   if(order.returnableItems.length === 0 || order.exclusions.noReturn) {
     return (
       <div className="flex flex-col items-center bg-gray-100 rounded-lg p-4">
-        <Message text="There are no returnable items in this order, please contact us if you think this is a mistake" />
+        <Message text="There are no other returnable items in this order, please contact us if you think this is a mistake" />
         <ContactUs />
       </div>
     )

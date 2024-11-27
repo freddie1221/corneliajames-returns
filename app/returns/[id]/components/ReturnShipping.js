@@ -65,15 +65,19 @@ function ReturnDocs({ returnDocs, countryCode }){
         </div>
       </div>
         
-      <div className="flex gap-4 bg-gray-100 p-4 rounded-lg">
-        <div className="w-full flex flex-col gap-2">
+      <div className="flex gap-4  md:flex-row flex-col gap-4">
+        
+        <div className="w-full flex flex-col gap-2 bg-gray-100 p-4 rounded-lg">
           <div className="heading-tertiary">Packing Instructions</div>
-          <span className="text-gray-600 text-sm">Please print and attach the label to your return package. 
-            Please also write on the outside of the package, in large letters, <span className='text-navy font-bold'>"Goods being Returned to manufacturer. Returned goods relief from Duty"</span>
-          </span>
+          <p className="text-gray-600 text-sm">Please print and attach the label to your return package.</p>
+          <p className="text-gray-600 text-sm">Please also write on the outside of the package, in large letters, 
+            <span className='text-navy font-bold'>"Goods being Returned to manufacturer. Returned goods relief from Duty"</span>
+          </p>
+          <p className="text-gray-600 text-sm">This is really important, because it stops your return shipment being held up in customs.</p>
         </div>
-        <div className="w-full flex flex-col gap-2">
-          <div className="heading-tertiary">Book Collection</div>
+        
+        <div className="w-full flex flex-col gap-2 bg-gray-100 p-4 rounded-lg">
+          <div className="heading-tertiary">Book a DHL Collection</div>
           <p className="text-gray-600 text-sm">
             Please click the link below to book your collection with DHL 
           </p>
