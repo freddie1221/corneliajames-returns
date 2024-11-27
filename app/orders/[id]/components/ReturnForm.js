@@ -22,6 +22,10 @@ export default function ReturnForm({ order }) {
 	const { createReturn, loading, error, success } = useCreateReturn();
 	const { createStoreCredit } = useStoreCredit();
 
+	if(order.totalPrice === 0) {
+		return <Message text="This order has no value to refund." />
+	}
+	
 	useEffect(() => {
 		setRestockingFee(calculateFee(returnType, itemsCount));
 		includeShipping && returnType === 'Refund' ? setShippingFee(order.calculateShipping.fee) : setShippingFee(0)

@@ -183,6 +183,7 @@ function OptionCard({ type, children, isSelected, setReturnType, className, bord
 }
 
 function ReturnShipping({ calculateShipping, includeShipping, setIncludeShipping, currencyCode }) {
+  console.log(calculateShipping)
   
   const benefits = [
     {text: `${calculateShipping.text} Label: ${currencyCode} ${calculateShipping.fee}`, highlighted: true},
