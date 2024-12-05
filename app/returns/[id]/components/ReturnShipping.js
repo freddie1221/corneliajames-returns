@@ -9,13 +9,41 @@ import LoadingSpinner from "@/app/components/LoadingSpinner";
 import { Message } from "@/app/components/Elements";
 
 export default function ReturnShipping({ returnData }) {
+
+  if(returnData.returnShippingFee === "0.00" && returnData.returnType === "Refund") return <NoShipping />
   
   return (
     <div className="container bg-white rounded-lg p-5 md:px-8 md:pb-8">
       <h2 className="heading-secondary">Return Shipping</h2>
       {returnData.countryCode === 'GB' ? 
         <GbShipping /> : 
-        <InternationalShipping returnData={returnData} />}
+        <InternationalShipping returnData={returnData} />
+      }
+    </div>
+  )
+}
+
+function NoShipping(){
+  return (
+    <div className="container bg-white rounded-lg p-5 md:px-8 md:pb-8">
+      <h2 className="heading-secondary">Return Shipping</h2>
+      <div className="flex md:flex-row flex-col gap-4">
+        <div className="flex flex-col space-y-2 bg-gray-100 p-4 rounded-lg w-full">
+          <p>Please carefully pack your items, including the presentation box, and ship to this address. Please use a tracked service as you are responsible for returning the items to us safely.</p>
+          <p>If you prefer to use our shipping service instead, please click below to cancel your return, place it again and select to add shipping.</p>
+        </div>
+        <div className="flex flex-col space-y-1 bg-gray-100 p-4 rounded-lg w-full">
+          <div className="text-sm mb-2">Our Shipping Address</div>
+          <div>
+            <div>Cornelia James Ltd</div>
+            <div>Hall Court Farm</div>
+            <div>Ripe</div>
+            <div>East Sussex</div>
+            <div>BN8 6AY</div>
+            <div>United Kingdom</div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

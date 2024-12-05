@@ -14,7 +14,18 @@ export default async function ReturnDetails({ returnData }) {
       Credit: 'Store Credit',
     }
     const returnType = typeMap[returnData.returnType] || returnData.returnType;
-    const returnShipping = returnData.returnShippingFee > 0 ? `${returnData.currency} ${returnData.returnShippingFee}` : 'Free';
+
+    let returnShipping = ""
+    
+    if(returnData.returnShippingFee > 0) {
+      returnShipping =  `${returnData.currency} ${returnData.returnShippingFee}`
+    } else if(returnData.returnType === "Credit") {
+      returnShipping = "Free"
+    } else if(returnData.returnType === "Refund") {
+      returnShipping = "Not Selected"
+    }
+
+   
   
     return (
       <div className="flex justify-between flex flex-col gap-4 rounded-md w-full ">
