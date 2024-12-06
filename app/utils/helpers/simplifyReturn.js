@@ -14,14 +14,15 @@ export default function simplifyReturn(data) {
     }
   })
 
-  // console.log(data.order)
-
   const returnData =  {
     name: data.name,
     status: mapReturnStatus(data.status),
     totalQuantity: data.totalQuantity,
     id: data.id,
     orderId: data.order.id.split('/').pop(),
+    
+    taxRate: parseFloat(data.order.taxLines[0].rate),
+    
     items: items,
     email: data.order.email,
     currency: data.order.subtotalPriceSet.presentmentMoney.currencyCode,

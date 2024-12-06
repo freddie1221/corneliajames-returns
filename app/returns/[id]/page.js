@@ -1,23 +1,32 @@
 import Link from 'next/link';
 import { getReturn } from '@/app/utils/api/getReturn';
-
-
 import ReturnDetails from '@/app/returns/[id]/components/ReturnDetails';
 import ReturnShipping from '@/app/returns/[id]/components/ReturnShipping';
 import StoreCredit from '@/app/returns/[id]/components/StoreCredit';
 import CancelReturn from './components/CancelReturn';
 import getSuggestedRefund from '@/app/utils/api/getSuggestedRefund';
+
 export default async function ReturnPage({ params }) {
   
   const { id } = params;
   const returnData = await getReturn(id);
-  const { refundAmount, storeCreditAmount } = await getSuggestedRefund(returnData)
+  const { storeCreditAmount } = await getSuggestedRefund(returnData)
 
   return (
     <div className="flex flex-col gap-4">
       <div className="container bg-white rounded-lg p-5">
         <h1 className="heading-secondary">Return Details</h1>
-        <ReturnDetails returnData={returnData} refundAmount={refundAmount} storeCreditAmount={storeCreditAmount} />
+        <ReturnDetails returnData={returnData} />
+        {/*
+        <div className="text-sm text-gray-500">Tax Rate: {returnData.taxRate}</div>
+        <div className="text-sm text-gray-500">Tax Amount: {taxAmount}</div>
+        <div className="text-sm text-gray-500">Refund Amount: {refundAmount}</div>
+        <div className="text-sm text-gray-500">Store Credit Amount: {storeCreditAmount}</div>
+        <div className="text-sm text-gray-500">Restocking Fee: {returnData.restockingFeePercentage}</div>
+        <div className="text-sm text-gray-500">Incremental Fee: {incrementalFee}</div>
+        */}
+
+
       </div>
       {returnData.returnType === 'Credit' && <StoreCredit returnData={returnData} storeCreditAmount={storeCreditAmount} />}
       <ReturnShipping returnData={returnData} />

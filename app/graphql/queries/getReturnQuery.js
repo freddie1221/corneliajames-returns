@@ -19,6 +19,9 @@ const getReturnQuery = (id) => `
           countryCodeV2
           phone
         }
+        taxLines {
+          rate
+        }
         subtotalPriceSet {
           presentmentMoney {
             amount

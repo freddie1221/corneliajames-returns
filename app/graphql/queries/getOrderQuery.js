@@ -9,6 +9,9 @@ const getOrderQuery = (id) => `
         createdAt
         email
         tags
+        taxLines {
+          rate
+        }
         returns(first: 95, query:"NOT status:CANCELED") {
           nodes {
             ...ReturnFields

@@ -1,5 +1,5 @@
 import summariseReturn from "./summariseReturn";
-import calculateShipping from "./calculateShipping";
+import getShippingService from "./getShippingService";
 import calculateValidUntil from "./calculateValidUntil";
 import exclusions from "./exclusions";
 
@@ -43,8 +43,10 @@ export default function simplifyOrder(order) {
     returnableItems: returnableItems,
     returns: order.returns.nodes.map(returnData => summariseReturn(returnData, currencyCode)),
     address: order.shippingAddress,
+    taxRate: parseFloat(order.taxLines[0]?.rate || 0),
+    exchangeRate: exchangeRate,
     countryCode: order.shippingAddress.countryCode,
-    calculateShipping: calculateShipping({countryCode: order.shippingAddress.countryCode, exchangeRate: exchangeRate}),
+    calculateShipping: getShippingService({countryCode: order.shippingAddress.countryCode, exchangeRate: exchangeRate}),
   }
 
   return order

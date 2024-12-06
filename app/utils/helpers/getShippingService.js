@@ -1,5 +1,6 @@
 
-export default function calculateShipping({countryCode, exchangeRate}) {
+
+export default function getShippingService({countryCode, exchangeRate}) {
   const domesticFee = process.env.DOMESTIC_SHIPPING_FEE
   const internationalFee = process.env.INTERNATIONAL_SHIPPING_FEE
 
