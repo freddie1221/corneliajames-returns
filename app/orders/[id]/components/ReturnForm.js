@@ -5,10 +5,12 @@ import { useRouter } from 'next/navigation';
 import OrderItemsSelector from './OrderItemsSelector';
 import ReturnOptions from './ReturnOptions';
 import { Message } from '@/app/components/Elements';
-import calculateFee from '@/app/utils/helpers/calculateFeePercentage';
+import calculateRestockingFee from '@/app/utils/helpers/calculateRestockingFee';
 import calculateShippingFee from '@/app/utils/helpers/calculateShippingFee';
 import useCreateReturn from '@/app/hooks/useCreateReturn';
 import useStoreCredit from '@/app/hooks/useStoreCredit';
+import ReturnConfirmation from './ReturnConfirmation';
+import ReturnShipping from './ReturnShipping';
 
 export default function ReturnForm({ order }) {
 	const router = useRouter();
@@ -17,8 +19,14 @@ export default function ReturnForm({ order }) {
 	const [itemsCount, setItemsCount] = useState(0);
 	const [returnValue, setReturnValue] = useState(0);
 	const [includeShipping, setIncludeShipping] = useState(false);
+
+	const [refundAmount, setRefundAmount] = useState(0);
+	const [shippingFee, setShippingFee] = useState(0);
+	
 	const [restockingFee, setRestockingFee] = useState(0);
-	const [shippingFee, setShippingFee] = useState(0)
+	const [restockingFeeExplainer, setRestockingFeeExplainer] = useState('');
+	const [aggregateShippingFee, setAggregateShippingFee] = useState(0)
+	
 	const [confirmation, setConfirmation] = useState(false);
 	const { createReturn, loading, error, success } = useCreateReturn();
 	const { createStoreCredit } = useStoreCredit();
@@ -27,36 +35,36 @@ export default function ReturnForm({ order }) {
 		return <Message text="This order has no value to refund." />
 	}
 
-	// I just need to tease appart the two fees returned from calculateShippingFee
-	
-	useEffect(() => {
-		setRestockingFee(calculateFee(returnType, itemsCount));
-		console.log("restockingFee", restockingFee.fee)
-		
-		setShippingFee(
-			calculateShippingFee({
-				restockingFeePercentage: restockingFee.fee, 
-				discountedSubtotal: order.totalPrice, 
-				taxRate: order.taxRate, 
-				countryCode: order.countryCode, 
-				exchangeRate: order.exchangeRate, 
-				returnType: returnType,
-				includeShipping: includeShipping
-			})
-		)
 
-		console.log("shippingFee", shippingFee)
+	useEffect(() => {
+		
+		const { fee, explainer } = calculateRestockingFee({returnType, itemsCount});
+		const { incrementalFee, shippingFee } = calculateShippingFee({
+			restockingFeePercentage: fee, 
+			discountedSubtotal: order.totalPrice, 
+			taxRate: order.taxRate, 
+			shippingService: order.shippingService,
+			returnType: returnType,
+			includeShipping: includeShipping
+		})
+		
+		setRestockingFee(fee);
+		setRestockingFeeExplainer(explainer)
+		setShippingFee(shippingFee)
+		setAggregateShippingFee(shippingFee + incrementalFee)
+		
+
 	}, [returnType, itemsCount, includeShipping, returnValue])
 
 	const handleSubmit = async () => {
 		const lineItemsAndFee = returnLineItems.map((item) => ({
 			...item,
-			restockingFee: {percentage: restockingFee.fee}
+			restockingFee: {percentage: restockingFee}
 		}));
 
 		const returnId = await createReturn({
 			orderId: order.id, 
-			shippingFee: shippingFee, 
+			shippingFee: aggregateShippingFee, 
 			lineItemsAndFee: lineItemsAndFee,
 			currency: order.currencyCode
 		});
@@ -69,12 +77,18 @@ export default function ReturnForm({ order }) {
     }
 	};
 
+	const restockingFeeValue = returnValue * (restockingFee / 100)
+	const storeCreditAmount = returnValue * 1.1
+
+	const textColor = returnType === 'Credit' ? 'text-emerald-600' : 'text-navy'
+  const borderColor = returnType === 'Credit' ? 'border-emerald-600' : 'border-navy'
+
 	if(loading) { return( <Message text="Loading..." type="loading" />) }
 	if(error) { return( <Message text={`Error: ${error}`} type="error" />) }
 	if(success) { return <Message text="Return request submitted successfully!" type="success" />}
 
 	return (
-		<div className="flex flex-col rounded">
+		<div className="flex flex-col rounded space-y-8">
 			<OrderItemsSelector 
 				orderId={order.id}
 				order={order}
@@ -89,17 +103,32 @@ export default function ReturnForm({ order }) {
 					setReturnType={setReturnType}
 					returnType={returnType}
 					itemsCount={itemsCount}
+					currencyCode={order.currencyCode}
 					returnValue={returnValue}
 					restockingFee={restockingFee}
-					calculateShipping={order.calculateShipping}
-					currencyCode={order.currencyCode}
-					countryCode={order.countryCode}
+					restockingFeeExplainer={restockingFeeExplainer}
+					shippingFee={shippingFee}
 					exclusions={order.exclusions}
+					shippingService={order.shippingService}
+					restockingFeeValue={restockingFeeValue}
+					storeCreditAmount={storeCreditAmount}
+				/>
+			)}
+			{returnType === 'Refund' && (
+				<ReturnShipping 
+					shippingService={order.shippingService}
 					includeShipping={includeShipping}
 					setIncludeShipping={setIncludeShipping}
-					shippingFee={shippingFee}
-					setConfirmation={setConfirmation}
-					confirmation={confirmation}
+					countryCode={order.countryCode}
+					currencyCode={order.currencyCode}
+				/>
+			)}
+			{itemsCount > 0 && returnType && (
+				<ReturnConfirmation 
+					confirmation={confirmation} 
+					setConfirmation={setConfirmation} 
+					textColor={textColor} 
+					borderColor={borderColor}
 				/>
 			)}
 			{itemsCount > 0 && returnType && confirmation && (

@@ -32,6 +32,9 @@ export default async function getSuggestedRefund(returnData) {
   const amountExTax = (discountedSubtotal / (1 + returnData.taxRate)).toFixed(2);
   const taxAmount = (discountedSubtotal - amountExTax).toFixed(2);
 
+  console.log(returnData.restockingFeePercentage)
+  console.log(discountedSubtotal)
+  console.log(returnData.taxRate)
 
 
   const { incrementalFee } = calculateIncrementalFee(returnData.restockingFeePercentage, discountedSubtotal, returnData.taxRate)

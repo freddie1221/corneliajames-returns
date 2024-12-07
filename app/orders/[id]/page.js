@@ -6,6 +6,7 @@ import { Message } from '@/app/components/Elements';
 
 export default async function OrderPage({ params }) {
   const { id } = params;
+  
 
   try {
     const order = await getOrder(id);

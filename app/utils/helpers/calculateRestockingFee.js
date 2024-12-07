@@ -1,6 +1,6 @@
 
 
-export default function calculateFee(returnType, itemsCount) {
+export default function calculateRestockingFee({returnType, itemsCount}) {
   let fee = 0;
   let explainer = ""
 

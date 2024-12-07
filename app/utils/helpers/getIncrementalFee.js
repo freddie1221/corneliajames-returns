@@ -1,9 +1,11 @@
 
 export default function getIncrementalFee({restockingFeePercentage, discountedSubtotal, taxRate}) {
+  
+  const amountExTax = (discountedSubtotal / (1 + taxRate))
+  const taxAmount = (discountedSubtotal - amountExTax)
 
-  const amountExTax = (discountedSubtotal / (1 + taxRate)).toFixed(2);
-  const taxAmount = (discountedSubtotal - amountExTax).toFixed(2);
-  const incrementalFee = (taxAmount * restockingFeePercentage / 100).toFixed(2);
+  let incrementalFee = 0
+  incrementalFee = (taxAmount * restockingFeePercentage / 100)
 
   return { incrementalFee }
 

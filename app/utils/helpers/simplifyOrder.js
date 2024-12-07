@@ -46,7 +46,7 @@ export default function simplifyOrder(order) {
     taxRate: parseFloat(order.taxLines[0]?.rate || 0),
     exchangeRate: exchangeRate,
     countryCode: order.shippingAddress.countryCode,
-    calculateShipping: getShippingService({countryCode: order.shippingAddress.countryCode, exchangeRate: exchangeRate}),
+    shippingService: getShippingService({countryCode: order.shippingAddress.countryCode, exchangeRate: exchangeRate}),
   }
 
   return order

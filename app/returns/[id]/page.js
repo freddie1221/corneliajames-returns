@@ -17,15 +17,6 @@ export default async function ReturnPage({ params }) {
       <div className="container bg-white rounded-lg p-5">
         <h1 className="heading-secondary">Return Details</h1>
         <ReturnDetails returnData={returnData} />
-        {/*
-        <div className="text-sm text-gray-500">Tax Rate: {returnData.taxRate}</div>
-        <div className="text-sm text-gray-500">Tax Amount: {taxAmount}</div>
-        <div className="text-sm text-gray-500">Refund Amount: {refundAmount}</div>
-        <div className="text-sm text-gray-500">Store Credit Amount: {storeCreditAmount}</div>
-        <div className="text-sm text-gray-500">Restocking Fee: {returnData.restockingFeePercentage}</div>
-        <div className="text-sm text-gray-500">Incremental Fee: {incrementalFee}</div>
-        */}
-
 
       </div>
       {returnData.returnType === 'Credit' && <StoreCredit returnData={returnData} storeCreditAmount={storeCreditAmount} />}

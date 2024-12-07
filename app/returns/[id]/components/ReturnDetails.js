@@ -7,12 +7,16 @@ import getSuggestedRefund from "@/app/utils/api/getSuggestedRefund";
 export default async function ReturnDetails({ returnData }) {
 
     if (!returnData) return null
-    const { refundAmount, storeCreditAmount, incrementalFee } = await getSuggestedRefund(returnData)
+    const { refundAmount, storeCreditAmount, taxAmount, incrementalFee } = await getSuggestedRefund(returnData)
 
     const typeMap = {
       Refund: 'Refund',
       Credit: 'Store Credit',
     }
+
+
+    console.log(incrementalFee)
+    
     const returnType = typeMap[returnData.returnType] || returnData.returnType;
 
     const returnShippingFeeNet = parseFloat(returnData.returnShippingFee) - parseFloat(incrementalFee)
