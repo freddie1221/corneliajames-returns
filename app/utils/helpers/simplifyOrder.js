@@ -15,11 +15,14 @@ export default function simplifyOrder(order) {
       image: item.lineItem.image.url,
       requiresShipping: item.lineItem.requiresShipping,
       value: parseFloat(item.lineItem.discountedUnitPriceAfterAllDiscountsSet.presentmentMoney.amount),
+      taxAmount: parseFloat(item.lineItem.taxLines[0]?.priceSet.presentmentMoney.amount),
       price: parseFloat(item.originalTotalSet.presentmentMoney.amount),
       discount: parseFloat(item.discountedTotalSet.presentmentMoney.amount),
       currencyCode: item.originalTotalSet.presentmentMoney.currencyCode,
     };
   });
+
+
   
   const returnableItems = orderItems.filter(item => item.quantity > 0);
   const exchangeRate = parseFloat(order.subtotalPriceSet.presentmentMoney.amount) / parseFloat(order.subtotalPriceSet.shopMoney.amount)

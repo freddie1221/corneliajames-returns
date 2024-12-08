@@ -66,6 +66,14 @@ const getOrderQuery = (id) => `
                     amount
                   }
                 }
+                taxLines{
+                  rate
+                  priceSet {
+                    presentmentMoney {
+                      amount
+                    }
+                  }
+                }
               }
               quantity
               id

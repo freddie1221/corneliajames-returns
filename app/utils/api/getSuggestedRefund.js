@@ -28,7 +28,6 @@ export default async function getSuggestedRefund(returnData) {
   const refundAmount = parseFloat(response.data.return.suggestedRefund.amount.presentmentMoney.amount);
   const discountedSubtotal = parseFloat(response.data.return.suggestedRefund.discountedSubtotal.presentmentMoney.amount);
   const storeCreditAmount = parseFloat(discountedSubtotal * 1.1);
-  
 
   const { incrementalFee } = calculateIncrementalFee({
     restockingFeePercentage: returnData.restockingFeePercentage, 

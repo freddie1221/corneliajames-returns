@@ -44,8 +44,7 @@ export default function ReturnForm({ order }) {
 			returnType,
 			includeShipping
 		})
-		console.log("shippingFee from hook", shippingFee)
-		
+
 		const { incrementalFee } = calculateIncrementalFee({
 			restockingFeePercentage: fee, 
 			discountedSubtotal: order.totalPrice, 

@@ -21,11 +21,6 @@ export default function ReturnOptions({
   
   const refundAmount = (returnValue - restockingFeeValue - shippingFee)
   
-  console.log("returnValue", returnValue)
-  console.log("restockingFeeValue", restockingFeeValue)
-  console.log("shippingFee", shippingFee)
-  
-  console.log("refundAmount", refundAmount)
 
   return (
     <section>

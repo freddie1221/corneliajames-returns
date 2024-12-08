@@ -45,6 +45,7 @@ export default function OrderItemsSelector({ setReturnLineItems, setReturnValue,
               index={index}
               item={item} 
               returnType={returnType}
+              countryCode={order.countryCode}
               setItemsCount={setItemsCount}
               setReturnValue={setReturnValue}
               onSelectItem={handleSelectItem}
