@@ -3,7 +3,7 @@ import { PaperAirplaneIcon, CheckCircleIcon } from "@heroicons/react/24/outline"
 export default function ReturnShipping({ shippingService, includeShipping, setIncludeShipping, currencyCode }) {
 
   const benefits = [
-    {text: `${shippingService.text} Label: ${currencyCode} ${shippingService.fee}`, highlighted: true},
+    {text: `${shippingService.text} Label: ${currencyCode} ${shippingService.fee.toFixed(2)}`, highlighted: true},
     shippingService.explainer
   ]
   

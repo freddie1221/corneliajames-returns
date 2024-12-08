@@ -103,7 +103,7 @@ function StoreCreditOption({ setReturnType, returnType, itemsCount, currencyCode
 function RefundOption({ setReturnType, returnType, itemsCount, currencyCode, refundAmount, restockingFeeExplainer, restockingFeeValue }) {
 
   const benefits = [
-    { text: `${currencyCode} ${refundAmount} refund to original payment method`, highlighted: true },
+    { text: `${currencyCode} ${refundAmount.toFixed(2)} refund to original payment method`, highlighted: true },
     restockingFeeValue > 0 ? `${restockingFeeExplainer}: ${currencyCode} ${restockingFeeValue}` : null,
     'Refund issued upon receipt & check of the returned items'
   ].filter(Boolean); 
