@@ -1,6 +1,6 @@
 'use client';
 
-import { GiftIcon, CreditCardIcon, CheckCircleIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
+import { GiftIcon, CreditCardIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 
 
 export default function ReturnOptions({ 
@@ -17,13 +17,15 @@ export default function ReturnOptions({
   restockingFeeValue,
   storeCreditAmount
 }) {
-  
 
+  
+  const refundAmount = (returnValue - restockingFeeValue - shippingFee)
+  
+  console.log("returnValue", returnValue)
   console.log("restockingFeeValue", restockingFeeValue)
   console.log("shippingFee", shippingFee)
-  console.log("returnValue", returnValue)
   
-  const refundAmount = (returnValue - restockingFeeValue - shippingFee).toFixed(2)
+  console.log("refundAmount", refundAmount)
 
   return (
     <section>

@@ -7,19 +7,15 @@ import getSuggestedRefund from "@/app/utils/api/getSuggestedRefund";
 export default async function ReturnDetails({ returnData }) {
 
     if (!returnData) return null
-    const { refundAmount, storeCreditAmount, taxAmount, incrementalFee } = await getSuggestedRefund(returnData)
+    const { refundAmount, storeCreditAmount, incrementalFee } = await getSuggestedRefund(returnData)
 
     const typeMap = {
       Refund: 'Refund',
       Credit: 'Store Credit',
     }
-
-
-    console.log(incrementalFee)
-    
     const returnType = typeMap[returnData.returnType] || returnData.returnType;
 
-    const returnShippingFeeNet = parseFloat(returnData.returnShippingFee) - parseFloat(incrementalFee)
+    const returnShippingFeeNet = returnData.returnShippingFee - incrementalFee
     let returnShipping = ""
     
     if(returnShippingFeeNet > 0) {
@@ -43,7 +39,7 @@ export default async function ReturnDetails({ returnData }) {
           <div className="flex flex-col space-y-2 bg-gray-100 p-4 rounded-lg w-full">
             <DetailItem label="Total Items" value={returnData.totalQuantity} />
             {returnType === 'Refund' && <DetailItem label="Refund Amount" value={`${returnData.currency} ${refundAmount}`} />}
-            {returnType === 'Store Credit' && <DetailItem label="Store Credit Issued" value={`${returnData.currency} ${storeCreditAmount}`} />}
+            {returnType === 'Store Credit' && <DetailItem label="Store Credit Issued" value={`${returnData.currency} ${storeCreditAmount.toFixed(2)}`} />}
             <DetailItem label="Return Shipping" value={returnShipping} />
           </div>
         </div>

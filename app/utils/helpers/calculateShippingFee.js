@@ -1,28 +1,15 @@
-import getIncrementalFee from "./getIncrementalFee";
 
-export default function calculateShippingFee(params) {
+export default function calculateShippingFee({shippingService, returnType, includeShipping}) {
   
-  if (Object.values(params).some(value => value === undefined)) {
-    return 0;
+  if (!shippingService || !returnType || includeShipping === undefined) {
+    return { shippingFee: 0 };  // Return consistent object structure
   }
 
-  const {
-    restockingFeePercentage, 
-    discountedSubtotal, 
-    taxRate, 
-    shippingService,
-    returnType,
-    includeShipping
-  } = params;
-
-  const { incrementalFee } = getIncrementalFee({restockingFeePercentage, discountedSubtotal, taxRate})
- 
   let shippingFee = 0
   if(includeShipping && returnType === "Refund") {
     const { fee } = shippingService
     shippingFee = fee
   }
 
-
-  return { incrementalFee, shippingFee }
+  return { shippingFee }
 }

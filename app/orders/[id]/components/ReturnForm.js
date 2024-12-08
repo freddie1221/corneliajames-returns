@@ -7,6 +7,7 @@ import ReturnOptions from './ReturnOptions';
 import { Message } from '@/app/components/Elements';
 import calculateRestockingFee from '@/app/utils/helpers/calculateRestockingFee';
 import calculateShippingFee from '@/app/utils/helpers/calculateShippingFee';
+import calculateIncrementalFee from '@/app/utils/helpers/calculateIncrementalFee';
 import useCreateReturn from '@/app/hooks/useCreateReturn';
 import useStoreCredit from '@/app/hooks/useStoreCredit';
 import ReturnConfirmation from './ReturnConfirmation';
@@ -35,17 +36,20 @@ export default function ReturnForm({ order }) {
 		return <Message text="This order has no value to refund." />
 	}
 
-
 	useEffect(() => {
 		
 		const { fee, explainer } = calculateRestockingFee({returnType, itemsCount});
-		const { incrementalFee, shippingFee } = calculateShippingFee({
+		const { shippingFee } = calculateShippingFee({
+			shippingService: order.shippingService,
+			returnType,
+			includeShipping
+		})
+		console.log("shippingFee from hook", shippingFee)
+		
+		const { incrementalFee } = calculateIncrementalFee({
 			restockingFeePercentage: fee, 
 			discountedSubtotal: order.totalPrice, 
-			taxRate: order.taxRate, 
-			shippingService: order.shippingService,
-			returnType: returnType,
-			includeShipping: includeShipping
+			taxRate: order.taxRate
 		})
 		
 		setRestockingFee(fee);
@@ -53,7 +57,6 @@ export default function ReturnForm({ order }) {
 		setShippingFee(shippingFee)
 		setAggregateShippingFee(shippingFee + incrementalFee)
 		
-
 	}, [returnType, itemsCount, includeShipping, returnValue])
 
 	const handleSubmit = async () => {

@@ -30,7 +30,7 @@ export default function simplifyReturn(data) {
     shippingAddress: data.order.shippingAddress,
     restockingFeePercentage: parseFloat(items[0].restockingFee),
     returnType: parseFloat(items[0].restockingFee) === 100 ? 'Credit' : 'Refund',
-    returnShippingFee: parseFloat(data.returnShippingFees?.[0]?.amountSet?.presentmentMoney?.amount || 0).toFixed(2),
+    returnShippingFee: parseFloat(data.returnShippingFees?.[0]?.amountSet?.presentmentMoney?.amount || 0),
     reverseFulfillmentOrderId: data.reverseFulfillmentOrders.nodes[0].id,
     reverseFulfillmentOrderLineItems: data.reverseFulfillmentOrders.nodes[0].lineItems.nodes,
     returnDocs: {

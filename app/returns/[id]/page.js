@@ -17,9 +17,12 @@ export default async function ReturnPage({ params }) {
       <div className="container bg-white rounded-lg p-5">
         <h1 className="heading-secondary">Return Details</h1>
         <ReturnDetails returnData={returnData} />
-
       </div>
-      {returnData.returnType === 'Credit' && <StoreCredit returnData={returnData} storeCreditAmount={storeCreditAmount} />}
+      {returnData.returnType === 'Credit' && 
+        <StoreCredit 
+          returnData={returnData} 
+          storeCreditAmount={storeCreditAmount} 
+        />}
       <ReturnShipping returnData={returnData} />
       <ReturnActions returnData={returnData} />
     </div>
