@@ -5,7 +5,9 @@ import exclusions from "./exclusions";
 
 export default function simplifyOrder(order) {
  
-  const fulfilledItems = order.fulfillments.flatMap(fulfillment => fulfillment.fulfillmentLineItems.nodes);
+  const fulfilledItems = order.fulfillments
+  .filter(fulfillment => fulfillment.status !== 'CANCELLED')
+  .flatMap(fulfillment => fulfillment.fulfillmentLineItems.nodes);
 
   const orderItems = fulfilledItems.map(item => {
     return {
@@ -15,7 +17,7 @@ export default function simplifyOrder(order) {
       image: item.lineItem.image.url,
       requiresShipping: item.lineItem.requiresShipping,
       value: parseFloat(item.lineItem.discountedUnitPriceAfterAllDiscountsSet.presentmentMoney.amount),
-      taxAmount: parseFloat(item.lineItem.taxLines[0]?.priceSet.presentmentMoney.amount),
+      taxAmount: parseFloat(item.lineItem.taxLines[0]?.priceSet.presentmentMoney.amount || 0),
       price: parseFloat(item.originalTotalSet.presentmentMoney.amount),
       discount: parseFloat(item.discountedTotalSet.presentmentMoney.amount),
       currencyCode: item.originalTotalSet.presentmentMoney.currencyCode,

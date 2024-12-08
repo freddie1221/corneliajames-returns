@@ -16,7 +16,6 @@ export default function OrderItem({ item, onSelectItem, setItemsCount, setReturn
   } else {
     valueExForeignTax = value - taxAmount
   }
-  
 
   const handleReasonChange = (e) => {
     setReturnReasonMissing(false);
