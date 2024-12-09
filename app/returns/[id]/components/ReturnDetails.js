@@ -21,12 +21,13 @@ export default async function ReturnDetails({ returnData }) {
     if(returnShippingFeeNet > 0) {
       returnShipping =  `${returnData.currency} ${returnShippingFeeNet.toFixed(2)}`
     } else if(returnData.returnType === "Credit") {
-      returnShipping = "Free"
+      returnShipping = "Complimentary"
     } else if(returnData.returnType === "Refund") {
       returnShipping = "Not Selected"
     }
 
-   
+    console.log("incrementalFee", incrementalFee)
+    console.log("returnData", returnData)
   
     return (
       <div className="flex justify-between flex flex-col gap-4 rounded-md w-full ">

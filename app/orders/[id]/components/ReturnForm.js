@@ -47,7 +47,7 @@ export default function ReturnForm({ order }) {
 
 		const { incrementalFee } = calculateIncrementalFee({
 			restockingFeePercentage: fee, 
-			discountedSubtotal: order.totalPrice, 
+			discountedSubtotal: returnValue, 
 			taxRate: order.taxRate
 		})
 		
@@ -55,6 +55,12 @@ export default function ReturnForm({ order }) {
 		setRestockingFeeExplainer(explainer)
 		setShippingFee(shippingFee)
 		setAggregateShippingFee(shippingFee + incrementalFee)
+
+		console.log("restockingFeePercentage", fee)
+		console.log("discountedSubtotal", order.totalPrice)
+		console.log("returnValue", returnValue)
+		console.log("taxRate", order.taxRate)
+		console.log("incrementalFee", incrementalFee)
 		
 	}, [returnType, itemsCount, includeShipping, returnValue])
 

@@ -10,6 +10,7 @@ export default function OrderItem({ item, onSelectItem, setItemsCount, setReturn
   const [returnReasonNote, setReturnReasonNote] = useState('');
   const [returnReasonMissing, setReturnReasonMissing] = useState(false);
 
+
   let valueExForeignTax = 0
   if (countryCode === "GB") {
     valueExForeignTax = value

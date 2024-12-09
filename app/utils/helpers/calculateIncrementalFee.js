@@ -9,7 +9,7 @@ export default function calculateIncrementalFee({restockingFeePercentage, discou
   const taxAmount = (discountedSubtotal - amountExTax)
 
   let incrementalFee = 0
-  incrementalFee = (taxAmount * restockingFeePercentage / 100)
+  incrementalFee = (taxAmount * restockingFeePercentage / 100).toFixed(2)
 
   return { incrementalFee }
 

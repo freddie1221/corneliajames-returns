@@ -23,8 +23,6 @@ export default function simplifyOrder(order) {
       currencyCode: item.originalTotalSet.presentmentMoney.currencyCode,
     };
   });
-
-
   
   const returnableItems = orderItems.filter(item => item.quantity > 0);
   const exchangeRate = parseFloat(order.subtotalPriceSet.presentmentMoney.amount) / parseFloat(order.subtotalPriceSet.shopMoney.amount)
