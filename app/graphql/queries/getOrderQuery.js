@@ -6,6 +6,7 @@ const getOrderQuery = (id) => `
       order(id: "gid://shopify/Order/${id}") {
         id
         name
+        statusPageUrl
         createdAt
         email
         tags

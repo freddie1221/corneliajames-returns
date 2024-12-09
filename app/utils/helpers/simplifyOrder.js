@@ -43,6 +43,7 @@ export default function simplifyOrder(order) {
     validUntil: calculateValidUntil(order.createdAt),
     totalPrice: parseFloat(order.subtotalPriceSet.presentmentMoney.amount),
     totalDiscount: parseFloat(order.totalDiscountsSet.presentmentMoney.amount),
+    statusPageUrl: order.statusPageUrl,
     currencyCode: currencyCode,
     orderItems: orderItems,
     returnableItems: returnableItems,

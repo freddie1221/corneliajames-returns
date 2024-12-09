@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 
 export async function makeGraphQLRequest(query, variables = {}) {
-  const response = await fetch(`https://${process.env.SHOPIFY_SHOP_NAME}/admin/api/2024-07/graphql.json`, {
+  const response = await fetch(`https://${process.env.SHOPIFY_SHOP_NAME}/admin/api/2024-10/graphql.json`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
