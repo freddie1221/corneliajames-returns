@@ -25,9 +25,6 @@ export default async function ReturnDetails({ returnData }) {
     } else if(returnData.returnType === "Refund") {
       returnShipping = "Not Selected"
     }
-
-    console.log("incrementalFee", incrementalFee)
-    console.log("returnData", returnData)
   
     return (
       <div className="flex justify-between flex flex-col gap-4 rounded-md w-full ">

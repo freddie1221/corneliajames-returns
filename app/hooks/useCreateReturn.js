@@ -22,6 +22,8 @@ export default function useCreateReturn() {
 			notifyCustomer: true
 		};
 
+		// console.log("returnInput", returnInput)
+
 		try {
 			const response = await fetch('/api/shopify/returns', {
 				method: 'POST',
