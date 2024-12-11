@@ -74,23 +74,35 @@ function ReturnDocs({ returnDocs, countryCode }){
   return (
     <div>
       <div className="flex md:flex-row flex-col gap-4 mb-4">
-        <div className="flex flex-col space-y-3 bg-gray-100 p-4 rounded-lg w-full">
-          <DetailItem label="Carrier" value="DHL Express" align="items-start" />
-          <DetailItem label="Waybill Number" value={returnDocs.number} align="items-start" />
-          <div className="flex flex-col">
-            <span className="text-gray-600 text-sm">Tracking Link</span>
-            <a className="text-blue-500 underline" href={returnDocs.tracking} target="_blank" rel="noopener noreferrer">Tracking Link</a>
+        <div className="flex flex-col justify-between space-y-3 bg-gray-100 p-4 rounded-lg w-full">
+          <div className="flex flex-col space-y-3">
+            <DetailItem label="Carrier" value="DHL Express" align="items-start" />
+            <DetailItem label="Waybill Number" value={returnDocs.number} align="items-start" />
+            <div className="flex flex-col">
+              <span className="text-gray-600 text-sm">Tracking Link</span>
+              <a className="text-blue-500 underline" href={returnDocs.tracking} target="_blank" rel="noopener noreferrer">Tracking Link</a>
+            </div>
           </div>
-          <div className="flex flex-col">
-            <span className="text-gray-600 text-sm">Download Label</span>
-            <a className="btn btn-primary w-fit" href={returnDocs.label} target="_blank" rel="noopener noreferrer">Download Label</a>
-          </div>
+          <>
+            <div className="flex flex-col">
+              <a className="btn btn-primary w-fit" href={returnDocs.label} target="_blank" rel="noopener noreferrer">Download Label & Invoice</a>
+            </div>
+          </>
         </div>
 
-        <div className="flex flex-col space-y-3 bg-gray-100 p-4 rounded-lg w-full items-center">
-          <span className="text-gray-600 text-sm">Your Shipping Label</span>
-          <Image src={returnDocs.label} alt="Return Label" width={180} height={180} className=" border border-gray-300 rounded-lg mb-2" />
+        <div className="w-full flex flex-col gap-2 bg-gray-100 p-4 rounded-lg">
+          <div className="heading-tertiary">Book a DHL Collection</div>
+          <p className="text-gray-600 text-sm">
+            Please click the link below to book your collection with DHL 
+          </p>
+          <ol className="list-decimal text-gray-600 text-sm pl-3 mb-2">
+            <li>Select "no", that you don't need to create a shipping label</li>
+            <li>Select "I have a DHL Waybill Number" in the dropdown menu</li>
+            <li>Enter your waybill number, which is <span className="font-bold text-navy">{returnDocs.number}</span></li>
+          </ol>
+          <a href={dhlBookingLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary w-fit">Book Collection</a>
         </div>
+
       </div>
         
       <div className="flex gap-4  md:flex-row flex-col gap-4">
@@ -104,18 +116,6 @@ function ReturnDocs({ returnDocs, countryCode }){
           <p className="text-gray-600 text-sm">This is really important, because it stops your return shipment being held up in customs.</p>
         </div>
         
-        <div className="w-full flex flex-col gap-2 bg-gray-100 p-4 rounded-lg">
-          <div className="heading-tertiary">Book a DHL Collection</div>
-          <p className="text-gray-600 text-sm">
-            Please click the link below to book your collection with DHL 
-          </p>
-          <ol className="list-decimal text-gray-600 text-sm pl-3 mb-2">
-            <li>Select "no", that you don't need to create a shipping label</li>
-            <li>Select "I have a DHL Waybill Number" in the dropdown menu</li>
-            <li>Enter your waybill number, which is <span className="font-bold text-navy">{returnDocs.number}</span></li>
-          </ol>
-          <a href={dhlBookingLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary w-fit">Book Collection</a>
-        </div>
       </div>
     </div>
       

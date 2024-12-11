@@ -15,7 +15,7 @@ export default function buildShipment(returnData) {
       label_format: "PNG",
       suppress_etd: true,
       saturday_delivery: null,
-      commercial_invoice_format: "PNG",
+      commercial_invoice_format: "PDF",
       commercial_invoice_signature: "IMAGE_2",
       commercial_invoice_letterhead: "IMAGE_1",
     },

@@ -3,19 +3,28 @@ import getLabel from '@/app/utils/api/getLabel';
 import createDelivery from '@/app/utils/api/createDelivery';
 import buildShipment from '@/app/utils/helpers/buildShipment';
 
+import ReturnLabelHandler from '@/app/utils/api/createStagedUpload';
+
 export async function POST(req) {
+
   try {
     const returnData = await req.json();
-
-    const shipmentPayload = buildShipment(returnData);
     
+    const shipmentPayload = buildShipment(returnData);
     const easypostResponse = await getLabel(shipmentPayload);
     const shipment = await easypostResponse.json()
 
     if (shipment.postage_label) {
 
+      const epDocumentLinks = [
+        shipment.postage_label.label_url,
+        shipment.forms[0].form_url
+      ]
+      const handler = ReturnLabelHandler();
+      const fileUrl = await handler.processReturnLabel(epDocumentLinks);
+
       const deliveryData = {
-        label_url: shipment.postage_label.label_url,
+        label_url: fileUrl,
         tracking_code: shipment.tracking_code,
         public_url: shipment.tracker.public_url,
         reverseFulfillmentOrderId: returnData.reverseFulfillmentOrderId,
@@ -37,6 +46,7 @@ export async function POST(req) {
         { status: 400 }
       );
     }
+
   } catch (error) {
     console.log("generic error AKA something in this file was crap: ", error)
     return NextResponse.json(
