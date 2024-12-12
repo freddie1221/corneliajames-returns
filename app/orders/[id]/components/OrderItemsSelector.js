@@ -5,7 +5,7 @@ import { Message, ContactUs } from '@/app/components/Elements';
 
 export default function OrderItemsSelector({ setReturnLineItems, setReturnValue, setItemsCount, returnType, order }) {
 
-  if(order.validUntil < new Date()) {
+  if(order.validUntil < new Date() && !order.exclusions.allowReturn) {
     return (
       <div className="flex flex-col items-center bg-gray-100 rounded-lg pb-4 px-4">
         <Message text="It looks like the return window on this order has expired, please contact us if we can help" />
