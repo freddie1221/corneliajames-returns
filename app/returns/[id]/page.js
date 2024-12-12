@@ -4,13 +4,14 @@ import ReturnDetails from '@/app/returns/[id]/components/ReturnDetails';
 import ReturnShipping from '@/app/returns/[id]/components/ReturnShipping';
 import StoreCredit from '@/app/returns/[id]/components/StoreCredit';
 import CancelReturn from './components/CancelReturn';
-import getSuggestedRefund from '@/app/utils/api/getSuggestedRefund';
+import getReturnSummary from '@/app/utils/helpers/getReturnSummary';
 
 export default async function ReturnPage({ params }) {
   
   const { id } = params;
   const returnData = await getReturn(id);
-  const { storeCreditAmount } = await getSuggestedRefund(returnData)
+  const { returnType, returnShipping, storeCreditAmount, refundAmount, taxDeduction, restockingFee } = await getReturnSummary(returnData)
+
 
   return (
     <div className="flex flex-col gap-4">
@@ -18,12 +19,8 @@ export default async function ReturnPage({ params }) {
         <h1 className="heading-secondary">Return Details</h1>
         <ReturnDetails returnData={returnData} />
       </div>
-      {returnData.returnType === 'Credit' && 
-        <StoreCredit 
-          returnData={returnData} 
-          storeCreditAmount={storeCreditAmount} 
-        />}
-      <ReturnShipping returnData={returnData} />
+      <StoreCredit returnData={returnData} returnType={returnType} />
+      <ReturnShipping returnData={returnData} returnType={returnType} returnShipping={returnShipping}/>
       <ReturnActions returnData={returnData} />
     </div>
   )

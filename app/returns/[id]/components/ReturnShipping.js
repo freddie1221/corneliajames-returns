@@ -8,9 +8,9 @@ import useGetLabel from "@/app/hooks/useGetLabel";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
 import { Message } from "@/app/components/Elements";
 
-export default function ReturnShipping({ returnData }) {
+export default function ReturnShipping({ returnData, returnType, returnShipping }) {
 
-  if(returnData.returnShippingFee === "0.00" && returnData.returnType === "Refund") return <NoShipping />
+  if(returnShipping === "0.00" && returnType === "Refund") return <NoShipping />
   
   return (
     <div className="container bg-white rounded-lg p-5 md:px-8 md:pb-8">

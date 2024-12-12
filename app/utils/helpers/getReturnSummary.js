@@ -3,7 +3,9 @@ import getSuggestedRefund from "../api/getSuggestedRefund";
 export default async function getReturnSummary(returnData) {
 
   const { returnValue, refundAmount } = await getSuggestedRefund(returnData)
-  const returnType = returnValue === returnData.returnShippingFee ? "Credit" : "Refund"
+  
+  const totalFee = returnValue - refundAmount
+  const returnType = totalFee === returnValue ? "Credit" : "Refund"
 
   if(returnType === "Credit") {
     return { 
@@ -27,7 +29,7 @@ export default async function getReturnSummary(returnData) {
     restockingPercent = 0.1
   }
   const restockingFee = (returnValue - taxDeduction) * restockingPercent
-  const totalFee = returnValue - refundAmount
+  
   const shippingFee = returnData.currency + " " + (totalFee - taxDeduction - restockingFee).toFixed(2)
 
   

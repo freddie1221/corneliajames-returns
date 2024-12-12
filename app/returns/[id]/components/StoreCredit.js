@@ -1,6 +1,8 @@
 import Link from "next/link";
 
-export default function StoreCredit({ returnData }){
+export default function StoreCredit({ returnData, returnType, storeCreditAmount }){
+
+  if(returnType !== 'Credit') return null
   
   return (
     <>

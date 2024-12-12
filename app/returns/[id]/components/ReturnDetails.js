@@ -8,7 +8,6 @@ export default async function ReturnDetails({ returnData }) {
     if (!returnData) return null
     const { returnType, returnShipping, storeCreditAmount, refundAmount, taxDeduction, restockingFee } = await getReturnSummary(returnData)
 
-  
     return (
       <div className="flex justify-between flex flex-col gap-4 rounded-md w-full ">
         <div className="flex md:flex-row flex-col gap-4">
