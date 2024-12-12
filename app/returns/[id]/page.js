@@ -16,9 +16,7 @@ export default async function ReturnPage({ params }) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="container bg-white rounded-lg p-5">
-        <ReturnDetails returnData={returnData} returnSummary={returnSummary} />
-      </div>
+      <ReturnDetails returnData={returnData} returnSummary={returnSummary} />
       <StoreCredit returnData={returnData} returnType={returnType} />
       <ReturnShipping returnData={returnData} returnType={returnType} returnShipping={returnShipping}/>
       <ReturnActions returnData={returnData} returnType={returnType}/>

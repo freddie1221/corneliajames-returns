@@ -3,7 +3,7 @@ import { DetailItem } from "../../../components/Elements";
 import ReturnItem from "./ReturnItem"
 import getReturnSummary from "@/app/utils/helpers/getReturnSummary";
 
-export default async function ReturnDetails({ returnData, returnSummary }) {
+export default async function ReturnDetails({ returnData }) {
   if (!returnData) return null
   const { returnType, returnShipping, storeCreditAmount, refundAmount, taxDeduction, restockingFee } = await getReturnSummary(returnData)
 
@@ -25,15 +25,16 @@ export default async function ReturnDetails({ returnData, returnSummary }) {
           <DetailItem label="Return Shipping" value={returnShipping} />
         </div>
       </div>
-
-      {returnData.items.map((item, index) => (
-        <ReturnItem 
-          item={item}
-          index={index}
-          key={index}
-          existingReturn={true}
-        />
-      ))}
+      <div className="flex flex-col gap-4">
+        {returnData.items.map((item, index) => (
+          <ReturnItem 
+            item={item}
+            index={index}
+            key={index}
+            existingReturn={true}
+          />
+        ))}
+      </div>
     </div>
   )
 }

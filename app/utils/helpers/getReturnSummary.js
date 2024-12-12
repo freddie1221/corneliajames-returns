@@ -31,14 +31,6 @@ export default async function getReturnSummary(returnData) {
   
   const restockingFee = (returnValue - taxDeduction) * restockingPercent
   const shippingFee = returnData.currency + " " + (totalFee - taxDeduction - restockingFee).toFixed(2)
-
-  console.log("returnType", returnType)
-  console.log("shippingFee", shippingFee)
-  console.log("taxDeduction", taxDeduction)
-  console.log("restockingFee", restockingFee)
-  console.log("refundAmount", refundAmount)
-  console.log("returnValue", returnValue)
-
   
   return { returnType, refundAmount, taxDeduction, restockingFee, returnShipping: shippingFee }
 }

@@ -5,7 +5,7 @@ export default function ReturnItem({ item }) {
   const { id, name, image, returnReasonNote, quantity } = item;
   
   return (
-    <li className="mb-4 flex flex-col bg-white border border-gray-200 shadow-md p-4 md:p-6 rounded-lg w-full">
+    <li className="flex flex-col bg-white border border-gray-200 shadow-md p-4 md:p-6 rounded-lg w-full">
       <div className="flex flex-row items-center">
         <Image src={image} alt={name} width={120} height={80} className="rounded-md"/>
         <div className="flex-1 w-full ml-4">
