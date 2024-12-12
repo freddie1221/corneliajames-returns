@@ -15,5 +15,5 @@ export default function calculateRestockingFee({returnType, itemsCount}) {
     fee = 10;
     explainer = "10% restocking fee for 2-3 items"
   }
-  return {fee, explainer}
+  return {fee, explainer, feePercentage: fee / 100}
 }

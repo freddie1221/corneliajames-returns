@@ -10,6 +10,7 @@ export default function simplifyReturn(data) {
       returnReason: item.returnReason,
       name: item.fulfillmentLineItem.lineItem.name,
       image: item.fulfillmentLineItem.lineItem.image.url,
+      requiresShipping: item.fulfillmentLineItem.lineItem.requiresShipping,
       restockingFee: item.restockingFee?.percentage || 0,
     }
   })
@@ -22,14 +23,13 @@ export default function simplifyReturn(data) {
     orderId: data.order.id.split('/').pop(),
     
     taxRate: parseFloat(data.order.taxLines[0]?.rate || 0),
-    
     items: items,
     email: data.order.email,
     currency: data.order.subtotalPriceSet.presentmentMoney.currencyCode,
     countryCode: data.order.shippingAddress.countryCodeV2,
     shippingAddress: data.order.shippingAddress,
-    restockingFeePercentage: parseFloat(items[0].restockingFee),
-    returnType: parseFloat(items[0].restockingFee) === 100 ? 'Credit' : 'Refund',
+    // restockingFeePercentage: parseFloat(items[0].restockingFee),
+    // returnType: parseFloat(items[0].restockingFee) === 100 ? 'Credit' : 'Refund',
     returnShippingFee: parseFloat(data.returnShippingFees?.[0]?.amountSet?.presentmentMoney?.amount || 0),
     reverseFulfillmentOrderId: data.reverseFulfillmentOrders.nodes[0].id,
     reverseFulfillmentOrderLineItems: data.reverseFulfillmentOrders.nodes[0].lineItems.nodes,

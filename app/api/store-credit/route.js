@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-
 import createStoreCredit from '@/app/utils/api/createStoreCredit';
 
 export async function POST(request) {

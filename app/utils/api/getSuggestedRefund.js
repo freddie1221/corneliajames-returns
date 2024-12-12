@@ -1,9 +1,7 @@
-import calculateIncrementalFee from '../helpers/calculateIncrementalFee';
-
 import '@shopify/shopify-api/adapters/node';
 import { createAdminApiClient } from '@shopify/admin-api-client';
-
 import getSuggestedRefundQuery from '../../graphql/queries/getSuggestedRefundQuery';
+
 
 export default async function getSuggestedRefund(returnData) {
 
@@ -25,16 +23,11 @@ export default async function getSuggestedRefund(returnData) {
   });
   
   const response = await client.request(getSuggestedRefundQuery,  { variables: variables });
+  
   const refundAmount = parseFloat(response.data.return.suggestedRefund.amount.presentmentMoney.amount);
-  const discountedSubtotal = parseFloat(response.data.return.suggestedRefund.discountedSubtotal.presentmentMoney.amount);
-  const storeCreditAmount = parseFloat(discountedSubtotal * 1.1);
+  const returnValue = parseFloat(response.data.return.suggestedRefund.discountedSubtotal.presentmentMoney.amount);
 
-  const { incrementalFee } = calculateIncrementalFee({
-    restockingFeePercentage: returnData.restockingFeePercentage, 
-    discountedSubtotal: discountedSubtotal, 
-    taxRate: returnData.taxRate
-  })
 
-  return { refundAmount, storeCreditAmount, incrementalFee }
+  return { refundAmount, returnValue }
 
 }

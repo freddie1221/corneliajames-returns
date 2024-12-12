@@ -1,30 +1,13 @@
 
-
 import { DetailItem } from "../../../components/Elements";
 import ReturnItem from "./ReturnItem"
-import getSuggestedRefund from "@/app/utils/api/getSuggestedRefund";
+import getReturnSummary from "@/app/utils/helpers/getReturnSummary";
 
 export default async function ReturnDetails({ returnData }) {
 
     if (!returnData) return null
-    const { refundAmount, storeCreditAmount, incrementalFee } = await getSuggestedRefund(returnData)
+    const { returnType, returnShipping, storeCreditAmount, refundAmount, taxDeduction, restockingFee } = await getReturnSummary(returnData)
 
-    const typeMap = {
-      Refund: 'Refund',
-      Credit: 'Store Credit',
-    }
-    const returnType = typeMap[returnData.returnType] || returnData.returnType;
-
-    const returnShippingFeeNet = returnData.returnShippingFee - incrementalFee
-    let returnShipping = ""
-    
-    if(returnShippingFeeNet > 0) {
-      returnShipping =  `${returnData.currency} ${returnShippingFeeNet.toFixed(2)}`
-    } else if(returnData.returnType === "Credit") {
-      returnShipping = "Complimentary"
-    } else if(returnData.returnType === "Refund") {
-      returnShipping = "Not Selected"
-    }
   
     return (
       <div className="flex justify-between flex flex-col gap-4 rounded-md w-full ">
@@ -36,8 +19,10 @@ export default async function ReturnDetails({ returnData }) {
           </div>
           <div className="flex flex-col space-y-2 bg-gray-100 p-4 rounded-lg w-full">
             <DetailItem label="Total Items" value={returnData.totalQuantity} />
-            {returnType === 'Refund' && <DetailItem label="Refund Amount" value={`${returnData.currency} ${refundAmount}`} />}
-            {returnType === 'Store Credit' && <DetailItem label="Store Credit Issued" value={`${returnData.currency} ${storeCreditAmount.toFixed(2)}`} />}
+            {returnType === 'Refund' && <DetailItem label="Refund Amount" value={`${returnData.currency} ${refundAmount.toFixed(2)}`} />}
+            {taxDeduction > 0 && <DetailItem label="Tax Deduction" value={`${returnData.currency} ${taxDeduction.toFixed(2)}`} />}
+            {restockingFee > 0 && <DetailItem label="Restocking" value={`${returnData.currency} ${restockingFee.toFixed(2)}`} />}
+            {returnType === 'Credit' && <DetailItem label="Store Credit Issued" value={`${returnData.currency} ${storeCreditAmount.toFixed(2)}`} />}
             <DetailItem label="Return Shipping" value={returnShipping} />
           </div>
         </div>

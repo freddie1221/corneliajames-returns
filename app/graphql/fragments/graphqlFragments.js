@@ -26,6 +26,7 @@ export const RETURN_FIELDS_FRAGMENT = `
           fulfillmentLineItem {
             lineItem {
               name
+              requiresShipping
               image {
                 url
               }

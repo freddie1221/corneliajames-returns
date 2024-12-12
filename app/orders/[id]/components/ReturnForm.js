@@ -7,7 +7,7 @@ import ReturnOptions from './ReturnOptions';
 import { Message } from '@/app/components/Elements';
 import calculateRestockingFee from '@/app/utils/helpers/calculateRestockingFee';
 import calculateShippingFee from '@/app/utils/helpers/calculateShippingFee';
-import calculateIncrementalFee from '@/app/utils/helpers/calculateIncrementalFee';
+import calculateTotalFee from '@/app/utils/helpers/calculateTotalFee';
 import useCreateReturn from '@/app/hooks/useCreateReturn';
 import useStoreCredit from '@/app/hooks/useStoreCredit';
 import ReturnConfirmation from './ReturnConfirmation';
@@ -18,15 +18,15 @@ export default function ReturnForm({ order }) {
 	const [returnType, setReturnType] = useState('');
 	const [returnLineItems, setReturnLineItems] = useState([]);
 	const [itemsCount, setItemsCount] = useState(0);
-	const [returnValue, setReturnValue] = useState(0);
 	const [includeShipping, setIncludeShipping] = useState(false);
-
-	const [refundAmount, setRefundAmount] = useState(0);
-	const [shippingFee, setShippingFee] = useState(0);
+	
+	const [returnValue, setReturnValue] = useState(0);
+	const [restockingFeeExplainer, setRestockingFeeExplainer] = useState('');
 	
 	const [restockingFee, setRestockingFee] = useState(0);
-	const [restockingFeeExplainer, setRestockingFeeExplainer] = useState('');
-	const [aggregateShippingFee, setAggregateShippingFee] = useState(0)
+	const [shippingFee, setShippingFee] = useState(0);
+	const [taxDeduction, setTaxDeduction] = useState(0);
+	const [totalFee, setTotalFee] = useState(0)
 	
 	const [confirmation, setConfirmation] = useState(false);
 	const { createReturn, loading, error, success } = useCreateReturn();
@@ -38,57 +38,57 @@ export default function ReturnForm({ order }) {
 
 	useEffect(() => {
 		
-		const { fee, explainer } = calculateRestockingFee({returnType, itemsCount});
+		const { explainer, feePercentage } = calculateRestockingFee({
+			returnType, 
+			itemsCount
+		});
 		const { shippingFee } = calculateShippingFee({
 			shippingService: order.shippingService,
 			returnType,
 			includeShipping
 		})
 
-		const { incrementalFee } = calculateIncrementalFee({
-			restockingFeePercentage: fee, 
+		const { calculatedTotalFee, taxDeduction, restockingFee } = calculateTotalFee({
+			returnType: returnType,
 			discountedSubtotal: returnValue, 
-			taxRate: order.taxRate
+			feePercentage: feePercentage,
+			taxRate: order.taxRate,
+			countryCode: order.countryCode,
+			shippingFee: shippingFee
 		})
-		
-		setRestockingFee(fee);
-		setRestockingFeeExplainer(explainer)
-		setShippingFee(shippingFee)
-		setAggregateShippingFee(shippingFee + incrementalFee)
 
-		/*
-		console.log("restockingFeePercentage", fee)
-		console.log("discountedSubtotal", order.totalPrice)
-		console.log("returnValue", returnValue)
-		console.log("taxRate", order.taxRate)
-		console.log("incrementalFee", incrementalFee)
-		*/
+		setTotalFee(calculatedTotalFee)
+		// these are UI only values
+		setRestockingFeeExplainer(explainer)
+		setRestockingFee(restockingFee);
+		setTaxDeduction(taxDeduction);
+		setShippingFee(shippingFee)
 
 	}, [returnType, itemsCount, includeShipping, returnValue])
 
+	// console.log("total fee", totalFee)
+
+
 	const handleSubmit = async () => {
 		const lineItemsAndFee = returnLineItems.map((item) => ({
-			...item,
-			restockingFee: {percentage: restockingFee}
+			...item
+			// restockingFee: {percentage: restockingFee}
 		}));
 
 		const returnId = await createReturn({
 			orderId: order.id, 
-			shippingFee: aggregateShippingFee, 
+			shippingFee: totalFee, 
 			lineItemsAndFee: lineItemsAndFee,
 			currency: order.currencyCode
 		});
 
     if (returnId) {
 			if (returnType === "Credit") {
-				createStoreCredit({order: order, amount: returnValue * 1.1})
+				createStoreCredit({order: order, amount: returnValue * 1.1 })
 			}
       router.push(`/returns/${returnId}`);
     }
 	};
-
-	const restockingFeeValue = returnValue * (restockingFee / 100)
-	const storeCreditAmount = returnValue * 1.1
 
 	const textColor = returnType === 'Credit' ? 'text-emerald-600' : 'text-navy'
   const borderColor = returnType === 'Credit' ? 'border-emerald-600' : 'border-navy'
@@ -114,14 +114,15 @@ export default function ReturnForm({ order }) {
 					returnType={returnType}
 					itemsCount={itemsCount}
 					currencyCode={order.currencyCode}
-					returnValue={returnValue}
-					restockingFee={restockingFee}
-					restockingFeeExplainer={restockingFeeExplainer}
-					shippingFee={shippingFee}
 					exclusions={order.exclusions}
 					shippingService={order.shippingService}
-					restockingFeeValue={restockingFeeValue}
-					storeCreditAmount={storeCreditAmount}
+					restockingFeeExplainer={restockingFeeExplainer}
+					
+					returnValue={returnValue}
+					
+					restockingFee={restockingFee}
+					taxDeduction={taxDeduction}
+					shippingFee={shippingFee}
 				/>
 			)}
 			{returnType === 'Refund' && (

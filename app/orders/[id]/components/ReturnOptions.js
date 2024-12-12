@@ -8,18 +8,16 @@ export default function ReturnOptions({
   returnType, 
   itemsCount, 
   currencyCode,
-  returnValue, 
-  restockingFee, 
   restockingFeeExplainer,
-  shippingFee,
   exclusions,
   shippingService,
-  restockingFeeValue,
-  storeCreditAmount
-}) {
-
   
-  const refundAmount = (returnValue - restockingFeeValue - shippingFee)
+  
+  returnValue, 
+  shippingFee,
+  taxDeduction,
+  restockingFee
+}) {
   
 
   return (
@@ -32,7 +30,7 @@ export default function ReturnOptions({
           returnType={returnType} 
           itemsCount={itemsCount} 
           currencyCode={currencyCode} 
-          storeCreditAmount={storeCreditAmount.toFixed(2)} 
+          returnValue={returnValue}
           shippingService={shippingService}
         />
         {returnType === "Credit" && (
@@ -44,11 +42,15 @@ export default function ReturnOptions({
             returnType={returnType} 
             itemsCount={itemsCount} 
             currencyCode={currencyCode} 
-            refundAmount={refundAmount} 
+
             shippingService={shippingService}
-            restockingFee={restockingFee}
             restockingFeeExplainer={restockingFeeExplainer}
-            restockingFeeValue={restockingFeeValue.toFixed(2)}
+
+
+            returnValue={returnValue}
+            taxDeduction={taxDeduction}
+            shippingFee={shippingFee}
+            restockingFee={restockingFee}
           />
         )}
       </div>
@@ -56,10 +58,17 @@ export default function ReturnOptions({
   );
 }
 
-function StoreCreditOption({ setReturnType, returnType, itemsCount, currencyCode, storeCreditAmount, shippingService }) {
+function StoreCreditOption({ 
+  setReturnType, 
+  returnType, 
+  itemsCount, 
+  currencyCode, 
+  returnValue,
+  shippingService 
+}) {
   
   const benefits = [
-    { text: `${currencyCode} ${storeCreditAmount} in store credit (10% bonus)`, highlighted: true },
+    { text: `${currencyCode} ${(returnValue * 1.1).toFixed(2)} in store credit (10% bonus)`, highlighted: true },
     `Complimentary ${shippingService.text}`,
     'Instant credit upon submitting your return',
     'Shop straight away for the replacement items you would like, and receive them before shipping your originals back to us'
@@ -95,13 +104,20 @@ function StoreCreditOption({ setReturnType, returnType, itemsCount, currencyCode
   )
 }
 
-function RefundOption({ setReturnType, returnType, itemsCount, currencyCode, refundAmount, restockingFeeExplainer, restockingFeeValue }) {
+function RefundOption({ 
+  setReturnType, 
+  returnType, 
+  itemsCount, 
+  currencyCode, 
+  restockingFeeExplainer, 
 
-  const benefits = [
-    { text: `${currencyCode} ${refundAmount.toFixed(2)} refund to original payment method`, highlighted: true },
-    restockingFeeValue > 0 ? `${restockingFeeExplainer}: ${currencyCode} ${restockingFeeValue}` : null,
-    'Refund issued upon receipt & check of the returned items'
-  ].filter(Boolean); 
+  
+  restockingFee,
+  taxDeduction,
+  shippingFee,
+  returnValue
+}) {
+
 
   return (
     <OptionCard
@@ -122,7 +138,38 @@ function RefundOption({ setReturnType, returnType, itemsCount, currencyCode, ref
           <CreditCardIcon className={`w-8 h-8 ${returnType === 'Refund' ? 'text-navy' : 'text-gray-400'}`} />
         </div>
 
-        <BenefitsList benefits={benefits} color="navy" />
+        <div className="space-y-2 text-gray-600">
+          <div className="flex gap-2">
+            <CheckCircleIcon className="w-5 h-5 text-navy flex-shrink-0" />
+            <span className="font-medium text-navy">
+              {`${currencyCode} ${(returnValue - restockingFee - taxDeduction - shippingFee).toFixed(2)} refund to original payment method`}
+            </span>
+          </div>
+          {taxDeduction > 0 && (
+            <div className="flex gap-2">
+              <CheckCircleIcon className="w-5 h-5 text-navy flex-shrink-0" />
+              <span className="font-medium">
+             {`${currencyCode} ${taxDeduction.toFixed(2)} Duty & Tax is non-recoverable on your international order`}
+              </span>
+            </div>
+          )}
+          {restockingFee > 0 && (
+            <div className="flex gap-2">
+              <CheckCircleIcon className="w-5 h-5 text-navy flex-shrink-0" />
+              <span className="font-medium">
+                {`${restockingFeeExplainer}: ${currencyCode} ${restockingFee.toFixed(2)}`}
+              </span>
+            </div>
+          )}
+          <div className="flex gap-2">
+            <CheckCircleIcon className="w-5 h-5 text-navy flex-shrink-0" />
+            <span className="font-medium">
+              Refund issued upon receipt & check of the returned items
+            </span>
+          </div>
+        </div>
+        
+
         <div className="text-sm text-gray-500 border-t border-gray-100 pt-4">
           <p className="mb-2">Items being returned: {itemsCount}</p>
           <p className="italic">You may choose to purchase a return label from us or use your preferred shipping service.</p>
@@ -136,7 +183,7 @@ function BenefitsList({ benefits, color = 'emerald-600' }) {
   return (
     <ul className="space-y-3">
       {benefits.map((benefit, index) => (
-        <li key={index} className="flex  gap-2">
+        <li key={index} className="flex gap-2">
           <CheckCircleIcon className={`w-5 h-5 text-${color} flex-shrink-0`} />
           <span className={benefit.highlighted ? `font-medium text-${color}` : `text-gray-600`}>
             {typeof benefit === 'string' ? benefit : benefit.text}

@@ -3,20 +3,13 @@
 import { useState } from 'react';
 import Image from 'next/image';
 
-export default function OrderItem({ item, onSelectItem, setItemsCount, setReturnValue, countryCode }) {
+export default function OrderItem({ item, onSelectItem, setItemsCount, setReturnValue }) {
   const { id, name, quantity, image, value, taxAmount, currencyCode, requiresShipping } = item;
   const [isChecked, setIsChecked] = useState(false);
   const [returnQuantity, setReturnQuantity] = useState(1)
   const [returnReasonNote, setReturnReasonNote] = useState('');
   const [returnReasonMissing, setReturnReasonMissing] = useState(false);
 
-
-  let valueExForeignTax = 0
-  if (countryCode === "GB") {
-    valueExForeignTax = value
-  } else {
-    valueExForeignTax = value - taxAmount
-  }
 
   const handleReasonChange = (e) => {
     setReturnReasonMissing(false);
@@ -58,12 +51,12 @@ export default function OrderItem({ item, onSelectItem, setItemsCount, setReturn
 
 
     if (checked) {
-      setReturnValue(prevValue => prevValue + (returnQuantity * valueExForeignTax));
+      setReturnValue(prevValue => prevValue + (returnQuantity * value));
       if (requiresShipping) {
         setItemsCount(prevCount => prevCount + returnQuantity);
       }
     } else {
-      setReturnValue(prevValue => prevValue - (returnQuantity * valueExForeignTax));
+      setReturnValue(prevValue => prevValue - (returnQuantity * value));
       if (requiresShipping) {
         setItemsCount(prevCount => prevCount - returnQuantity);
       }
@@ -79,7 +72,7 @@ export default function OrderItem({ item, onSelectItem, setItemsCount, setReturn
           <h3 className="text-base md:text-lg font-semibold">{name}</h3>    
           <div className="flex annotation flex-wrap ">
             <div className="space-x-2 mr-4">
-              <span>Value</span><span>{currencyCode} {valueExForeignTax?.toFixed(2)}</span>
+              <span>Value</span><span>{currencyCode} {value?.toFixed(2)}</span>
             </div>
             <div className="space-x-2">
               <span>Quantity</span><span>{quantity}</span>
