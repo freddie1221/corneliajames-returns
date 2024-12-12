@@ -40,9 +40,9 @@ export async function POST(req) {
       }
       
     } else {
-      console.log("error calling easypost", shipment)
+      console.log("error requesting label from easypost", shipment.error)
       return NextResponse.json(
-        { success: false, error: shipment || 'Failed to retrieve shipment.' },
+        { success: false, error: shipment.error || 'Failed to retrieve shipment.' },
         { status: 400 }
       );
     }

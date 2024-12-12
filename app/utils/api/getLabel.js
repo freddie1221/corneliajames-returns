@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 
 export default async function getLabel(shipment) {
+
+  console.log("shipment", shipment)
   
   const response = await fetch('https://api.easypost.com/v2/shipments', {
     method: 'POST',
@@ -15,7 +17,7 @@ export default async function getLabel(shipment) {
   console.log("EP response", data)
   
   if (!response.ok) {
-    return NextResponse.json({ error: data }, { status: response.status });
+    return NextResponse.json({ error: data.error }, { status: response.status });
   }
 
   return NextResponse.json(data);    

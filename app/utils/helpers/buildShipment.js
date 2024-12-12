@@ -2,6 +2,7 @@
 export default function buildShipment(returnData) {
   
   const shippingAddress = returnData.shippingAddress;
+  console.log("shippingAddress", shippingAddress)
   const shipmentPayload = {
     parcel: {
       length: 8,
@@ -42,7 +43,7 @@ export default function buildShipment(returnData) {
       "city": shippingAddress.city,
       "state": shippingAddress.provinceCode,
       "zip": shippingAddress.zip,
-      "country": shippingAddress.countryCode,
+      "country": shippingAddress.countryCodeV2,
       "phone": shippingAddress.phone,
       "email": null,
       "mode": "test",

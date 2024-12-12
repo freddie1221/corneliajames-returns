@@ -58,9 +58,9 @@ function InternationalShipping({ returnData }){
     }
   }, [success, router]);
   
-  // if(returnData.returnDocs.label) return <ReturnDocs returnDocs={returnData.returnDocs} countryCode={returnData.countryCode} />
+  if(returnData.returnDocs.label) return <ReturnDocs returnDocs={returnData.returnDocs} countryCode={returnData.countryCode} />
   if(isLoading) return <LoadingSpinner />
-  if(error) return <Message text="Sorry, there was an issue generating your return label. Please contact us if this persists." />
+  if(error) return <Message text={error.message} />
 
   if(!success) return( 
     <div className="flex flex-col gap-4 items-center">
