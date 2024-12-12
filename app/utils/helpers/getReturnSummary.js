@@ -9,7 +9,7 @@ export default async function getReturnSummary(returnData) {
     return { 
       returnType,
       returnShipping: "Complimentary", 
-      storeCreditAmount: returnValue
+      storeCreditAmount: returnValue * 1.1
     }
   }
   
