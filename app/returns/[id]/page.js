@@ -14,13 +14,9 @@ export default async function ReturnPage({ params }) {
   const returnSummary = { returnType, returnShipping, storeCreditAmount, refundAmount, taxDeduction, restockingFee };
 
 
-
-
-
   return (
     <div className="flex flex-col gap-4">
       <div className="container bg-white rounded-lg p-5">
-        <h1 className="heading-secondary">Return Details</h1>
         <ReturnDetails returnData={returnData} returnSummary={returnSummary} />
       </div>
       <StoreCredit returnData={returnData} returnType={returnType} />
