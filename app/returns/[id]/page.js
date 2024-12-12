@@ -10,7 +10,7 @@ export default async function ReturnPage({ params }) {
   
   const { id } = params;
   const returnData = await getReturn(id);
-  const { returnType, returnShipping, storeCreditAmount, refundAmount, taxDeduction, restockingFee } = await getReturnSummary(returnData)
+  const { returnType, returnShipping, storeCreditAmount, refundAmount, taxDeduction, restockingFee, includeShipping } = await getReturnSummary(returnData)
   const returnSummary = { returnType, returnShipping, storeCreditAmount, refundAmount, taxDeduction, restockingFee };
 
 
@@ -18,7 +18,7 @@ export default async function ReturnPage({ params }) {
     <div className="flex flex-col gap-4">
       <ReturnDetails returnData={returnData} returnSummary={returnSummary} />
       <StoreCredit returnData={returnData} returnType={returnType} />
-      <ReturnShipping returnData={returnData} returnType={returnType} returnShipping={returnShipping}/>
+      <ReturnShipping returnData={returnData} returnType={returnType} returnShipping={returnShipping} includeShipping={includeShipping}/>
       <ReturnActions returnData={returnData} returnType={returnType}/>
     </div>
   )

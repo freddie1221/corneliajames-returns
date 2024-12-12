@@ -2,15 +2,15 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { DetailItem } from "../../../components/Elements";
 import useGetLabel from "@/app/hooks/useGetLabel";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
 import { Message } from "@/app/components/Elements";
 
-export default function ReturnShipping({ returnData, returnType, returnShipping }) {
+export default function ReturnShipping({ returnData, includeShipping }) {
 
-  if(returnShipping === "0.00" && returnType === "Refund") return <NoShipping />
+
+  if(!includeShipping) return <NoShipping />
   
   return (
     <div className="container bg-white rounded-lg p-5 md:px-8 md:pb-8">
@@ -58,9 +58,10 @@ function InternationalShipping({ returnData }){
     }
   }, [success, router]);
   
-  if(returnData.returnDocs.label) return <ReturnDocs returnDocs={returnData.returnDocs} countryCode={returnData.countryCode} />
+  // if(returnData.returnDocs.label) return <ReturnDocs returnDocs={returnData.returnDocs} countryCode={returnData.countryCode} />
   if(isLoading) return <LoadingSpinner />
-  if(error) return <Message text={error} />
+  if(error) return <Message text="Sorry, there was an issue generating your return label. Please contact us if this persists." />
+
   if(!success) return( 
     <div className="flex flex-col gap-4 items-center">
       <p className="text-sm text-center">Click here below to generate your return label.</p>

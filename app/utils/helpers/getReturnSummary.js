@@ -11,7 +11,8 @@ export default async function getReturnSummary(returnData) {
     return { 
       returnType,
       returnShipping: "Complimentary", 
-      storeCreditAmount: returnValue * 1.1
+      storeCreditAmount: returnValue * 1.1,
+      includeShipping: true
     }
   }
   
@@ -30,7 +31,9 @@ export default async function getReturnSummary(returnData) {
   }
   
   const restockingFee = (returnValue - taxDeduction) * restockingPercent
-  const shippingFee = returnData.currency + " " + (totalFee - taxDeduction - restockingFee).toFixed(2)
+  const shippingFee = totalFee - taxDeduction - restockingFee
+  const includeShipping = shippingFee > 0
+  const returnShipping = includeShipping ? currency + " " + shippingFee.toFixed(2) : "Not Selected"
   
-  return { returnType, refundAmount, taxDeduction, restockingFee, returnShipping: shippingFee }
+  return { returnType, refundAmount, taxDeduction, restockingFee, returnShipping, includeShipping }
 }
