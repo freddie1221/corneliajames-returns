@@ -21,7 +21,7 @@ export default function simplifyReturn(data) {
     totalQuantity: data.totalQuantity,
     id: data.id,
     orderId: data.order.id.split('/').pop(),
-    
+    statusPageUrl: data.order.statusPageUrl,
     taxRate: parseFloat(data.order.taxLines[0]?.rate || 0),
     items: items,
     email: data.order.email,

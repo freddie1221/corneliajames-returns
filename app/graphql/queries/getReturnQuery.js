@@ -8,6 +8,7 @@ const getReturnQuery = (id) => `
       order {
         id
         email
+        statusPageUrl
         shippingAddress {
           name
           company
