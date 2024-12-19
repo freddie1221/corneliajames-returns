@@ -14,6 +14,7 @@ export default function simplifyOrder(order) {
       id: item.id,
       name: item.lineItem.name,
       quantity: item.lineItem.currentQuantity,
+      sku: item.lineItem.sku,
       image: item.lineItem.image.url,
       customAttributes: item.lineItem.customAttributes,
       requiresShipping: item.lineItem.requiresShipping,
@@ -28,6 +29,7 @@ export default function simplifyOrder(order) {
   const returnableItems = orderItems.filter(item => item.quantity > 0);
   const exchangeRate = parseFloat(order.subtotalPriceSet.presentmentMoney.amount) / parseFloat(order.subtotalPriceSet.shopMoney.amount)
   const currencyCode = order.subtotalPriceSet.presentmentMoney.currencyCode
+  
 
   order = {
     id: order.id.split('/').pop(),

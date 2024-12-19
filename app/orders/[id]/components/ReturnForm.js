@@ -20,9 +20,10 @@ export default function ReturnForm({ order }) {
 	const [itemsCount, setItemsCount] = useState(0);
 	const [includeShipping, setIncludeShipping] = useState(false);
 	
+	const [storeCreditValue, setStoreCreditValue] = useState(0);
 	const [returnValue, setReturnValue] = useState(0);
-	const [restockingFeeExplainer, setRestockingFeeExplainer] = useState('');
 	
+	const [restockingFeeExplainer, setRestockingFeeExplainer] = useState('');
 	const [restockingFee, setRestockingFee] = useState(0);
 	const [shippingFee, setShippingFee] = useState(0);
 	const [taxDeduction, setTaxDeduction] = useState(0);
@@ -37,7 +38,6 @@ export default function ReturnForm({ order }) {
 	}
 
 	useEffect(() => {
-		
 		const { explainer, feePercentage } = calculateRestockingFee({
 			returnType, 
 			itemsCount
@@ -47,7 +47,6 @@ export default function ReturnForm({ order }) {
 			returnType,
 			includeShipping
 		})
-
 		const { calculatedTotalFee, taxDeduction, restockingFee } = calculateTotalFee({
 			returnType: returnType,
 			discountedSubtotal: returnValue, 
@@ -66,13 +65,10 @@ export default function ReturnForm({ order }) {
 
 	}, [returnType, itemsCount, includeShipping, returnValue])
 
-	// console.log("total fee", totalFee)
-
 
 	const handleSubmit = async () => {
 		const lineItemsAndFee = returnLineItems.map((item) => ({
 			...item
-			// restockingFee: {percentage: restockingFee}
 		}));
 
 		const returnId = await createReturn({
@@ -84,7 +80,7 @@ export default function ReturnForm({ order }) {
 
     if (returnId) {
 			if (returnType === "Credit") {
-				createStoreCredit({order: order, amount: returnValue * 1.1 })
+				createStoreCredit({order: order, amount: storeCreditValue })
 			}
       router.push(`/returns/${returnId}`);
     }
@@ -105,6 +101,7 @@ export default function ReturnForm({ order }) {
 				returnLineItems={returnLineItems}
 				setReturnLineItems={setReturnLineItems}
 				setReturnValue={setReturnValue}
+				setStoreCreditValue={setStoreCreditValue}
 				setItemsCount={setItemsCount}
 				returnType={returnType}
 			/>
@@ -117,9 +114,8 @@ export default function ReturnForm({ order }) {
 					exclusions={order.exclusions}
 					shippingService={order.shippingService}
 					restockingFeeExplainer={restockingFeeExplainer}
-					
+					storeCreditValue={storeCreditValue}
 					returnValue={returnValue}
-					
 					restockingFee={restockingFee}
 					taxDeduction={taxDeduction}
 					shippingFee={shippingFee}

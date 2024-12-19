@@ -61,6 +61,7 @@ const getOrderQuery = (id) => `
                 image {
                   url
                 }
+                sku
                 currentQuantity
                 customAttributes {
                   key

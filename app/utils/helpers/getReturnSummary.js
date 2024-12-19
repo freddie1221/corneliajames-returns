@@ -2,7 +2,7 @@ import getSuggestedRefund from "../api/getSuggestedRefund";
 
 export default async function getReturnSummary(returnData) {
 
-  const { returnValue, refundAmount } = await getSuggestedRefund(returnData)
+  const { returnValue, refundAmount, returnPrice } = await getSuggestedRefund(returnData)
   
   const totalFee = returnValue - refundAmount
   const returnType = totalFee === returnValue ? "Credit" : "Refund"
@@ -11,7 +11,7 @@ export default async function getReturnSummary(returnData) {
     return { 
       returnType,
       returnShipping: "Complimentary", 
-      storeCreditAmount: returnValue * 1.1,
+      storeCreditAmount: returnPrice * 1.1,
       includeShipping: true
     }
   }

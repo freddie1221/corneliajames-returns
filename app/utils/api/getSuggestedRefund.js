@@ -24,10 +24,11 @@ export default async function getSuggestedRefund(returnData) {
   
   const response = await client.request(getSuggestedRefundQuery,  { variables: variables });
   
-  const refundAmount = parseFloat(response.data.return.suggestedRefund.amount.presentmentMoney.amount);
-  const returnValue = parseFloat(response.data.return.suggestedRefund.discountedSubtotal.presentmentMoney.amount);
+  const refundAmount = parseFloat(response.data.return.suggestedRefund.amount.presentmentMoney.amount)
+  const returnValue = parseFloat(response.data.return.suggestedRefund.discountedSubtotal.presentmentMoney.amount)
+  const returnPrice = parseFloat(response.data.return.suggestedRefund.subtotal.presentmentMoney.amount)
 
 
-  return { refundAmount, returnValue }
+  return { refundAmount, returnValue, returnPrice }
 
 }

@@ -3,7 +3,7 @@
 import OrderItem from '@/app/orders/[id]/components/OrderItem';
 import { Message, ContactUs } from '@/app/components/Elements';
 
-export default function OrderItemsSelector({ setReturnLineItems, setReturnValue, setItemsCount, returnType, order }) {
+export default function OrderItemsSelector({ setReturnLineItems, setReturnValue, setItemsCount, setStoreCreditValue, returnType, order }) {
 
   if(order.validUntil < new Date() && !order.exclusions.allowReturn) {
     return (
@@ -47,6 +47,7 @@ export default function OrderItemsSelector({ setReturnLineItems, setReturnValue,
               returnType={returnType}
               setItemsCount={setItemsCount}
               setReturnValue={setReturnValue}
+              setStoreCreditValue={setStoreCreditValue}
               onSelectItem={handleSelectItem}
             />
             );

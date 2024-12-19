@@ -14,6 +14,12 @@ query GetSuggestedRefund($id: ID!, $returnRefundLineItems: [ReturnRefundLineItem
             amount
           }
         }
+        subtotal {
+          presentmentMoney {
+            amount
+            currencyCode
+          }
+        }
       }
     }
   }

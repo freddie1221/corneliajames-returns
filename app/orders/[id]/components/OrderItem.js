@@ -1,10 +1,10 @@
-'use client'
+"use client"
 
 import { useState } from 'react';
 import Image from 'next/image';
 
-export default function OrderItem({ item, onSelectItem, setItemsCount, setReturnValue }) {
-  const { id, name, quantity, image, value, taxAmount, currencyCode, requiresShipping, customAttributes } = item;
+export default function OrderItem({ item, onSelectItem, setItemsCount, setReturnValue, setStoreCreditValue }) {
+  const { id, name, sku, quantity, image, value, price, currencyCode, requiresShipping, customAttributes } = item;
   const [isChecked, setIsChecked] = useState(false);
   const [returnQuantity, setReturnQuantity] = useState(1)
   const [returnReasonNote, setReturnReasonNote] = useState('');
@@ -45,26 +45,26 @@ export default function OrderItem({ item, onSelectItem, setItemsCount, setReturn
       setIsChecked(false);
       return;
     }
-
     setIsChecked(checked);
     onSelectItem(createReturnLineItem(), checked);
 
-
     if (checked) {
       setReturnValue(prevValue => prevValue + (returnQuantity * value));
+      setStoreCreditValue(prevValue => prevValue + (returnQuantity * price * 1.1));
       if (requiresShipping) {
         setItemsCount(prevCount => prevCount + returnQuantity);
       }
     } else {
       setReturnValue(prevValue => prevValue - (returnQuantity * value));
+      setStoreCreditValue(prevValue => prevValue - (returnQuantity * price * 1.1));
       if (requiresShipping) {
         setItemsCount(prevCount => prevCount - returnQuantity);
       }
     }
   };
-  const monogrammed = customAttributes?.some(attr => 
+  const monogrammed = sku?.includes('MG') || customAttributes?.some(attr => 
     attr.key === 'Extras' && attr.value?.includes('MG')
-  );
+  ) || false;
 
   return (
     <li className="mb-4 flex flex-col bg-white border border-gray-200 shadow-md p-4 md:p-6 rounded-lg w-full space-y-4">

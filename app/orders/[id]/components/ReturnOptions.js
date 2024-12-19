@@ -11,14 +11,12 @@ export default function ReturnOptions({
   restockingFeeExplainer,
   exclusions,
   shippingService,
-  
-  
-  returnValue, 
   shippingFee,
   taxDeduction,
-  restockingFee
+  restockingFee,
+  returnValue, 
+  storeCreditValue
 }) {
-  
 
   return (
     <section>
@@ -29,8 +27,8 @@ export default function ReturnOptions({
           setReturnType={setReturnType} 
           returnType={returnType} 
           itemsCount={itemsCount} 
-          currencyCode={currencyCode} 
-          returnValue={returnValue}
+          currencyCode={currencyCode}
+          storeCreditValue={storeCreditValue}
           shippingService={shippingService}
         />
         {returnType === "Credit" && (
@@ -42,15 +40,13 @@ export default function ReturnOptions({
             returnType={returnType} 
             itemsCount={itemsCount} 
             currencyCode={currencyCode} 
-
             shippingService={shippingService}
-            restockingFeeExplainer={restockingFeeExplainer}
-
-
+            
             returnValue={returnValue}
             taxDeduction={taxDeduction}
             shippingFee={shippingFee}
             restockingFee={restockingFee}
+            restockingFeeExplainer={restockingFeeExplainer}
           />
         )}
       </div>
@@ -63,12 +59,12 @@ function StoreCreditOption({
   returnType, 
   itemsCount, 
   currencyCode, 
-  returnValue,
-  shippingService 
+  shippingService,
+  storeCreditValue
 }) {
   
   const benefits = [
-    { text: `${currencyCode} ${(returnValue * 1.1).toFixed(2)} in store credit (10% bonus)`, highlighted: true },
+    { text: `${currencyCode} ${(storeCreditValue).toFixed(2)} in store credit (10% bonus)`, highlighted: true },
     `Complimentary ${shippingService.text}`,
     'Instant credit upon submitting your return',
     'Shop straight away for the replacement items you would like, and receive them before shipping your originals back to us'
