@@ -1,7 +1,7 @@
-import summariseReturn from "./summariseReturn";
-import getShippingService from "./getShippingService";
-import calculateValidUntil from "./calculateValidUntil";
-import exclusions from "./exclusions";
+import summariseReturn from "../helpers/summariseReturn";
+import getShippingService from "../helpers/getShippingService";
+import calculateValidUntil from "../helpers/calculateValidUntil";
+import exclusions from "../helpers/exclusions";
 
 export default function simplifyOrder(order) {
  
@@ -15,6 +15,7 @@ export default function simplifyOrder(order) {
       name: item.lineItem.name,
       quantity: item.lineItem.currentQuantity,
       image: item.lineItem.image.url,
+      customAttributes: item.lineItem.customAttributes,
       requiresShipping: item.lineItem.requiresShipping,
       value: parseFloat(item.lineItem.discountedUnitPriceAfterAllDiscountsSet.presentmentMoney.amount),
       taxAmount: parseFloat(item.lineItem.taxLines[0]?.priceSet.presentmentMoney.amount || 0),

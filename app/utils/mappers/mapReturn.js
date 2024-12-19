@@ -1,4 +1,4 @@
-import mapReturnStatus from "./mapReturnStatus";
+import mapReturnStatus from "../helpers/mapReturnStatus";
 
 export default function simplifyReturn(data) {
   

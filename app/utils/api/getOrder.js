@@ -1,5 +1,5 @@
 import getOrderQuery from '../../graphql/queries/getOrderQuery';
-import simplifyOrder from '../helpers/simplifyOrder';
+import simplifyOrder from '../mappers/mapOrder';
 import { makeGraphQLRequest } from './makeGraphQLRequest';
 
 export async function getOrder(id) {

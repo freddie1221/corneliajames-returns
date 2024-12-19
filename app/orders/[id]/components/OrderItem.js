@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 
 export default function OrderItem({ item, onSelectItem, setItemsCount, setReturnValue }) {
-  const { id, name, quantity, image, value, taxAmount, currencyCode, requiresShipping } = item;
+  const { id, name, quantity, image, value, taxAmount, currencyCode, requiresShipping, customAttributes } = item;
   const [isChecked, setIsChecked] = useState(false);
   const [returnQuantity, setReturnQuantity] = useState(1)
   const [returnReasonNote, setReturnReasonNote] = useState('');
@@ -62,12 +62,15 @@ export default function OrderItem({ item, onSelectItem, setItemsCount, setReturn
       }
     }
   };
+  const monogrammed = customAttributes?.some(attr => 
+    attr.key === 'Extras' && attr.value?.includes('MG')
+  );
+  console.log(monogrammed)
 
   return (
     <li className="mb-4 flex flex-col bg-white border border-gray-200 shadow-md p-4 md:p-6 rounded-lg w-full space-y-4">
       <div className="flex flex-row items-center">
         <Image src={image} alt={name} width={130} height={130} className="rounded-md" />
-        
         <div className="flex flex-col ml-4 space-y-2 w-full">
           <h3 className="text-base md:text-lg font-semibold">{name}</h3>    
           <div className="flex annotation flex-wrap ">
@@ -78,6 +81,9 @@ export default function OrderItem({ item, onSelectItem, setItemsCount, setReturn
               <span>Quantity</span><span>{quantity}</span>
             </div>
           </div>
+          {monogrammed && 
+            <div className="text-sm bg-gray-100 p-2 rounded-md">This item has been monogrammed so unfortunately is not returnable. Please contact us if you think this is a mistake. </div>
+          }
           {returnReasonMissing && 
             <div className="py-2 px-3 bg-gray-200 rounded-xl text-sm">Please enter a return reason before adding the item</div>
           }
@@ -89,12 +95,13 @@ export default function OrderItem({ item, onSelectItem, setItemsCount, setReturn
             value={returnReasonNote}
             onChange={handleReasonChange}
             placeholder="Please enter a return reason e.g. style / color didn't work"
-            disabled={isChecked}
+            disabled={isChecked || monogrammed}
           />
         </div>
       </div>
       
       <div className="flex justify-center items-center mx-4 space-x-4">
+        {!monogrammed && 
         <div className="flex flex-col items-center text-center">
           <label htmlFor={`return-${item.id}`} className="text-center annotation mb-1">
             Return
@@ -110,9 +117,10 @@ export default function OrderItem({ item, onSelectItem, setItemsCount, setReturn
               transition duration-150 ease-in-out focus:ring-2 text-white
               focus:ring-navy focus:ring-offset-2 checked:bg-navy checked:border-navy checkbox-custom"
             aria-checked={isChecked}
+            disabled={monogrammed}
           />
         </div>
-        
+        }
         {item.quantity > 1 && (
           <div className="flex flex-col items-center space-x-2">
             <label htmlFor={`returnQuantity-${item.id}`} className="text-center annotation mb-1" >
