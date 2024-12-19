@@ -65,7 +65,6 @@ export default function OrderItem({ item, onSelectItem, setItemsCount, setReturn
   const monogrammed = customAttributes?.some(attr => 
     attr.key === 'Extras' && attr.value?.includes('MG')
   );
-  console.log(monogrammed)
 
   return (
     <li className="mb-4 flex flex-col bg-white border border-gray-200 shadow-md p-4 md:p-6 rounded-lg w-full space-y-4">
@@ -100,8 +99,8 @@ export default function OrderItem({ item, onSelectItem, setItemsCount, setReturn
         </div>
       </div>
       
+      {!monogrammed && 
       <div className="flex justify-center items-center mx-4 space-x-4">
-        {!monogrammed && 
         <div className="flex flex-col items-center text-center">
           <label htmlFor={`return-${item.id}`} className="text-center annotation mb-1">
             Return
@@ -120,7 +119,7 @@ export default function OrderItem({ item, onSelectItem, setItemsCount, setReturn
             disabled={monogrammed}
           />
         </div>
-        }
+        
         {item.quantity > 1 && (
           <div className="flex flex-col items-center space-x-2">
             <label htmlFor={`returnQuantity-${item.id}`} className="text-center annotation mb-1" >
@@ -137,6 +136,7 @@ export default function OrderItem({ item, onSelectItem, setItemsCount, setReturn
           </div>
           )}
       </div>
+      }
     </li>
   );
 }
