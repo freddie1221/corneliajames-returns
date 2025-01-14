@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation";
-import useCancelReturn from "@/app/hooks/useCancelReturn";
+import useCancelReturn from "@/hooks/useCancelReturn";
 
 export default function CancelReturn({ returnId, orderId, returnType, status }) {
   const { cancelReturn, loading, error } = useCancelReturn();

@@ -1,8 +1,8 @@
-import { getOrder } from '@/app/utils/api/getOrder';
+import { getOrder } from '@/lib/api/getOrder';
 import ReturnForm from './components/ReturnForm';
 import ExistingReturns from './components/ExistingReturns';
 import OrderDetails from './components/OrderDetails';
-import { Message } from '@/app/components/Elements';
+import { Message } from '@/components/Elements';
 
 export default async function OrderPage({ params }) {
   const { id } = params;
@@ -10,10 +10,11 @@ export default async function OrderPage({ params }) {
 
   try {
     const order = await getOrder(id);
+
     return (
       <div className="container flex flex-col gap-6">  
         <OrderDetails order={order} />
-        <ExistingReturns returns={order.returns} />
+        <ExistingReturns order={order} />
         <ReturnForm order={order} /> 
       </div>
     );

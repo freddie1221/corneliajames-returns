@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import getLabel from '@/app/utils/api/getLabel';
-import createDelivery from '@/app/utils/api/createDelivery';
-import buildShipment from '@/app/utils/helpers/buildShipment';
+import getLabel from '@/lib/api/getLabel';
+import createDelivery from '@/lib/api/createDelivery';
+import buildShipment from '@/lib/helpers/buildShipment';
 
-import ReturnLabelHandler from '@/app/utils/api/createStagedUpload';
+import ReturnLabelHandler from '@/lib/api/createStagedUpload';
 
 export async function POST(req) {
 

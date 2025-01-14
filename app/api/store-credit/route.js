@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import createStoreCredit from '@/app/utils/api/createStoreCredit';
+import createStoreCredit from '@/lib/api/createStoreCredit';
 
 export async function POST(request) {
 

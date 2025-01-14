@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function StoreCredit({ returnData, returnType, storeCreditAmount }){
+export default function StoreCredit({ returnData, returnType, storeCreditAmount, order }){
 
   if(returnType !== 'Credit') return null
   
@@ -10,7 +10,7 @@ export default function StoreCredit({ returnData, returnType, storeCreditAmount 
         <div className="">
           <h2 className="heading-secondary">Store Credit</h2>
           <span className="">
-            Your store credit has been automatically issued for the account associated with the email <span className="font-bold">{returnData.email}</span>.
+            Your store credit has been automatically issued for the account associated with the email <span className="font-bold">{order.email}</span>.
             You should have received an email with the details.
           </span>
         </div>

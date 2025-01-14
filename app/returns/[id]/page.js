@@ -1,25 +1,30 @@
 import Link from 'next/link';
-import { getReturn } from '@/app/utils/api/getReturn';
+import { getReturn } from '@/lib/api/getReturn';
+import { getOrder } from '@/lib/api/getOrder';
+
 import ReturnDetails from '@/app/returns/[id]/components/ReturnDetails';
 import ReturnShipping from '@/app/returns/[id]/components/ReturnShipping';
 import StoreCredit from '@/app/returns/[id]/components/StoreCredit';
 import CancelReturn from './components/CancelReturn';
-import getReturnSummary from '@/app/utils/helpers/getReturnSummary';
+import getReturnSummary from '@/lib/helpers/getReturnSummary';
 
 export default async function ReturnPage({ params }) {
   
   const { id } = params;
   const returnData = await getReturn(id);
-  const { returnType, returnShipping, storeCreditAmount, refundAmount, taxDeduction, restockingFee, includeShipping } = await getReturnSummary(returnData)
-  const returnSummary = { returnType, returnShipping, storeCreditAmount, refundAmount, taxDeduction, restockingFee };
+
+  const order = await getOrder(returnData.orderId);
+  
+  const { returnType, returnShipping, storeCreditAmount, refundOutstanding, taxDeduction, restockingFee, includeShipping } = await getReturnSummary({returnData, order})
+  const returnSummary = { returnType, returnShipping, storeCreditAmount, refundOutstanding, taxDeduction, restockingFee };
 
 
   return (
     <div className="flex flex-col gap-4">
-      <ReturnDetails returnData={returnData} returnSummary={returnSummary} />
-      <StoreCredit returnData={returnData} returnType={returnType} />
-      <ReturnShipping returnData={returnData} returnType={returnType} returnShipping={returnShipping} includeShipping={includeShipping}/>
-      <ReturnActions returnData={returnData} returnType={returnType}/>
+      <ReturnDetails returnData={returnData} returnSummary={returnSummary} order={order} />
+      <StoreCredit returnData={returnData} returnType={returnType} order={order} />
+      <ReturnShipping returnData={returnData} returnType={returnType} returnShipping={returnShipping} includeShipping={includeShipping} order={order}/>
+      <ReturnActions returnData={returnData} returnType={returnType} order={order}/>
     </div>
   )
 }

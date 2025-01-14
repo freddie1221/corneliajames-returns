@@ -1,4 +1,4 @@
-import { DetailItem } from "@/app/components/Elements";
+import { DetailItem } from "@/components/Elements";
 import Link from "next/link";
 export default function OrderDetails({ order }) {
   return (

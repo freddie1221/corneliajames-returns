@@ -1,9 +1,13 @@
 import Link from "next/link";
+import { getReturn } from "@/lib/api/getReturn";
 import ReturnDetails from "@/app/returns/[id]/components/ReturnDetails";
 
-export default function ExistingReturns({ returns }) {
+export default async function ExistingReturns({ returnIds, order }) {
 
-	if (returns.length === 0) return null;
+	if (order.returnIds.length === 0) return null;
+
+	const returns = await Promise.all(order.returnIds.map(id => getReturn(id)));
+
 
 	return (
 		<div className="flex flex-col">
@@ -15,7 +19,7 @@ export default function ExistingReturns({ returns }) {
 						key={index} 
 						className="flex flex-col gap-4 w-full hover:bg-gray-50 p-2 rounded-lg"
 					>
-						<ReturnDetails returnData={returnData} />
+						<ReturnDetails returnData={returnData} order={order} />
 				</Link>	
 				))}
 			</div>

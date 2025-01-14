@@ -1,6 +1,6 @@
 import './globals.css'
-import Header from './components/Header'
-import MixpanelInitializer from './utils/analytics/mixpanel'
+import Header from '../components/Header'
+import MixpanelInitializer from '../lib/analytics/mixpanel'
 
 export const metadata = {
   title: "Cornelia James | Returns & Store Credit",

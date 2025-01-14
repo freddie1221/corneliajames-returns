@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createAdminApiClient } from '@shopify/admin-api-client';
 import '@shopify/shopify-api/adapters/node';
-import cancelReturnMutation from '@/app/graphql/mutations/cancelReturnMutation';
+import cancelReturnMutation from '@/lib/graphql/mutations/cancelReturnMutation';
 
 export async function POST(request, { params }) {
 

@@ -2,12 +2,12 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { DetailItem } from "../../../components/Elements";
-import useGetLabel from "@/app/hooks/useGetLabel";
-import LoadingSpinner from "@/app/components/LoadingSpinner";
-import { Message } from "@/app/components/Elements";
+import { DetailItem } from "../../../../components/Elements";
+import useGetLabel from "@/hooks/useGetLabel";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import { Message } from "@/components/Elements";
 
-export default function ReturnShipping({ returnData, includeShipping }) {
+export default function ReturnShipping({ returnData, includeShipping, order }) {
 
 
   if(!includeShipping) return <NoShipping />

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getOrder } from "@/app/utils/api/getOrder";
+import { getOrder } from "@/lib/api/getOrder";
 
 export async function GET(req, { params }) {
   const { id } = params;

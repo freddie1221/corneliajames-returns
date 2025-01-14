@@ -4,12 +4,12 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import OrderItemsSelector from './OrderItemsSelector';
 import ReturnOptions from './ReturnOptions';
-import { Message } from '@/app/components/Elements';
-import calculateRestockingFee from '@/app/utils/helpers/calculateRestockingFee';
-import calculateShippingFee from '@/app/utils/helpers/calculateShippingFee';
-import calculateTotalFee from '@/app/utils/helpers/calculateTotalFee';
-import useCreateReturn from '@/app/hooks/useCreateReturn';
-import useStoreCredit from '@/app/hooks/useStoreCredit';
+import { Message } from '@/components/Elements';
+import calculateRestockingFee from '@/lib/helpers/calculateRestockingFee';
+import calculateShippingFee from '@/lib/helpers/calculateShippingFee';
+import calculateTotalFee from '@/lib/helpers/calculateTotalFee';
+import useCreateReturn from '@/hooks/useCreateReturn';
+import useStoreCredit from '@/hooks/useStoreCredit';
 import ReturnConfirmation from './ReturnConfirmation';
 import ReturnShipping from './ReturnShipping';
 

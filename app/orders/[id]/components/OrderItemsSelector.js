@@ -1,7 +1,7 @@
 "use client";
 
 import OrderItem from '@/app/orders/[id]/components/OrderItem';
-import { Message, ContactUs } from '@/app/components/Elements';
+import { Message, ContactUs } from '@/components/Elements';
 
 export default function OrderItemsSelector({ setReturnLineItems, setReturnValue, setItemsCount, setStoreCreditValue, returnType, order }) {
 
