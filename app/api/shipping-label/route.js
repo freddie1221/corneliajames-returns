@@ -8,9 +8,11 @@ import ReturnLabelHandler from '@/lib/api/createStagedUpload';
 export async function POST(req) {
 
   try {
-    const returnData = await req.json();
+    const { returnData, shippingAddress } = await req.json();
+
+
+    const shipmentPayload = buildShipment({returnData, shippingAddress});
     
-    const shipmentPayload = buildShipment(returnData);
     const easypostResponse = await getLabel(shipmentPayload);
     const shipment = await easypostResponse.json()
 

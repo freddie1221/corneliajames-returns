@@ -7,8 +7,7 @@ import useGetLabel from "@/hooks/useGetLabel";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { Message } from "@/components/Elements";
 
-export default function ReturnShipping({ returnData, includeShipping, order }) {
-
+export default function ReturnShipping({ returnData, includeShipping, shippingAddress }) {
 
   if(!includeShipping) return <NoShipping />
   
@@ -17,7 +16,7 @@ export default function ReturnShipping({ returnData, includeShipping, order }) {
       <h2 className="heading-secondary">Return Shipping</h2>
       {returnData.countryCode === 'GB' ? 
         <GbShipping /> : 
-        <InternationalShipping returnData={returnData} />
+        <InternationalShipping returnData={returnData} shippingAddress={shippingAddress} />
       }
     </div>
   )
@@ -48,7 +47,7 @@ function NoShipping(){
   )
 }
 
-function InternationalShipping({ returnData }){
+function InternationalShipping({ returnData, shippingAddress }){
   const { isLoading, error, success, getLabel } = useGetLabel();
   const router = useRouter();
   
@@ -65,7 +64,7 @@ function InternationalShipping({ returnData }){
   if(!success) return( 
     <div className="flex flex-col gap-4 items-center">
       <p className="text-sm text-center">Click here below to generate your return label.</p>
-      <button className="btn btn-primary md:max-w-[50%] " onClick={() => getLabel(returnData)}>Get Return Shipping Label</button>
+      <button className="btn btn-primary md:max-w-[50%] " onClick={() => getLabel({returnData, shippingAddress})}>Get Return Shipping Label</button>
     </div>
   )
 }
