@@ -12,16 +12,13 @@ export default async function ReturnPage({ params }) {
   
   const { id } = params;
   const returnData = await getReturn(id);
-
   const order = await getOrder(returnData.orderId);
   
-  const { returnType, returnShipping, storeCreditAmount, refundOutstanding, taxDeduction, restockingFee, includeShipping } = await getReturnSummary({returnData, order})
-  const returnSummary = { returnType, returnShipping, storeCreditAmount, refundOutstanding, taxDeduction, restockingFee };
-
+  const { returnType, returnShipping, includeShipping } = await getReturnSummary({returnData, order})
 
   return (
     <div className="flex flex-col gap-4">
-      <ReturnDetails returnData={returnData} returnSummary={returnSummary} order={order} />
+      <ReturnDetails returnData={returnData} order={order} />
       <StoreCredit returnData={returnData} returnType={returnType} order={order} />
       <ReturnShipping returnData={returnData} returnType={returnType} returnShipping={returnShipping} includeShipping={includeShipping} order={order}/>
       <ReturnActions returnData={returnData} returnType={returnType} order={order}/>
